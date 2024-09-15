@@ -1,8 +1,6 @@
 ---
 title: "Listagem de requisitos"
-collection: publications
-category: manuscripts
-permalink: /publication/requisitos-1
+permalink: /posts/2024/08/requisitos-1/
 date: 2024-08-29
 ---
 
