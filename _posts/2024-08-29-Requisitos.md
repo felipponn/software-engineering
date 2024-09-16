@@ -87,7 +87,7 @@ O usuário já possui uma conta na rede social e está logado no sistema.
    3. O sistema então alerta que nenhum usuário foi encontrado ou que não foi possível fazer a busca (caso de conexão).
 3. O usuário localiza o perfil correto e clica no nome do amigo para acessar o perfil.
 4. Dentro do perfil do amigo, o usuário clica no botão "Seguir".
-   - Usuário pode enviar mensagem antes de seguir (passo 6)
+   1. Usuário pode enviar mensagem antes de seguir (passo 6)
 5. O sistema atualiza o status, indicando que o usuário agora está seguindo o amigo.
 6. O usuário, ainda no perfil, clica na opção "Enviar mensagem".
 7. Uma janela de bate-papo se abre, e o usuário escreve sua mensagem e a envia.
@@ -98,8 +98,8 @@ O usuário já possui uma conta na rede social e está logado no sistema.
 
 #### What can go wrong:
 1. O amigo não é encontrado na pesquisa devido a um erro de digitação, falha no sistema de busca ou amigo não cadastrado. O sistema alerta que nenhum usuário foi encontrado ou que não foi possível fazer a busca (caso de conexão).
-1. O botão "Seguir" não aparece ou não responde dentro do perfil devido a uma falha de conexão. O sistema deve notificar o usuário para tentar novamente mais tarde.
-1. A mensagem não pode ser enviada devido a problemas de conectividade. O sistema salva a mensagem em rascunho e tenta enviá-la automaticamente quando a conexão for restabelecida. O usuário pode cancelar que aquela mensagem seja enviada automaticamente quando a conexão for restabelecida.
+2. O botão "Seguir" não aparece ou não responde dentro do perfil devido a uma falha de conexão. O sistema deve notificar o usuário para tentar novamente mais tarde.
+3. A mensagem não pode ser enviada devido a problemas de conectividade. O sistema salva a mensagem em rascunho e tenta enviá-la automaticamente quando a conexão for restabelecida. O usuário pode cancelar que aquela mensagem seja enviada automaticamente quando a conexão for restabelecida.
 
 #### Other activities: 
 - Enquanto o usuário está enviando a mensagem, ele pode continuar navegando no perfil do amigo ou em outras áreas da rede social. O sistema salva a mensagem em rascunho para quando ele voltar.
@@ -153,17 +153,17 @@ Descrição: O cliente já possui uma conta na rede social de pedidos de café e
 
 #### Fluxo Principal:
 1. Acessar Máquinas: O cliente, já logado no sistema, acessa a página de máquinas de café disponíveis.
-  1. Caso haja problemas de conexão, o usuário não visualizar a lista de máquinas.
-  1. O sistema exibe uma mensagem de erro, sugerindo tentar novamente mais tarde.
-1. Visualizar Máquinas: O cliente tem acesso a detalhes e avaliações das máquinas, como se alguma está com algum ingrediente faltando e se outros clientes gostaram do café fornecido por ela (isso é expresso por avaliações de até 5 estrelas).
-1. Criar Pedido: O cliente seleciona a máquina que prefere e o pedido que deseja receber.
-  1. Caso durante a criação do pedido, um usuário faz o report de que falta ingrediente essencial para o pedido em questão na máquina escolhida. Após clicar em “Enviar Pedido”, o sistema exibe uma mensagem de erro alertando que a máquina não está mais nas condições especificadas.
-  1. O cliente volta ao passo 1, onde pode realizar um novo pedido.
-1. Confirmar Pedido: O cliente confirma a criação do pedido clicando no botão “Enviar Pedido”, o que faz o valor correspondente ser debitado de sua conta.
-  1. Um problema de conexão pode também ocorrer durante o envio do pedido ao sistema.
-  1. Nesse caso, uma mensagem de erro é exibida sugerindo ao usuário tentar novamente mais tarde.
-1. Atualizar Status: O sistema disponibiliza o pedido para que entregadores possam escolher realizar a entrega do pedido.
-1. Visualizar Status: O cliente é direcionado à tela de status do pedido, onde pode checar se já foi aceito ou não.
+   1. Caso haja problemas de conexão, o usuário não visualizar a lista de máquinas.
+   2. O sistema exibe uma mensagem de erro, sugerindo tentar novamente mais tarde.
+2. Visualizar Máquinas: O cliente tem acesso a detalhes e avaliações das máquinas, como se alguma está com algum ingrediente faltando e se outros clientes gostaram do café fornecido por ela (isso é expresso por avaliações de até 5 estrelas).
+3. Criar Pedido: O cliente seleciona a máquina que prefere e o pedido que deseja receber.
+   1. Caso durante a criação do pedido, um usuário faz o report de que falta ingrediente essencial para o pedido em questão na máquina escolhida. Após clicar em “Enviar Pedido”, o sistema exibe uma mensagem de erro alertando que a máquina não está mais nas condições especificadas.
+   2. O cliente volta ao passo 1, onde pode realizar um novo pedido.
+4. Confirmar Pedido: O cliente confirma a criação do pedido clicando no botão “Enviar Pedido”, o que faz o valor correspondente ser debitado de sua conta.
+   1. Um problema de conexão pode também ocorrer durante o envio do pedido ao sistema.
+   2. Nesse caso, uma mensagem de erro é exibida sugerindo ao usuário tentar novamente mais tarde.
+5. Atualizar Status: O sistema disponibiliza o pedido para que entregadores possam escolher realizar a entrega do pedido.
+6. Visualizar Status: O cliente é direcionado à tela de status do pedido, onde pode checar se já foi aceito ou não.
 
 #### Outras atividades:
 - O cliente pode ler os comentários deixados por outros usuários sobre as máquinas de café.
