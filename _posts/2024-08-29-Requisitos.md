@@ -117,6 +117,7 @@ Estória: Como entregador, quero poder visualizar e aceitar os pedidos de café 
 
 ### Caso de Uso
 Ator: Entregador
+
 Descrição: O entregador já possui uma conta na rede social de pedidos de café e está logado no sistema. Ele navega pelo aplicativo, acessa a lista de pedidos disponíveis, visualiza os detalhes de cada pedido, seleciona o pedido que deseja entregar, confirma a escolha para iniciar a entrega, e o sistema atualiza o status do pedido.
 
 #### Fluxo Principal:
@@ -149,6 +150,7 @@ Estória: Como técnico de TI da FGV, quero poder pedir um café pelo aplicativo
 
 ### Caso de Uso
 Ator: Cliente
+
 Descrição: O cliente já possui uma conta na rede social de pedidos de café e está logado no sistema. Ele navega até a página de máquinas de café disponíveis, escolhe a máquina que preferir, e conclui o pedido pagando com moedas virtuais.
 
 #### Fluxo Principal:
