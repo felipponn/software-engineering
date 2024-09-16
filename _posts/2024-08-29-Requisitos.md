@@ -9,17 +9,29 @@ date: 2024-08-29
 ## Requisitos Funcionais
 
 RF02: Pagamento sem aplicativos da máquina (direto no nosso app) + comprovante digital.
+
 RF04: Notificação de pagamento.
+
 RF07: Usuários podem fazer comentários sobre produtos e serviços.
+
 RF07: Avaliação tanto dos produtos quanto dos vendedores após pagamento.
+
 RF18: Receber notificações de promoções, produtos novos e tudo.
+
 RF19: O sistema deve permitir que os usuários personalizem as notificações.
+
 RF22: Usuários podem fazer perfis com foto, informações pessoais, histórico de compra.
+
 RF23: Seguir outros usuários.
+
 RF24: Conversar com outros usuários.
+
 RF27: Bonificação do usuário.
+
 RF29: Gamificação do app, com rank e desafios.
+
 RF32: Personalizar o app.
+
 RF33: Reportar problema em relação a compras no app/site, ou qualquer interação.
 
 ## Requisitos Não Funcionais
