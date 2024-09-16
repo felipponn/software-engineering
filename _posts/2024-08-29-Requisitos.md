@@ -82,18 +82,18 @@ O usuário já possui uma conta na rede social e está logado no sistema.
 
 #### Normal: 
 1. O usuário acessa a página de pesquisa e insere o nome do amigo que deseja seguir.
-1. O sistema exibe os resultados da pesquisa com os perfis correspondentes.
-  1. O amigo não é encontrado na pesquisa devido a um erro de digitação, falha no sistema de busca ou amigo não cadastrado. 
-  1. O sistema então alerta que nenhum usuário foi encontrado ou que não foi possível fazer a busca (caso de conexão).
-1. O usuário localiza o perfil correto e clica no nome do amigo para acessar o perfil.
-1. Dentro do perfil do amigo, o usuário clica no botão "Seguir".
-  - Usuário pode enviar mensagem antes de seguir (passo 6)
-1. O sistema atualiza o status, indicando que o usuário agora está seguindo o amigo.
-1. O usuário, ainda no perfil, clica na opção "Enviar mensagem".
-1. Uma janela de bate-papo se abre, e o usuário escreve sua mensagem e a envia.
-  1. A mensagem não pode ser enviada devido a problemas de conectividade. O sistema salva a mensagem em rascunho e tenta enviá-la automaticamente quando a conexão for restabelecida.
-  1. O usuário pode cancelar que aquela mensagem seja enviada automaticamente quando a conexão for restabelecida.
-1. O sistema confirma o envio da mensagem e a exibe no histórico de conversas.
+2. O sistema exibe os resultados da pesquisa com os perfis correspondentes.
+   2. O amigo não é encontrado na pesquisa devido a um erro de digitação, falha no sistema de busca ou amigo não cadastrado. 
+   3. O sistema então alerta que nenhum usuário foi encontrado ou que não foi possível fazer a busca (caso de conexão).
+3. O usuário localiza o perfil correto e clica no nome do amigo para acessar o perfil.
+4. Dentro do perfil do amigo, o usuário clica no botão "Seguir".
+   - Usuário pode enviar mensagem antes de seguir (passo 6)
+5. O sistema atualiza o status, indicando que o usuário agora está seguindo o amigo.
+6. O usuário, ainda no perfil, clica na opção "Enviar mensagem".
+7. Uma janela de bate-papo se abre, e o usuário escreve sua mensagem e a envia.
+   1. A mensagem não pode ser enviada devido a problemas de conectividade. O sistema salva a mensagem em rascunho e tenta enviá-la automaticamente quando a conexão for restabelecida.
+   2. O usuário pode cancelar que aquela mensagem seja enviada automaticamente quando a conexão for restabelecida.
+8. O sistema confirma o envio da mensagem e a exibe no histórico de conversas.
 
 
 #### What can go wrong:
