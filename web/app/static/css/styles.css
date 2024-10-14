@@ -18,3 +18,21 @@ body {
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     padding: 30px;
 }
+
+h2 {
+    text-align: center;
+    color: #1877f2;
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
+    color: #333;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 100px;
+}
