@@ -13,12 +13,21 @@
         
         <form id="complaintForm" action="#" method="post">
             <label for="destination">Reclamação sobre: <span class="required">*</span></label>
+            <div class="destinationType">
+                <label><input type="radio" name="destination" value="app" required> Aplicativo</label>
+                <label><input type="radio" name="destination" value="machine"> Máquina</label>
+            </div>
 
             <div id="machineInfo" style="display: none;">
                 <label for="machineNumber">Selecione o Número da Máquina: <span class="required">*</span></label>
+                <select id="machineNumber" name="machineNumber">
+                    <option value="" disabled selected>Selecione a máquina</option>
+                </select>
             </div>
 
             <label for="complaintType">Tipo de Reclamação: <span class="required">*</span></label>
+            <select id="complaintType" name="complaintType" required>
+                <option value="" disabled selected>Selecione uma opção</option>
             </select>
 
             <label for="message">Mensagem: <span class="required">*</span></label>
