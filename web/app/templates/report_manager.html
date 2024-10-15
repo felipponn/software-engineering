@@ -8,7 +8,49 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-..." crossorigin="anonymous">
 </head>
 <body>
-   
+    <div class="container">
+        <h2>Painel do Gestor</h2>
+        <button id="toggle-filtros" class="toggle-filtros">
+            <i class="fas fa-filter"></i> Mostrar Filtros
+        </button>
+
+        <div class="filters hidden" id="filtros-section">
+            <label for="filtro-destino">Alvo da Reclamação:</label>
+            <select id="filtro-destino">
+                <option value="todos">Todos</option>
+                <option value="aplicativo">Aplicativo</option>
+                <option value="maquina">Máquina</option>
+            </select>
+
+            <div id="filtro-maquina-container" style="display: none;">
+                <label for="filtro-maquina">Número da Máquina:</label>
+                <select id="filtro-maquina">
+                </select>
+            </div>
+
+            <label for="filtro-tipo">Tipo de Reclamação:</label>
+            <select id="filtro-tipo">
+                <option value="todos">Todos</option>
+                <option value="bug">Falha</option>
+                <option value="financial">Financeiro</option>
+                <option value="suggestion">Sugestão</option>
+                <option value="other">Outro</option>
+            </select>
+
+            <label for="filtro-status">Status:</label>
+            <select id="filtro-status">
+                <option value="todos">Todos</option>
+                <option value="resolvido">Resolvido</option>
+                <option value="nao-resolvido">Não Resolvido</option>
+            </select>
+
+            <button id="btn-filtrar">Filtrar</button>
+            <button id="btn-resetar">Resetar Filtros</button>
+        </div>
+
+        <div id="reclamacoes-container" class="reclamacoes-container">
+        </div>
+    </div>
 
     <script src="../static/js/script.js"></script>
 </body>
