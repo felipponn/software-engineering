@@ -4,7 +4,7 @@ CREATE TABLE Users (
     name VARCHAR(255) NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
     phone_number VARCHAR(15),
-    password VARCHAR(255)
+    password VARCHAR(255),
     role VARCHAR(50) DEFAULT 'customer', -- Can be 'customer', 'admin', etc.
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
