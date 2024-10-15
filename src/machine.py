@@ -1,3 +1,4 @@
+from ..utils.connect_db import execute_query, execute_query_fetchone
 from datetime import datetime
 
 class Machine:
@@ -8,12 +9,9 @@ class Machine:
     - machine_id: int
         The unique identifier of the machine. 
     - location: str
-        The location of the machine. 
-    - products: list
-        The list of products available in the machine. 
-    - status: bool
-        The status of the machine. True if the machine is operational, 
-        False otherwise.
+        The location of the machine.  
+    - status: str
+        The status of the machine. If the machine is operational or not.
     - last_serviced_at: datetime
         The date and time when the machine was last serviced.
     - installed_at: datetime
@@ -23,13 +21,14 @@ class Machine:
     - __init__(self, machine_id: int, location: str, products: list,
                  status: bool, last_serviced_at: datetime, installed_at: datetime)
         Constructor to initialize the Machine object.
-    - get_machines(machines: list) -> list
-        Static method to return a list of Machine objects from a list of 
-        dictionaries
+    - get_machines()
+        Static method to return a list of Machine objects from the database.
+    - save_db()
+        Saves a Machine to the database.
     """
     
-    def __init__(self, machine_id: int, location: str, products: list,
-                 status: bool, last_serviced_at: datetime, installed_at: datetime):
+    def __init__(self, machine_id: int, location: str, status: str,
+                 last_serviced_at: datetime, installed_at: datetime):
         """
         Constructor to initialize the Machine object.
 
@@ -38,11 +37,8 @@ class Machine:
             The unique identifier of the machine.
         - location: str
             The location of the machine.
-        - products: list
-            The list of products available in the machine.
-        - status: bool
-            The status of the machine. True if the machine is operational,
-            False otherwise.
+        - status: str
+            The status of the machine. If the machine is operational or not.
         - last_serviced_at: datetime
             The date and time when the machine was last serviced.
         - installed_at: datetime
@@ -50,24 +46,50 @@ class Machine:
         """
         self.machine_id = machine_id
         self.location = location
-        self.products = products
         self.status = status
         self.last_serviced_at = last_serviced_at
         self.installed_at = installed_at
-        
-    @staticmethod
-    def get_machines(machines: list):
-        """
-        Static method to return a list of Machine objects from a list of
-        dictionaries.
 
-        Attributes:
-        - machines: list
-            The list of dictionaries representing the machines.
-            
+    def save_db(self):
+        """
+        Saves the Machine to the database.
+        """
+        query = """
+                INSERT INTO Machines (location, status, last_serviced_at, installed_at)
+                VALUES (%s, %s, %s, %s)
+                RETURNING machine_id;
+                """
+        self.machine_id = execute_query_fetchone(query, (
+            self.location,
+            self.status, 
+            self.last_serviced_at, 
+            self.installed_at
+        ))[0]
+
+    @staticmethod
+    def get_machines():
+        """
+        Static method to return a list of Machine objects from the database.
+
         Returns:
         - list
             The list of Machine objects.
         """
-        return [machine.machine_id for machine in machines]
+        query = """
+                SELECT machine_id, location, status, last_serviced_at, installed_at
+                FROM Machines;
+                """
+        machines_data = execute_query(query)
         
+        machines = []
+        for machine_data in machines_data:
+            machine_id, location, status, last_serviced_at, installed_at = machine_data
+            machines.append(Machine(
+                machine_id=machine_id,
+                location=location,
+                status=status,
+                last_serviced_at=last_serviced_at,
+                installed_at=installed_at
+            ))
+
+        return machines
