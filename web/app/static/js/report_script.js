@@ -78,7 +78,7 @@ class UIHandler {
         const isHidden = this.filtrosSection.classList.toggle('hidden');
         this.filtrosSection.classList.toggle('visible', !isHidden);
 
-        this.toggleButton.textContent = isHidden ? 'Mostrar Filtros' : 'Esconder Filtros';
+        this.toggleButton.innerHTML = isHidden ? '<i class="fas fa-filter"></i> Mostrar Filtros' : '<i class="fas fa-filter"></i> Esconder Filtros';
     }
 }
 

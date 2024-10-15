@@ -14,12 +14,12 @@ body {
 /* Layout Styles */
 .container {
     width: 100%;
-    max-width: 600px; /* Combinação dos dois tamanhos */
+    max-width: 600px; /* Combination of both sizes */
     margin: 50px auto;
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    padding: 30px; /* Preferência pelo padding maior */
+    padding: 30px; /* Preference for larger padding */
 }
 
 /* Typography Styles */
@@ -123,7 +123,7 @@ button#btn-resetar:hover {
     margin-right: 5px;
 }
 
-/* Estilo do Botão de Alternância dos Filtros */
+/* Toggle Button Styles */
 .toggle-filtros {
     display: flex;
     align-items: center;
@@ -146,7 +146,7 @@ button#btn-resetar:hover {
     margin-right: 8px;
 }
 
-/* Seção de Filtros */
+/* Filters Section */
 .filters {
     display: flex;
     flex-direction: column;
@@ -166,7 +166,7 @@ button#btn-resetar:hover {
     opacity: 1;
 }
 
-/* Seção de Reclamações */
+/* Complaints Section */
 .reclamacoes-container {
     margin-top: 20px;
     display: flex;
