@@ -1,14 +1,17 @@
+/* Reset Styles */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+/* Global Styles */
 body {
     font-family: 'Arial', sans-serif;
     background-color: #f0f2f5;
 }
 
+/* Layout Styles */
 .container {
     width: 100%;
     max-width: 500px;
@@ -19,6 +22,7 @@ body {
     padding: 30px;
 }
 
+/* Typography Styles */
 h2 {
     text-align: center;
     color: #1877f2; 
@@ -36,39 +40,7 @@ label {
     color: red;
 }
 
-.errorMessage {
-    background-color: #ffdddd;
-    border-left: 6px solid #f44336;
-    padding: 10px;
-    margin-bottom: 15px;
-    color: #a94442;
-    border-radius: 4px;
-}
-
-.successMessage {
-    background-color: #ddffdd;
-    border-left: 6px solid #4CAF50;
-    padding: 10px;
-    margin-bottom: 15px;
-    color: #3c763d;
-    border-radius: 4px;
-}
-
-.destinationType {
-    display: flex;
-    justify-content: space-around;
-    margin-top: 10px;
-}
-
-.destinationType label {
-    font-weight: normal;
-    font-size: 16px;
-}
-
-.destinationType input {
-    margin-right: 5px;
-}
-
+/* Form Styles */
 input[type="text"], select, textarea {
     width: 100%;
     padding: 12px;
@@ -89,6 +61,7 @@ textarea {
     min-height: 100px;
 }
 
+/* Button Styles */
 button {
     margin-top: 20px;
     width: 100%;
@@ -106,6 +79,42 @@ button:hover {
     background-color: #166fe5;
 }
 
+/* Message Styles */
+.errorMessage {
+    background-color: #ffdddd;
+    border-left: 6px solid #f44336;
+    padding: 10px;
+    margin-bottom: 15px;
+    color: #a94442;
+    border-radius: 4px;
+}
+
+.successMessage {
+    background-color: #ddffdd;
+    border-left: 6px solid #4CAF50;
+    padding: 10px;
+    margin-bottom: 15px;
+    color: #3c763d;
+    border-radius: 4px;
+}
+
+/* Specific Component Styles */
+.destinationType {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+}
+
+.destinationType label {
+    font-weight: normal;
+    font-size: 16px;
+}
+
+.destinationType input {
+    margin-right: 5px;
+}
+
+/* Responsive Styles */
 @media (max-width: 400px) {
     .container {
         padding: 20px;
