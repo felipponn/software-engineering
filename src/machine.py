@@ -69,5 +69,5 @@ class Machine:
         - list
             The list of Machine objects.
         """
-        return [Machine(**machine) for machine in machines]
+        return [machine.machine_id for machine in machines]
         
