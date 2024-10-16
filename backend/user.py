@@ -1,4 +1,4 @@
-from ..utils.connect_db import execute_query, execute_query_fetchone
+from utils.connect_db import execute_query, execute_query_fetchone
 
 class User():
     def __init__(self, user_name, password, email, phone, user_id = None):
@@ -13,12 +13,12 @@ class User():
         Saves a User (signs up) to the database
         """
         query = """
-                INSERT INTO Users (name, email, phone_number, role)
-                VALUES (%s, '%s', '%s', 'customer')
+                INSERT INTO Users (name, email, phone_number, password, role)
+                VALUES (%s, '%s', '%s', '%s' ,'customer')
                 RETURNING user_id;
                 """
         
-        self.user_id = execute_query_fetchone(query, (self.user_name, self.email, self.password))[0]
+        self.user_id = execute_query_fetchone(query, (self.user_name, self.email, self.phone ,self.password), True)[0]
 
 
     @staticmethod
@@ -38,7 +38,7 @@ class User():
 
             if correct_password == password: # checks if the password is correct, if true creates a object User
                 print(f"User {user_name} successfully logged!")
-                user = User(user_name, password, email, phone)
+                user = User(user_name, password, email, phone, user_id=user_id)
                 return user
             
             else:
