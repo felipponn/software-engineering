@@ -59,7 +59,7 @@ class Machine:
         """
         query = """
                 SELECT machine_id, location, status, last_serviced_at, installed_at
-                FROM Machines;
+                FROM Coffee_Machines;
                 """
         machines_data = execute_query_fetchall(query)
         
