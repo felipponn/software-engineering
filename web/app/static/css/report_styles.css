@@ -105,6 +105,7 @@ button#btnReset:hover {
     margin-bottom: 15px;
     color: #3c763d;
     border-radius: 4px;
+    transition: opacity 1s;
 }
 
 /* Specific Component Styles */
