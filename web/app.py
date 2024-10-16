@@ -18,7 +18,7 @@ current_user = User.authenticate('fabricio@fabricio.com', '123')
 @app.route('/report', methods=['GET', 'POST'])
 def report():
     if request.method == 'POST':
-        # Obter dados do formulário
+        # Get form data
         destination = request.form.get('destination')
         complaint_type = request.form.get('complaintType')
         message = request.form.get('message')
@@ -26,20 +26,20 @@ def report():
         if destination == 'machine':
             machine_id = request.form.get('machineNumber')
         
-        # Verificar se o usuário está autenticado
+        # Check if the user is authenticated
         if current_user:
-            # Usar o current_user para enviar um relatório
+            # Use current_user to send a report
             current_user.report(target=destination, type=complaint_type, machine_id=machine_id, message=message)
             return redirect(url_for('report_success'))
         else:
-            return "Usuário não autenticado", 401
+            return "User not authenticated", 401
     else:
-        # Renderizar o formulário de relatório
+        # Render the report form
         return render_template('report.html')
     
 @app.route('/report_success')
 def report_success():
-    return "Relatório enviado com sucesso!"
+    return "Report sent successfully!"
 
 if __name__ == '__main__':
     app.run(debug=True)
