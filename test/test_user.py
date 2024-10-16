@@ -27,7 +27,7 @@ class TestUser(unittest.TestCase):
         expected_query = (
                 """
                 INSERT INTO Users (name, email, phone_number, password, role)
-                VALUES (%s, '%s', '%s', '%s' ,'customer')
+                VALUES (%s, %s, %s, %s ,'customer')
                 RETURNING user_id;
                 """
         )
