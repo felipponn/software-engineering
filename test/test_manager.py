@@ -7,7 +7,7 @@ from unittest.mock import patch, MagicMock
 from backend.manager import Manager
 
 class TestManager(unittest.TestCase):
-    @patch('backend.manager.execute_query')
+    @patch('backend.manager.execute_query_fetchall')
     def test_view_all_issues_no_filters(self, mock_execute_query):
         """
         Test view_all_issues with no filters (should return all issues).
@@ -50,7 +50,7 @@ class TestManager(unittest.TestCase):
         ]
         self.assertEqual(result, expected_result)
 
-    @patch('backend.manager.execute_query')
+    @patch('backend.manager.execute_query_fetchall')
     def test_view_all_issues_with_filters(self, mock_execute_query):
         """
         Test view_all_issues with specific filters (issue type and user_id).
@@ -82,7 +82,7 @@ class TestManager(unittest.TestCase):
         ]
         self.assertEqual(result, expected_result)
 
-    @patch('backend.manager.execute_query')
+    @patch('backend.manager.execute_query_fetchall')
     def test_view_all_issues_no_results(self, mock_execute_query):
         """
         Test view_all_issues when no issues match the filters.
