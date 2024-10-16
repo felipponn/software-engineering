@@ -1,4 +1,4 @@
-from ..utils.connect_db import execute_query, execute_query_fetchone
+from utils.connect_db import execute_query, execute_query_fetchone, execute_query_fetchall
 from datetime import datetime
 
 class Machine:
@@ -27,8 +27,8 @@ class Machine:
         Saves a Machine to the database.
     """
     
-    def __init__(self, machine_id: int, location: str, status: str,
-                 last_serviced_at: datetime, installed_at: datetime):
+    def __init__(self, location: str, status: str, last_serviced_at: datetime,
+                 installed_at: datetime, machine_id: int = None):
         """
         Constructor to initialize the Machine object.
 
@@ -64,8 +64,8 @@ class Machine:
             self.status, 
             self.last_serviced_at, 
             self.installed_at
-        ))[0]
-
+        ), True)[0]
+        
     @staticmethod
     def get_machines():
         """
@@ -79,7 +79,7 @@ class Machine:
                 SELECT machine_id, location, status, last_serviced_at, installed_at
                 FROM Machines;
                 """
-        machines_data = execute_query(query)
+        machines_data = execute_query_fetchall(query)
         
         machines = []
         for machine_data in machines_data:
