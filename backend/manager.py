@@ -1,43 +1,63 @@
-from ..utils.connect_db import execute_query, execute_query_fetchone
+from utils.connect_db import execute_query
 from datetime import datetime
+from backend.user import User
 
 class Manager(User):
-    def __init__(self, name: str, email: str, password: str, phone_number: str, user_id=None):
-        super().__init__(name, email, password, phone_number, user_id)
+    """
+    A class representing a Manager in the system, allowing for actions like viewing all reported issues.
 
-    def view_all_issues(self):
-        """
-        Fetches all reported issues from the database and returns a list of formatted issues.
-        """
-        query = """
-                SELECT issue_id, machine_id, issue_type, description
-                FROM User_Reports;
-                """
-        
-        # Fetch all issues from the database
-        issues = execute_query(query)
-        
-        if issues:
-            return [f"Issue ID: {issue[0]}, Machine ID: {issue[1]}, Type: {issue[2]}, Description: {issue[3]}" for issue in issues]
-        else:
-            print("No issues found.")
-            return []
+    Attributes:
+    -
+    """
+    def __init__(self, user_name: str, password: str, email: str, phone: str, user_id=None):
+        super().__init__(user_name, password, email, phone, user_id)
 
-    def view_issues_by_machine(self, machine_id):
+    def view_all_issues(self, issue=None, machine=None, type=None, description=None):
         """
-        Fetches all reported issues for a specific machine from the database.
+        Fetches all reported issues from the database based on optional filters for issue, machine, type, and description.
+        Returns a list of dictionaries representing the issues.
         """
+        # Base query
         query = """
-                SELECT issue_id, machine_id, issue_type, description
-                FROM User_Reports
-                WHERE machine_id = %s;
-                """
+            SELECT report_id, user_id, machine_id, report_target, issue_type, description, status, created_at, resolved_at
+            FROM User_Reports
+            WHERE 1=1
+        """
         
-        # Fetch issues related to a specific machine
-        issues = execute_query(query, (machine_id,))
+        # List to hold query parameters
+        params = []
+
+        # Apply filters if provided
+        if issue:
+            query += " AND report_id = %s"
+            params.append(issue)
         
-        if issues:
-            return [f"Issue ID: {issue[0]}, Machine ID: {issue[1]}, Type: {issue[2]}, Description: {issue[3]}" for issue in issues]
-        else:
-            print(f"No issues found for machine {machine_id}.")
-            return []
+        if machine:
+            query += " AND machine_id = %s"
+            params.append(machine)
+        
+        if type:
+            query += " AND issue_type = %s"
+            params.append(type)
+        
+        if description:
+            query += " AND description ILIKE %s"
+            params.append(f'%{description}%')
+
+        # Execute the query with the filters
+        issues = execute_query(query, tuple(params))
+
+        # Return a structured list of issues
+        return [
+            {
+                'report_id': issue[0],
+                'user_id': issue[1],
+                'machine_id': issue[2],
+                'report_target': issue[3],
+                'issue_type': issue[4],
+                'description': issue[5],
+                'status': issue[6],
+                'created_at': issue[7],
+                'resolved_at': issue[8],
+            } for issue in issues
+        ]
