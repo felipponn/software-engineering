@@ -230,7 +230,9 @@ class UIHandler {
                 <p><strong>Alvo:</strong> ${complaint.report_target}</p>
                 <p><strong>Tipo:</strong> ${complaint.issue_type}</p>
                 <p><strong>Descrição:</strong> ${complaint.description}</p>
-                <p><strong>Status:</strong> ${complaint.status}</p>
+                <p class="status ${complaint.status === 'resolved' ? 'resolved' : 'unresolved'}">
+                    <strong>Status:</strong> ${complaint.status}
+                </p>
                 <p><strong>Criado em:</strong> ${complaint.created_at}</p>
                 ${complaint.resolved_at ? `<p><strong>Resolvido em:</strong> ${complaint.resolved_at}</p>` : ''}
             `;

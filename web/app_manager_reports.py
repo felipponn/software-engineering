@@ -21,7 +21,7 @@ def manager_dashboard():
 @app.route('/get_complaints', methods=['GET'])
 def get_complaints():
     # Obter os parâmetros de filtro da requisição
-    target = request.args.get('target')
+    issue = request.args.get('target')
     machine_id = request.args.get('machine_id')
     issue_type = request.args.get('issue_type')
     status = request.args.get('status')
@@ -35,7 +35,7 @@ def get_complaints():
 
     # Chamar o método do Manager para obter as reclamações
     complaints = current_manager.view_all_issues(
-        target=target,
+        issue=issue,
         machine=machine_id,
         type=issue_type,
         status=status_map.get(status)
