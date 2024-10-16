@@ -1,4 +1,4 @@
-from utils.connect_db import execute_query, execute_query_fetchone
+from utils.connect_db import execute_query_fetchall, execute_query_fetchone
 from datetime import datetime
 from backend.user import User
 
@@ -121,7 +121,7 @@ class Manager(User):
             params.append(f'%{description}%')
 
         # Execute the query with the filters
-        issues = execute_query(query, tuple(params))
+        issues = execute_query_fetchall(query)
 
         # Return a structured list of issues
         return [
