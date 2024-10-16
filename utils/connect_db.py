@@ -1,5 +1,5 @@
 import psycopg2
-from config import config
+from utils.config import config
 
 def execute_query(query: str, args: tuple = None):
     """
@@ -35,13 +35,14 @@ def execute_query(query: str, args: tuple = None):
         connection.close()
 
 
-def execute_query_fetchone(query: str, args: tuple = None):
+def execute_query_fetchone(query: str, args: tuple = None, commit = False):
     """
     Executes a SQL query that retrieves a single row from the database.
 
     Args:
         query (str): The SQL query to be executed.
         args (tuple, optional): Parameters to be passed into the SQL query. Default is None.
+        commit (bool, optional): If True, commits changes to the database. Default is False.
 
     Returns:
         tuple: The first row of the result set, or None if no rows are returned.
@@ -64,6 +65,9 @@ def execute_query_fetchone(query: str, args: tuple = None):
 
         # Fetch a single row from the result set.
         data = cursor.fetchone()
+        if commit:
+            connection.commit()
+        
     except(Exception, psycopg2.DatabaseError) as error:
         print(error)
     finally:
@@ -72,15 +76,16 @@ def execute_query_fetchone(query: str, args: tuple = None):
         connection.close()
 
         return data
+    
 
-
-def execute_query_fetchall(query: str, args: tuple = None):
+def execute_query_fetchall(query: str, args: tuple = None, commit = False):
     """
     Executes a SQL query that retrieves all rows from the result set.
 
     Args:
         query (str): The SQL query to be executed.
         args (tuple, optional): Parameters to be passed into the SQL query. Default is None.
+        commit (bool, optional): If True, commits changes to the database. Default is False.
 
     Returns:
         list: A list of all rows from the result set.
@@ -103,6 +108,9 @@ def execute_query_fetchall(query: str, args: tuple = None):
 
         # Fetch all rows from the result set.
         data = cursor.fetchall()
+        if commit:
+            connection.commit()
+        
     except(Exception, psycopg2.DatabaseError) as error:
         print(error)
     finally:
