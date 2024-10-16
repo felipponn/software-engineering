@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Envio de Reclamações</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Referenciar arquivos estáticos corretamente -->
+    <!-- Reference static files correctly -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/report_styles.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-..." crossorigin="anonymous">
 </head>
@@ -12,14 +12,14 @@
     <div class="container">
         <h2>Enviar Reclamação</h2>
 
-        <!-- Exibir mensagem de sucesso ou erro -->
+        <!-- Display success or error message -->
         {% if success %}
             <div class="successMessage">Relatório enviado com sucesso!</div>
         {% elif error %}
             <div class="errorMessage">{{ error }}</div>
         {% endif %}
 
-        <!-- Formulário de Reclamação -->
+        <!-- Complaint Form -->
         <form id="complaintForm" action="{{ url_for('report') }}" method="post">
             <label for="destination">Reclamação sobre: <span class="required">*</span></label>
             <div class="destinationType">
@@ -31,7 +31,7 @@
                 <label for="machineNumber">Selecione o Número da Máquina: <span class="required">*</span></label>
                 <select id="machineNumber" name="machineNumber">
                     <option value="" disabled selected>Selecione a máquina</option>
-                    <!-- Popule isto com os números das máquinas, se necessário -->
+                    <!-- Populate this with machine numbers, if necessary -->
                 </select>
             </div>
 
@@ -50,7 +50,7 @@
             <button type="submit">Enviar</button>
         </form>
     </div>
-    <!-- Referenciar arquivos JavaScript estáticos -->
+    <!-- Reference static JavaScript files -->
     <script src="{{ url_for('static', filename='js/report_script.js') }}"></script>
 </body>
 </html>

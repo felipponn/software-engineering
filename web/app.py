@@ -14,8 +14,16 @@ current_user = User.authenticate('fabricio@fabricio.com', '123')
 
 @app.route('/report', methods=['GET', 'POST'])
 def report():
+    """
+    Handles the complaint submission route.
+
+    If the request method is POST, collects form data and registers the complaint for the authenticated user.
+    If the request method is GET, renders the complaint submission page.
+
+    Returns:
+        str: The rendered HTML page with a success or error message, depending on the outcome of the operation.
+    """
     if request.method == 'POST':
-        # Obter dados do formulário
         destination = request.form.get('destination')
         complaint_type = request.form.get('complaintType')
         message = request.form.get('message')
@@ -23,17 +31,12 @@ def report():
         if destination == 'machine':
             machine_id = request.form.get('machineNumber')
         
-        # Verificar se o usuário está autenticado
         if current_user:
-            # Usar current_user para enviar um relatório
             current_user.report(target=destination, type=complaint_type, machine_id=machine_id, message=message)
-            # Renderizar o template com a mensagem de sucesso
             return render_template('report.html', success=True)
         else:
-            # Renderizar o template com a mensagem de erro
             return render_template('report.html', error="Usuário não autenticado")
     else:
-        # Renderizar o formulário de relatório
         return render_template('report.html')
 
 if __name__ == '__main__':
