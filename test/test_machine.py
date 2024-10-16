@@ -23,21 +23,9 @@ class TestMachine(unittest.TestCase):
         self.assertIsInstance(machines, list)
         self.assertEqual(len(machines), 2)
 
-        # Assert the properties of the first machine
-        machine1 = machines[0]
-        self.assertEqual(machine1.machine_id, 1)
-        self.assertEqual(machine1.location, 'Building A - Lobby')
-        self.assertEqual(machine1.status, 'operational')
-        self.assertEqual(machine1.last_serviced_at, '2024-09-01')
-        self.assertEqual(machine1.installed_at, '2023-01-15')
-
-        # Assert the properties of the second machine
-        machine2 = machines[1]
-        self.assertEqual(machine2.machine_id, 2)
-        self.assertEqual(machine2.location, 'Building B - Kitchen')
-        self.assertEqual(machine2.status, 'under maintenance')
-        self.assertEqual(machine2.last_serviced_at, '2024-10-01')
-        self.assertEqual(machine2.installed_at, '2022-07-20')
+        # Assert the values of the machine IDs
+        self.assertEqual(machines[0], 1)
+        self.assertEqual(machines[1], 2)
 
     @patch('backend.machine.execute_query_fetchall')
     def test_get_machines_no_data(self, mock_execute_query_fetchall):

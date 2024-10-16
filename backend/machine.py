@@ -65,13 +65,7 @@ class Machine:
         
         machines = []
         for machine_data in machines_data:
-            machine_id, location, status, last_serviced_at, installed_at = machine_data
-            machines.append(Machine(
-                machine_id=machine_id,
-                location=location,
-                status=status,
-                last_serviced_at=last_serviced_at,
-                installed_at=installed_at
-            ))
+            machine_id, _, _, _, _ = machine_data
+            machines.append(machine_id)
 
         return machines
