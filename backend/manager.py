@@ -88,7 +88,7 @@ class Manager(User):
         else:
             print("User not found!")
 
-    def view_all_issues(self, issue=None, machine=None, type=None, description=None):
+    def view_all_issues(self, issue=None, machine=None, type=None, status=None):
         """
         Fetches all reported issues from the database based on optional filters for issue, machine, type, and description.
         Returns a list of dictionaries representing the issues.
@@ -105,7 +105,7 @@ class Manager(User):
 
         # Apply filters if provided
         if issue:
-            query += " AND report_id = %s"
+            query += " AND report_target = %s"
             params.append(issue)
         
         if machine:
@@ -116,12 +116,12 @@ class Manager(User):
             query += " AND issue_type = %s"
             params.append(type)
         
-        if description:
-            query += " AND description ILIKE %s"
-            params.append(f'%{description}%')
+        if status:
+            query += " AND status ILIKE %s"
+            params.append(f'%{status}%')
 
         # Execute the query with the filters
-        issues = execute_query_fetchall(query)
+        issues = execute_query_fetchall(query, params)
 
         # Return a structured list of issues
         return [

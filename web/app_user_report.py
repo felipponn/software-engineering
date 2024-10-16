@@ -2,7 +2,9 @@ import sys
 import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from backend.user import User
+from backend.user import User 
+from backend.machine import Machine
+
 from utils.connect_db import execute_query_fetchall
 
 from flask import Flask, render_template, request
@@ -23,6 +25,8 @@ def report():
     Returns:
         str: The rendered HTML page with a success or error message, depending on the outcome of the operation.
     """
+
+    machine_ids = Machine.get_machines()
     if request.method == 'POST':
         destination = request.form.get('destination')
         complaint_type = request.form.get('complaintType')
@@ -33,11 +37,11 @@ def report():
         
         if current_user:
             current_user.report(target=destination, type=complaint_type, machine_id=machine_id, message=message)
-            return render_template('report.html', success=True)
+            return render_template('report.html', success=True, machine_ids=machine_ids)
         else:
-            return render_template('report.html', error="Usuário não autenticado")
+            return render_template('report.html', error="Usuário não autenticado", machine_ids=machine_ids)
     else:
-        return render_template('report.html')
+        return render_template('report.html', machine_ids=machine_ids)
 
 if __name__ == '__main__':
     app.run(debug=True)

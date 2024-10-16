@@ -14,12 +14,12 @@ body {
 /* Layout Styles */
 .container {
     width: 100%;
-    max-width: 600px; /* Combination of both sizes */
+    max-width: 800px;
     margin: 50px auto;
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    padding: 30px; /* Preference for larger padding */
+    padding: 30px;
 }
 
 /* Typography Styles */
@@ -125,7 +125,7 @@ button#btnReset:hover {
 }
 
 /* Toggle Button Styles */
-.toggle-filtros {
+.toggle-filters {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -139,11 +139,11 @@ button#btnReset:hover {
     margin-bottom: 15px;
 }
 
-.toggle-filtros:hover {
+.toggle-filters:hover {
     background-color: #166fe5;
 }
 
-.toggle-filtros i {
+.toggle-filters i {
     margin-right: 8px;
 }
 
@@ -175,53 +175,58 @@ button#btnReset:hover {
     gap: 15px;
 }
 
-.reclamacao-card {
-    background-color: #f9f9f9;
-    border-left: 4px solid #1877f2;
-    padding: 15px;
-    border-radius: 4px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+.complaint {
+    background-color: #fff;
+    border: 1px solid #ccd0d5;
+    border-radius: 8px;
+    padding: 20px;
     position: relative;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-.reclamacao-card h3 {
-    font-size: 18px;
+.complaint h3 {
+    font-size: 20px;
+    color: #1877f2;
     margin-bottom: 10px;
+}
+
+.complaint p {
+    font-size: 16px;
     color: #333;
+    margin-bottom: 8px;
 }
 
-.reclamacao-card p {
-    font-size: 14px;
-    color: #555;
-    margin-bottom: 5px;
-}
-
-.status {
-    margin-top: 10px;
+.complaint p strong {
     font-weight: bold;
 }
 
-.status.resolvido {
+.complaint .status {
+    margin-top: 10px;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.complaint .status.resolved {
     color: #4CAF50;
 }
 
-.status.nao-resolvido {
+.complaint .status.unresolved {
     color: #f44336;
 }
 
-.btn-status {
+.complaint .btn-status {
     position: absolute;
-    top: 15px;
-    right: 15px;
+    top: 20px;
+    right: 20px;
     background-color: transparent;
     border: none;
     color: #1877f2;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 18px;
     transition: color 0.3s ease;
 }
 
-.btn-status:hover {
+.complaint .btn-status:hover {
     color: #166fe5;
 }
 
@@ -242,7 +247,7 @@ button#btnReset:hover {
         padding: 15px;
     }
 
-    button, .toggle-filtros {
+    button, .toggle-filters {
         font-size: 14px;
         padding: 8px 12px;
     }
@@ -252,15 +257,21 @@ button#btnReset:hover {
         padding: 8px;
     }
 
-    .reclamacao-card h3 {
-        font-size: 16px;
+    .complaint {
+        padding: 15px;
     }
 
-    .reclamacao-card p {
-        font-size: 13px;
+    .complaint h3 {
+        font-size: 18px;
     }
 
-    .btn-status {
+    .complaint p {
         font-size: 14px;
+    }
+
+    .complaint .btn-status {
+        font-size: 16px;
+        top: 15px;
+        right: 15px;
     }
 }

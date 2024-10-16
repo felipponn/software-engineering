@@ -31,7 +31,9 @@
                 <label for="machineNumber">Selecione o Número da Máquina: <span class="required">*</span></label>
                 <select id="machineNumber" name="machineNumber">
                     <option value="" disabled selected>Selecione a máquina</option>
-                    <!-- Populate this with machine numbers, if necessary -->
+                    {% for machine_id in machine_ids %}
+                        <option value="{{ machine_id }}">{{ machine_id }}</option>
+                    {% endfor %}
                 </select>
             </div>
 

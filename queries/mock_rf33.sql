@@ -15,8 +15,8 @@ INSERT INTO User_Reports (user_id, machine_id, report_target, issue_type, descri
 VALUES
     ((SELECT user_id FROM Users WHERE email = 'alice@example.com'), 
      (SELECT machine_id FROM Coffee_Machines WHERE location = 'Building A - Lobby'),
-     'Machine', 'Broken Machine', 'The coffee machine is not dispensing coffee.', 'reported', '2024-10-12 10:20:00'),
+     'Machine', 'Broken Machine', 'The coffee machine is not dispensing coffee.', 'resolved', '2024-10-12 10:20:00'),
 
     ((SELECT user_id FROM Users WHERE email = 'bob@example.com'), 
      NULL, -- No machine_id since it's an app report
-     'App', 'App Bug', 'The app crashes when submitting a report.', 'in progress', '2024-10-11 14:35:00');
+     'App', 'App Bug', 'The app crashes when submitting a report.', 'resolved', '2024-10-11 14:35:00');
