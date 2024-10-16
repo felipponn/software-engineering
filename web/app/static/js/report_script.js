@@ -1,11 +1,4 @@
-/**
- * Class to handle the display of machine information and the toggle of filter visibility.
- */
 class UIHandler {
-    /**
-     * Constructor of the UIHandler class.
-     * Initializes DOM elements and calls the init methods.
-     */
     constructor() {
         // Elements related to machine information
         this.destinationRadios = document.getElementsByName('destination');
@@ -13,30 +6,27 @@ class UIHandler {
         this.machineNumberInput = document.getElementById('machineNumber');
         
         // Elements related to filter toggling
-        this.filtrosSection = document.getElementById('filtros-section');
-        this.toggleButton = document.getElementById('toggle-filtros');
+        this.filterSection = document.getElementById('filtersSection');
+        this.toggleButton = document.getElementById('toggleFilters');
+
+        // Elements related to machine filter
+        this.filterTarget = document.getElementById('filterTarget');
+        this.filterMachineContainer = document.getElementById('filterMachineContainer');
         
         // Initialize the functionalities
         this.initDestinationHandler();
         this.initToggleFilters();
+        this.initMachineFilterHandler();
     }
 
-    /**
-     * Initializes the destination selection handler.
-     * Adds event listeners to the radio buttons to handle the selection change.
-     */
+    // Initializes the destination selection handler
     initDestinationHandler() {
         this.destinationRadios.forEach(radio => {
             radio.addEventListener('change', this.handleRadioChange.bind(this));
         });
     }
 
-    /**
-     * Handles the change of selection of the radio buttons.
-     * Displays or hides the machine information based on the selection.
-     * 
-     * @param {Event} event - The event object containing the selected radio button.
-     */
+    // Handles the change of selection of the radio buttons
     handleRadioChange(event) {
         const selectedRadio = event.target;
 
@@ -47,38 +37,47 @@ class UIHandler {
         }
     }
 
-    /**
-     * Shows the machine information section and makes the machine number input required.
-     */
+    // Shows the machine information section
     showMachineInfo() {
         this.machineInfo.style.display = 'block';
         this.machineNumberInput.setAttribute('required', 'required');
     }
 
-    /**
-     * Hides the machine information section and removes the required attribute from the machine number input.
-     */
+    // Hides the machine information section
     hideMachineInfo() {
         this.machineInfo.style.display = 'none';
         this.machineNumberInput.removeAttribute('required');
     }
 
-    /**
-     * Initializes the filter toggle button.
-     * Adds an event listener to the toggle button to handle the visibility of the filter section.
-     */
+    // Initializes the filter toggle button
     initToggleFilters() {
-        this.toggleButton.addEventListener('click', this.toggleFiltros.bind(this));
+        this.toggleButton.addEventListener('click', this.toggleFilters.bind(this));
     }
 
-    /**
-     * Toggles the visibility of the filter section and updates the button text accordingly.
-     */
-    toggleFiltros() {
-        const isHidden = this.filtrosSection.classList.toggle('hidden');
-        this.filtrosSection.classList.toggle('visible', !isHidden);
+    // Toggles the visibility of the filter section
+    toggleFilters() {
+        const isHidden = this.filterSection.classList.toggle('hidden');
+        this.filterSection.classList.toggle('visible', !isHidden);
 
-        this.toggleButton.innerHTML = isHidden ? '<i class="fas fa-filter"></i> Mostrar Filtros' : '<i class="fas fa-filter"></i> Esconder Filtros';
+        this.toggleButton.innerHTML = isHidden ? '<i class="fas fa-filter"></i> Show Filters' : '<i class="fas fa-filter"></i> Hide Filters';
+    }
+
+    // Initializes the machine filter handler
+    initMachineFilterHandler() {
+        // Calls toggleMachineFilter to set the initial state
+        this.toggleMachineFilter();
+
+        // Adds event listener to handle changes in the 'filterTarget' dropdown
+        this.filterTarget.addEventListener('change', this.toggleMachineFilter.bind(this));
+    }
+
+    // Toggles the visibility of the machine filter based on the selected target
+    toggleMachineFilter() {
+        if (this.filterTarget.value === 'machine') {
+            this.filterMachineContainer.style.display = 'block';
+        } else {
+            this.filterMachineContainer.style.display = 'none';
+        }
     }
 }
 

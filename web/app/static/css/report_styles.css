@@ -80,11 +80,11 @@ button:hover {
     background-color: #166fe5;
 }
 
-button#btn-resetar {
+button#btnReset {
     background-color: #6c757d;
 }
 
-button#btn-resetar:hover {
+button#btnReset:hover {
     background-color: #5a6268;
 }
 
@@ -167,7 +167,7 @@ button#btn-resetar:hover {
 }
 
 /* Complaints Section */
-.reclamacoes-container {
+.complaints-container {
     margin-top: 20px;
     display: flex;
     flex-direction: column;

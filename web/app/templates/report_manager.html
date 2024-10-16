@@ -10,45 +10,45 @@
 <body>
     <div class="container">
         <h2>Painel do Gestor</h2>
-        <button id="toggle-filtros" class="toggle-filtros">
+        <button id="toggleFilters" class="toggle-filters">
             <i class="fas fa-filter"></i> Mostrar Filtros
         </button>
 
-        <div class="filters hidden" id="filtros-section">
-            <label for="filtro-destino">Alvo da Reclamação:</label>
-            <select id="filtro-destino">
-                <option value="todos">Todos</option>
-                <option value="aplicativo">Aplicativo</option>
-                <option value="maquina">Máquina</option>
+        <div class="filters hidden" id="filtersSection">
+            <label for="filterTarget">Alvo da Reclamação:</label>
+            <select id="filterTarget">
+                <option value="all">Todos</option>
+                <option value="app">Aplicativo</option>
+                <option value="machine">Máquina</option>
             </select>
 
-            <div id="filtro-maquina-container" style="display: none;">
-                <label for="filtro-maquina">Número da Máquina:</label>
-                <select id="filtro-maquina">
+            <div id="filterMachineContainer" style="display: none;">
+                <label for="filterMachine">Número da Máquina:</label>
+                <select id="filterMachine">
                 </select>
             </div>
 
-            <label for="filtro-tipo">Tipo de Reclamação:</label>
-            <select id="filtro-tipo">
-                <option value="todos">Todos</option>
+            <label for="filterType">Tipo de Reclamação:</label>
+            <select id="filterType">
+                <option value="all">Todos</option>
                 <option value="bug">Falha</option>
                 <option value="financial">Financeiro</option>
                 <option value="suggestion">Sugestão</option>
                 <option value="other">Outro</option>
             </select>
 
-            <label for="filtro-status">Status:</label>
-            <select id="filtro-status">
-                <option value="todos">Todos</option>
-                <option value="resolvido">Resolvido</option>
-                <option value="nao-resolvido">Não Resolvido</option>
+            <label for="filterStatus">Status:</label>
+            <select id="filterStatus">
+                <option value="all">Todos</option>
+                <option value="resolved">Resolvido</option>
+                <option value="unresolved">Não Resolvido</option>
             </select>
 
-            <button id="btn-filtrar">Filtrar</button>
-            <button id="btn-resetar">Resetar Filtros</button>
+            <button id="btnFilter">Filtrar</button>
+            <button id="btnReset">Resetar Filtros</button>
         </div>
 
-        <div id="reclamacoes-container" class="reclamacoes-container">
+        <div id="complaintsContainer" class="complaints-container">
         </div>
     </div>
 
