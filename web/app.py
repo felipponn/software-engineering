@@ -9,7 +9,7 @@ from flask import Flask, render_template, request
 
 app = Flask(__name__, template_folder='app/templates', static_folder='app/static')
 
-# Simulando o login do usuário
+# simulating login
 current_user = User.authenticate('fabricio@fabricio.com', '123')
 
 @app.route('/report', methods=['GET', 'POST'])
