@@ -25,13 +25,15 @@ class TestUser(unittest.TestCase):
 
         # Assert execute_query_fetchone was called with the correct parameters
         expected_query = (
-            "INSERT INTO Users (name, email, phone_number, password, role) "
-            "VALUES (%s, %s, %s, %s, 'customer') "
-            "RETURNING user_id;"
-        ).strip()
+                """
+                INSERT INTO Users (name, email, phone_number, password, role)
+                VALUES (%s, '%s', '%s', '%s' ,'customer')
+                RETURNING user_id;
+                """
+        )
 
         mock_fetchone.assert_called_once_with(expected_query, 
-            ('test_name', 'test_email@example.com', '1234567890', 'test_password'))
+            ('test_name', 'test_email@example.com', '1234567890', 'test_password'), True)
 
 
     @patch('backend.user.execute_query_fetchone')
@@ -67,8 +69,10 @@ class TestUser(unittest.TestCase):
 
         # Assert execute_query was called with the correct parameters
         mock_execute_query.assert_called_once_with(
-            """INSERT INTO User_Reports (user_id, machine_id, report_target, issue_type, description)
-               VALUES (%s, %s, %s, %s, %s)""",
+                """
+                INSERT INTO User_Reports (user_id, machine_id, report_target, issue_type, description)
+                VALUES (%s, %s, %s, %s, %s)
+                """,
             ('mock-user-id', 'mock-machine-id', 'Machine', 'Broken Machine', 'Machine not working.')
         )
 
