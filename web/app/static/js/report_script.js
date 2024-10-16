@@ -13,6 +13,7 @@ class UIHandler {
         this.initDestinationHandler();
         this.initToggleFilters();
         this.initMachineFilterHandler();
+        this.initSuccessMessageHandler(); 
     }
 
     /**
@@ -57,24 +58,30 @@ class UIHandler {
      * Initializes the filter toggle button.
      */
     initToggleFilters() {
-        this.toggleButton.addEventListener('click', this.toggleFilters.bind(this));
+        if (this.toggleButton) {
+            this.toggleButton.addEventListener('click', this.toggleFilters.bind(this));
+        }
     }
 
     /**
      * Toggles the visibility of the filter section.
      */
     toggleFilters() {
-        const isHidden = this.filterSection.classList.toggle('hidden');
-        this.filterSection.classList.toggle('visible', !isHidden);
-        this.toggleButton.innerHTML = isHidden ? '<i class="fas fa-filter"></i> Show Filters' : '<i class="fas fa-filter"></i> Hide Filters';
+        if (this.filterSection) {
+            const isHidden = this.filterSection.classList.toggle('hidden');
+            this.filterSection.classList.toggle('visible', !isHidden);
+            this.toggleButton.innerHTML = isHidden ? '<i class="fas fa-filter"></i> Show Filters' : '<i class="fas fa-filter"></i> Hide Filters';
+        }
     }
 
     /**
      * Initializes the machine filter handler.
      */
     initMachineFilterHandler() {
-        this.toggleMachineFilter();
-        this.filterTarget.addEventListener('change', this.toggleMachineFilter.bind(this));
+        if (this.filterTarget && this.filterMachineContainer) {
+            this.toggleMachineFilter();
+            this.filterTarget.addEventListener('change', this.toggleMachineFilter.bind(this));
+        }
     }
 
     /**
@@ -85,6 +92,22 @@ class UIHandler {
             this.filterMachineContainer.style.display = 'block';
         } else {
             this.filterMachineContainer.style.display = 'none';
+        }
+    }
+
+    /**
+     * Initializes the success message handler to hide the message after 10 seconds.
+     */
+    initSuccessMessageHandler() {
+        const successMessage = document.querySelector('.successMessage');
+        if (successMessage) {
+            setTimeout(() => {
+                successMessage.style.transition = 'opacity 1s';
+                successMessage.style.opacity = '0';
+                setTimeout(() => {
+                    successMessage.style.display = 'none';
+                }, 1000); 
+            }, 5000); 
         }
     }
 }
