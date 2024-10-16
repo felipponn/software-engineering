@@ -1,4 +1,4 @@
-from utils.connect_db import execute_query
+from utils.connect_db import execute_query, execute_query_fetchone
 from datetime import datetime
 from backend.user import User
 
@@ -21,12 +21,72 @@ class Manager(User):
     Methods:
     - __init__(self, user_name: str, password: str, email: str, phone: str, user_id=None)
         Constructor to initialize the Manager object.
+    - save_db(self)
+        Saves the Manager to the database (used for sign-up).
+    - authenticate(email, password)
+        Authenticates a user by email and password, retrieving the user details from the database if valid.
     - view_all_issues(self, issue=None, machine=None, type=None, description=None
         Fetches all reported issues from the database based on optional filters for issue, machine, type, and description.
         Returns a list of dictionaries representing the issues.
     """
     def __init__(self, user_name: str, password: str, email: str, phone: str, user_id=None):
         super().__init__(user_name, password, email, phone, user_id)
+
+    def save_db(self):
+        """
+        Saves the User to the database (used for sign-up). 
+
+        After saving, the method sets the `user_id` by executing a query 
+        to insert the user's details into the `Users` table and returning the generated `user_id`.
+        """
+        query = """
+                INSERT INTO Users (name, email, phone_number, password, role)
+                VALUES (%s, %s, %s, %s ,'manager')
+                RETURNING user_id;
+                """
+        
+        # Executes the query and assigns the returned user_id to the user instance
+        self.user_id = execute_query_fetchone(query, (self.user_name, self.email, self.phone, self.password), True)[0]
+
+    @staticmethod
+    def authenticate(email, password):
+        """
+        Authenticates a user by email and password, retrieving the user details from the database if valid.
+
+        Parameters:
+        ----------
+        email : str
+            The email of the user attempting to log in.
+        password : str
+            The password provided by the user.
+
+        Returns:
+        -------
+        User or None:
+            Returns a User object if authentication is successful, or None if the authentication fails.
+        """
+        query = """
+                SELECT user_id, name, email, password, phone_number
+                FROM users 
+                WHERE email = %s;
+            """
+        # Fetches user data from the database based on email
+        user_data = execute_query_fetchone(query, (email,))
+
+        if user_data:
+            user_id, user_name, email, correct_password, phone = user_data
+
+            # Checks if the provided password matches the stored password
+            if correct_password == password:
+                print(f"User {user_name} successfully logged in!")
+                # Creates and returns a User object if authentication is successful
+                user = Manager(user_name, password, email, phone, user_id=user_id)
+                return user
+            
+            else:
+                print("Incorrect password!")
+        else:
+            print("User not found!")
 
     def view_all_issues(self, issue=None, machine=None, type=None, description=None):
         """
