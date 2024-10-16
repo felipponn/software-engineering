@@ -7,7 +7,23 @@ class Manager(User):
     A class representing a Manager in the system, allowing for actions like viewing all reported issues.
 
     Attributes:
-    -
+    - user_name : str
+        The name of the user.
+    - password : str
+        The user's password.
+    - email : str
+        The user's email.
+    - phone : str
+        The user's phone number.
+    - user_id : UUID or None
+        The unique identifier for the user, generated after saving to the database.
+        
+    Methods:
+    - __init__(self, user_name: str, password: str, email: str, phone: str, user_id=None)
+        Constructor to initialize the Manager object.
+    - view_all_issues(self, issue=None, machine=None, type=None, description=None
+        Fetches all reported issues from the database based on optional filters for issue, machine, type, and description.
+        Returns a list of dictionaries representing the issues.
     """
     def __init__(self, user_name: str, password: str, email: str, phone: str, user_id=None):
         super().__init__(user_name, password, email, phone, user_id)
