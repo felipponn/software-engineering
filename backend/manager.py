@@ -90,7 +90,7 @@ class Manager(User):
 
     def view_all_issues(self, issue=None, machine=None, type=None, status=None):
         """
-        Fetches all reported issues from the database based on optional filters for issue, machine, type, and description.
+        Fetches all reported issues from the database based on optional filters for issue, machine, type, and status.
         Returns a list of dictionaries representing the issues.
         """
         # Base query
