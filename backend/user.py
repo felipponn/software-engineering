@@ -1,5 +1,4 @@
 from utils.connect_db import execute_query, execute_query_fetchone
-
 class User:
     """
     A class representing a User in the system, allowing for actions like saving to the database,
@@ -51,7 +50,7 @@ class User:
         """
         query = """
                 INSERT INTO Users (name, email, phone_number, password, role)
-                VALUES (%s, '%s', '%s', '%s' ,'customer')
+                VALUES (%s, %s, %s, %s ,'customer')
                 RETURNING user_id;
                 """
         
@@ -118,4 +117,16 @@ class User:
                 VALUES (%s, %s, %s, %s, %s)
                 """
         # Inserts the user report into the User_Reports table
-        execute_query(query, (self.user_id, machine_id, target, type, message))
+        if machine_id:
+            query = """
+                INSERT INTO User_Reports (user_id, machine_id, report_target, issue_type, description)
+                VALUES (%s, %s, %s, %s, %s)
+                """
+            execute_query(query, (self.user_id, machine_id, target, type, message))
+        else:
+            query = """
+                INSERT INTO User_Reports (user_id, report_target, issue_type, description)
+                VALUES (%s, %s, %s, %s)
+                """
+            execute_query(query, (self.user_id, target, type, message))
+    
