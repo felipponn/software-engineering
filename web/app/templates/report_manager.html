@@ -16,42 +16,42 @@
 
         <div class="filters hidden" id="filtersSection">
             <label for="filterTarget">Alvo da Reclamação:</label>
-            <select id="filterTarget" name="filterTarget">
+            <select id="filterTarget">
                 <option value="all">Todos</option>
                 <option value="app">Aplicativo</option>
                 <option value="machine">Máquina</option>
             </select>
-
+        
             <div id="filterMachineContainer" style="display: none;">
                 <label for="filterMachine">Número da Máquina:</label>
-                <select id="filterMachine" name="filterMachine">
+                <select id="filterMachine">
                     <option value="all">Todas</option>
                     {% for machine_id in machine_ids %}
                         <option value="{{ machine_id }}">{{ machine_id }}</option>
                     {% endfor %}
                 </select>
             </div>
-
+        
             <label for="filterType">Tipo de Reclamação:</label>
-            <select id="filterType" name="filterType">
+            <select id="filterType">
                 <option value="all">Todos</option>
                 <option value="bug">Falha</option>
                 <option value="financial">Financeiro</option>
                 <option value="suggestion">Sugestão</option>
                 <option value="other">Outro</option>
             </select>
-
+        
             <label for="filterStatus">Status:</label>
-            <select id="filterStatus" name="filterStatus">
+            <select id="filterStatus">
                 <option value="all">Todos</option>
                 <option value="resolved">Resolvido</option>
                 <option value="unresolved">Não Resolvido</option>
             </select>
-
+        
             <button id="btnFilter">Filtrar</button>
             <button id="btnReset">Resetar Filtros</button>
         </div>
-
+        
         <div id="complaintsContainer" class="complaints-container">
         </div>
     </div>

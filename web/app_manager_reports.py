@@ -3,8 +3,7 @@ import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from flask import Flask, render_template, request, jsonify
-from backend.user import User
-from backend.manager import Manager  # Importe a classe Manager
+from backend.manager import Manager  
 from backend.machine import Machine
 
 app = Flask(__name__, template_folder='app/templates', static_folder='app/static')
@@ -21,25 +20,29 @@ def manager_dashboard():
 
 @app.route('/get_complaints', methods=['GET'])
 def get_complaints():
+    # Obter os parâmetros de filtro da requisição
     target = request.args.get('target')
     machine_id = request.args.get('machine_id')
     issue_type = request.args.get('issue_type')
     status = request.args.get('status')
 
+    # Mapear status para os valores correspondentes no banco de dados
     status_map = {
         'resolved': 'resolved',
         'unresolved': 'unresolved',
-        'all': None
+        None: None
     }
 
+    # Chamar o método do Manager para obter as reclamações
     complaints = current_manager.view_all_issues(
-        target=target if target != 'all' else None,
-        machine=machine_id if machine_id != 'all' else None,
-        type=issue_type if issue_type != 'all' else None,
+        target=target,
+        machine=machine_id,
+        type=issue_type,
         status=status_map.get(status)
     )
 
     return jsonify(complaints)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
