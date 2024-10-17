@@ -7,25 +7,21 @@ O CaféLab é um aplicativo multi-device que transforma a experiência de compra
 
 Este projeto faz parte do curso de Engenharia de Software (2024.2) da Escola de Matemática Aplicada da Fundação Getulio Vargas (FGV - EMAp). 🎓
 
-## 🔥 Funcionalidades Principais
+## Funcionalidades Implementadas:
 
-### Para Usuários:
-- Acesse informações detalhadas das vending machines, como localização, produtos disponíveis e avaliações, para escolher a melhor opção para você.
-- Pesquise produtos em diferentes máquinas e receba notificações quando algo estiver esgotado.
-- Veja informações completas sobre os produtos e decida com base em avaliações e comentários de outros usuários.
-- Personalize suas notificações para receber apenas as informações que te interessam.
-- Acesse o CaféLab em diversos dispositivos (computador, smartphone, tablet) e no idioma que preferir. 🌍
+### Sprint 1:
 
-### Para Gestores:
-- Monitore o estoque em tempo real e reabasteça as máquinas conforme necessário.
-- Gere relatórios detalhados sobre vendas, avaliações e estoque, e exporte em diferentes formatos para análise.
+- **(RF33) Reportar Problemas:** Como usuário quero poder reportar problemas com as vending machines ou com a rede social e o gestor pode visualizá-las para que sejam resolvidas.
 
-### Para Todos os Usuários:
-- Reporte problemas facilmente para melhorar a experiência de todos.
+## Como Rodar
 
-## 🚀 Como Instalar
+### Tela de Reportar Problemas:
 
-**Em breve**: Instruções completas para instalação e uso. Fique ligado! 👀
+Para rodar, basta rodar o arquivo `app_user_report.py` e abrir o `http://localhost:5000/report`.
+
+### Tela de visualização dos Reports:
+
+Para rodar, basta rodar o arquivo `aap_manager_reports.py` e abrir o `http://localhost:5000/manager_dashboard`.
 
 ## 💻 Requisitos do Sistema
 - Compatível com dispositivos desktop, smartphones e tablets.
