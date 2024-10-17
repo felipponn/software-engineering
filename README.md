@@ -31,12 +31,8 @@ Este projeto faz parte do curso de Engenharia de Software (2024.2) da Escola de 
 - Compatível com dispositivos desktop, smartphones e tablets.
 - Suporte a múltiplos idiomas. 🌍
 
-## 🤝 Contribuições
-Quer fazer parte do CaféLab? Contribua com sugestões e melhorias! Basta abrir uma *issue* ou enviar um *pull request* aqui no GitHub. Vamos construir o CaféLab juntos! 💡🤩
-
 ## 👨‍💻 Equipe de Desenvolvimento
-Este projeto foi criado pelos alunos da FGV - EMAp, como parte do curso de Engenharia de Software (2024.2). 🎓💼
+Esta é a página do grupo 4 da disciplina de Engenharia de Software ministrada em 2024.2 pelo Prof. Dr. Rafael de Pinho. Nosso grupo é composto por [Fabrício Venturim](https://github.com/FabricioVenturim), [Gabriel Pereira](https://github.com/GabrielJP314), [Luís Felipe Marques](https://github.com/felipponn), e [Otávio Alves](https://github.com/atronee). 🎓💼
 
----
-
-✨ **Transforme sua experiência de compra rápida com o CaféLab!** ✨
+## 📙 Site com entregáveis
+[Clique aqui](https://felipponn.github.io/software-engineering/).
