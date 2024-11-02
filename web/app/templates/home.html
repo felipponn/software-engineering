@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Página Inicial</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/report_styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2>Bem-vindo</h2>
+        <ul>
+            <li><a href="{{ url_for('report') }}">Enviar Reclamação</a></li>
+            {% if is_manager %}
+            <li><a href="{{ url_for('manager_dashboard') }}">Painel do Gestor</a></li>
+            {% endif %}
+        </ul>
+    </div>
+</body>
+</html>
