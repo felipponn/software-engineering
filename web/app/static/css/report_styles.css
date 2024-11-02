@@ -61,6 +61,21 @@ textarea {
     min-height: 100px;
 }
 
+.back-link {
+    display: inline-block;
+    margin-bottom: 20px;
+    padding: 10px 15px;
+    background-color: #007BFF;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.back-link:hover {
+    background-color: #0056b3;
+}
+
 /* Button Styles */
 button {
     margin-top: 20px;
