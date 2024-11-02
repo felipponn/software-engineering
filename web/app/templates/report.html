@@ -9,9 +9,8 @@
 </head>
 <body>
     <div class="container">
+        <a href="{{ url_for('home') }}" class="back-link"> ⬅ </a>
         <h2>Enviar Reclamação</h2>
-        
-        <a href="{{ url_for('home') }}" class="back-link">Voltar à Página Inicial</a>
 
         <!-- Display success or error message -->
         {% if success %}

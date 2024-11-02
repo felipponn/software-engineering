@@ -3,17 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <title>Página Inicial</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Incluindo a folha de estilo existente -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/report_styles.css') }}">
+    <!-- Incluindo ícones do Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-..." crossorigin="anonymous">
 </head>
 <body>
-    <div class="container">
-        <h2>Bem-vindo</h2>
-        <ul>
-            <li><a href="{{ url_for('report') }}">Enviar Reclamação</a></li>
+    <div class="container home-container">
+        <h2>Sistema de Reclamações</h2>
+        <div class="home-options">
+            <a href="{{ url_for('report') }}" class="home-button">
+                <i class="fas fa-edit"></i>
+                Enviar Reclamação
+            </a>
             {% if is_manager %}
-            <li><a href="{{ url_for('manager_dashboard') }}">Painel do Gestor</a></li>
+            <a href="{{ url_for('manager_dashboard') }}" class="home-button">
+                <i class="fas fa-tachometer-alt"></i>
+                Painel do Gestor
+            </a>
             {% endif %}
-        </ul>
+        </div>
     </div>
 </body>
 </html>

@@ -18,6 +18,21 @@ def simulate_authentication(email, password):
         return Manager.authenticate(email, password)
     else:
         return None
+    
+    # user_id SERIAL PRIMARY KEY,  -- Automatically generates a sequential integer ID
+    # name VARCHAR(255) NOT NULL,
+    # email VARCHAR(255) UNIQUE NOT NULL,
+    # phone_number VARCHAR(15),
+    # password VARCHAR(255),
+    # role VARCHAR(50) DEFAULT 'customer',  -- Can be 'customer', 'admin', etc.
+    # created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    
+#simular criação de usuário
+# user = User(email='fabricio@fabricio.com', password='123', user_name='Fabricio', phone='1234567890')
+# user.save_db()
+
+# gestor = Manager(email='fabricio@gestor.com', password='123', user_name='Fabricio', phone='1234567890')
+# gestor.save_db()
 
 # Simular a autenticação do usuário (altere o email para testar diferentes usuários)
 current_user = simulate_authentication('fabricio@gestor.com', '123')  # Gerente
