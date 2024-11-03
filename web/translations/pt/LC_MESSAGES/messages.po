@@ -1,0 +1,170 @@
+# Portuguese translations for PROJECT.
+# Copyright (C) 2024 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2024-11-02 20:13-0300\n"
+"PO-Revision-Date: 2024-11-02 20:14-0300\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: pt\n"
+"Language-Team: pt <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.16.0\n"
+
+#: app/templates/home.html:5
+msgid "Página Inicial"
+msgstr "Página Inicial"
+
+#: app/templates/home.html:14 app/templates/settings.html:5
+#: app/templates/settings.html:12
+msgid "Configurações"
+msgstr "Configurações"
+
+#: app/templates/home.html:18
+msgid "Bem-vindo ao Sistema de Reclamações"
+msgstr "Bem-vindo ao Sistema de Reclamações"
+
+#: app/templates/home.html:22 app/templates/report.html:13
+msgid "Enviar Reclamação"
+msgstr "Enviar Reclamação"
+
+#: app/templates/home.html:27 app/templates/report_manager.html:13
+msgid "Painel do Gestor"
+msgstr "Painel do Gestor"
+
+#: app/templates/report.html:5
+msgid "Envio de Reclamações"
+msgstr "Envio de Reclamações"
+
+#: app/templates/report.html:17
+msgid "Relatório enviado com sucesso!"
+msgstr "Relatório enviado com sucesso!"
+
+#: app/templates/report.html:24
+msgid "Reclamação sobre"
+msgstr "Reclamação sobre"
+
+#: app/templates/report.html:26 app/templates/report_manager.html:23
+msgid "Aplicativo"
+msgstr "Aplicativo"
+
+#: app/templates/report.html:27 app/templates/report_manager.html:24
+msgid "Máquina"
+msgstr "Máquina"
+
+#: app/templates/report.html:31
+msgid "Selecione o Número da Máquina"
+msgstr "Selecione o Número da Máquina"
+
+#: app/templates/report.html:33
+msgid "Selecione a máquina"
+msgstr "Selecione a máquina"
+
+#: app/templates/report.html:40 app/templates/report_manager.html:37
+msgid "Tipo de Reclamação"
+msgstr "Tipo de Reclamação"
+
+#: app/templates/report.html:42
+msgid "Selecione uma opção"
+msgstr "Selecione uma opção"
+
+#: app/templates/report.html:43 app/templates/report_manager.html:40
+msgid "Falha"
+msgstr "Falha"
+
+#: app/templates/report.html:44 app/templates/report_manager.html:41
+msgid "Financeiro"
+msgstr "Financeiro"
+
+#: app/templates/report.html:45 app/templates/report_manager.html:42
+msgid "Sugestão"
+msgstr "Sugestão"
+
+#: app/templates/report.html:46 app/templates/report_manager.html:43
+msgid "Outro"
+msgstr "Outro"
+
+#: app/templates/report.html:49
+msgid "Mensagem"
+msgstr "Mensagem"
+
+#: app/templates/report.html:50
+msgid "Descreva detalhadamente o problema..."
+msgstr "Descreva detalhadamente o problema..."
+
+#: app/templates/report.html:52
+msgid "Enviar"
+msgstr "Enviar"
+
+#: app/templates/report_manager.html:5
+msgid "Painel do Gestor - Reclamações"
+msgstr "Painel do Gestor - Reclamações"
+
+#: app/templates/report_manager.html:16
+msgid "Mostrar Filtros"
+msgstr "Mostrar Filtros"
+
+#: app/templates/report_manager.html:20
+msgid "Alvo da Reclamação"
+msgstr "Alvo da Reclamação"
+
+#: app/templates/report_manager.html:22 app/templates/report_manager.html:39
+#: app/templates/report_manager.html:48
+msgid "Todos"
+msgstr "Todos"
+
+#: app/templates/report_manager.html:28
+msgid "Número da Máquina"
+msgstr "Número da Máquina"
+
+#: app/templates/report_manager.html:30
+msgid "Todas"
+msgstr "Todas"
+
+#: app/templates/report_manager.html:46
+msgid "Status"
+msgstr "Status"
+
+#: app/templates/report_manager.html:49
+msgid "Resolvido"
+msgstr "Resolvido"
+
+#: app/templates/report_manager.html:50
+msgid "Não Resolvido"
+msgstr "Não Resolvido"
+
+#: app/templates/report_manager.html:53
+msgid "Filtrar"
+msgstr "Filtrar"
+
+#: app/templates/report_manager.html:54
+msgid "Resetar Filtros"
+msgstr "Resetar Filtros"
+
+#: app/templates/settings.html:14
+msgid "Selecione o Idioma"
+msgstr "Selecione o Idioma"
+
+#: app/templates/settings.html:16
+msgid "Português"
+msgstr "Português"
+
+#: app/templates/settings.html:17
+msgid "Inglês"
+msgstr "Inglês"
+
+#: app/templates/settings.html:18
+msgid "Espanhol"
+msgstr "Espanhol"
+
+#: app/templates/settings.html:20
+msgid "Salvar"
+msgstr "Salvar"
+
