@@ -58,6 +58,27 @@
         </div>
     </div>
 
+    <script>
+        const translations = {
+            complaint: "{{ _('Reclamação') }}",
+            user_id: "{{ _('Usuário ID') }}",
+            machine_id: "{{ _('Máquina ID') }}",
+            target: "{{ _('Alvo') }}",
+            type: "{{ _('Tipo') }}",
+            description: "{{ _('Descrição') }}",
+            status: "{{ _('Status') }}",
+            created_at: "{{ _('Criado em') }}",
+            resolved_at: "{{ _('Resolvido em') }}",
+            loading_complaints: "{{ _('Carregando reclamações...') }}",
+            error_fetching_complaints: "{{ _('Ocorreu um erro ao buscar as reclamações.') }}",
+            no_complaints_found: "{{ _('Nenhuma reclamação encontrada.') }}",
+            show_filters: "{{ _('Mostrar Filtros') }}",
+            hide_filters: "{{ _('Esconder Filtros') }}",
+            filter: "{{ _('Filtrar') }}",
+            reset_filters: "{{ _('Resetar Filtros') }}"
+        };
+    </script>
+
     <script src="{{ url_for('static', filename='js/report_script.js') }}"></script>
 </body>
 </html>

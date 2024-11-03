@@ -29,7 +29,6 @@ def get_locale():
     Function to get the language selected by the user.
     '''
     language = session.get('language', 'pt')
-    print(f"Idioma selecionado: {language}")
     return language
 
 babel = Babel()

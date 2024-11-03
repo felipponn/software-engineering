@@ -3,7 +3,6 @@
  */
 class UIHandler {
     constructor() {
-        // Referências aos elementos do DOM
         this.destinationRadios = document.getElementsByName('destination');
         this.machineInfo = document.getElementById('machineInfo');
         this.machineNumberInput = document.getElementById('machineNumber');
@@ -18,19 +17,32 @@ class UIHandler {
         this.btnReset = document.getElementById('btnReset');
         this.complaintsContainer = document.getElementById('complaintsContainer');
 
-        // Inicializar manipuladores
-        this.initDestinationHandler();
-        this.initToggleFilters();
-        this.initMachineFilterHandler();
-        this.initSuccessMessageHandler();
-        this.initFilterButtons();
-
-        // Buscar e exibir reclamações ao carregar a página
+        // initialize handlers
+         this.initDestinationHandler();
+         this.initToggleFilters();
+         this.initMachineFilterHandler();
+         this.initSuccessMessageHandler();
+         this.initFilterButtons();
+ 
+        // update button texts with translations
+        this.updateButtonTexts();
+ 
+        // fetch and display complaints when the page loads
         this.fetchComplaints();
     }
 
+    updateButtonTexts() {
+        if (this.btnFilter) {
+            this.btnFilter.textContent = translations.filter;
+        }
+
+        if (this.btnReset) {
+            this.btnReset.textContent = translations.reset_filters;
+        }
+    }
+
     /**
-     * Inicializa o manipulador de seleção de destino.
+     * Initializes the destination selection handler.
      */
     initDestinationHandler() {
         if (this.destinationRadios) {
@@ -38,7 +50,7 @@ class UIHandler {
                 radio.addEventListener('change', this.handleRadioChange.bind(this));
             });
 
-            // Verificar o estado inicial
+            // check the initial state
             const selectedRadio = document.querySelector('input[name="destination"]:checked');
             if (selectedRadio) {
                 this.handleRadioChange({ target: selectedRadio });
@@ -47,8 +59,8 @@ class UIHandler {
     }
 
     /**
-     * Manipula a mudança de seleção dos botões de rádio.
-     * @param {Event} event - O evento disparado ao mudar o botão de rádio.
+     * Handles the change in the radio button selection.
+     * @param {Event} event - The event triggered when changing the radio button.
      */
     handleRadioChange(event) {
         const selectedRadio = event.target;
@@ -60,7 +72,7 @@ class UIHandler {
     }
 
     /**
-     * Exibe a seção de informações da máquina.
+     * Displays the machine information section.
      */
     showMachineInfo() {
         this.machineInfo.style.display = 'block';
@@ -68,7 +80,7 @@ class UIHandler {
     }
 
     /**
-     * Oculta a seção de informações da máquina.
+     * Hides the machine information section.
      */
     hideMachineInfo() {
         this.machineInfo.style.display = 'none';
@@ -76,7 +88,7 @@ class UIHandler {
     }
 
     /**
-     * Inicializa o botão de alternar filtros.
+     * Initializes the toggle filters button.
      */
     initToggleFilters() {
         if (this.toggleButton) {
@@ -85,18 +97,20 @@ class UIHandler {
     }
 
     /**
-     * Alterna a visibilidade da seção de filtros.
+     * Toggles the visibility of the filter section.
      */
     toggleFilters() {
         if (this.filterSection) {
             const isHidden = this.filterSection.classList.toggle('hidden');
             this.filterSection.classList.toggle('visible', !isHidden);
-            this.toggleButton.innerHTML = isHidden ? '<i class="fas fa-filter"></i> Mostrar Filtros' : '<i class="fas fa-filter"></i> Esconder Filtros';
+            this.toggleButton.innerHTML = isHidden 
+                ? `<i class="fas fa-filter"></i> ${translations.show_filters}` 
+                : `<i class="fas fa-filter"></i> ${translations.hide_filters}`;
         }
     }
 
     /**
-     * Inicializa o manipulador do filtro de máquina.
+     * Initializes the machine filter handler.
      */
     initMachineFilterHandler() {
         if (this.filterTarget && this.filterMachineContainer) {
@@ -106,7 +120,7 @@ class UIHandler {
     }
 
     /**
-     * Alterna a visibilidade do filtro de máquina com base no alvo selecionado.
+     * Toggles the visibility of the machine filter based on the selected target.
      */
     toggleMachineFilter() {
         if (this.filterTarget.value === 'machine') {
@@ -118,7 +132,7 @@ class UIHandler {
     }
 
     /**
-     * Inicializa o manipulador da mensagem de sucesso para ocultar após 5 segundos.
+     * Initializes the success message handler to hide after 5 seconds.
      */
     initSuccessMessageHandler() {
         const successMessage = document.querySelector('.successMessage');
@@ -134,7 +148,7 @@ class UIHandler {
     }
 
     /**
-     * Inicializa os botões de filtro.
+     * Initializes the filter buttons.
      */
     initFilterButtons() {
         if (this.btnFilter) {
@@ -152,18 +166,18 @@ class UIHandler {
     }
 
     /**
-     * Reseta os campos de filtro para seus valores padrão.
+     * Resets the filter fields to their default values.
      */
     resetFilters() {
         this.filterTarget.value = 'all';
         this.filterMachine.value = 'all';
         this.filterType.value = 'all';
         this.filterStatus.value = 'all';
-        this.toggleMachineFilter(); // Garantir que o filtro de máquina esteja oculto
+        this.toggleMachineFilter(); 
     }
 
     /**
-     * Busca as reclamações do servidor com base nos filtros e atualiza a interface.
+     * Fetches the complaints from the server based on the filters and updates the interface.
      */
     fetchComplaints() {
         // Construir os parâmetros de consulta com base nos filtros
@@ -185,8 +199,8 @@ class UIHandler {
             params.append('status', this.filterStatus.value);
         }
 
-        // Mostrar um indicador de carregamento, se desejar
-        this.complaintsContainer.innerHTML = '<p>Carregando reclamações...</p>';
+        // Mostrar um indicador de carregamento
+        this.complaintsContainer.innerHTML = `<p>${translations.loading_complaints}</p>`;
 
         // Fazer a requisição ao servidor
         fetch(`/get_complaints?${params.toString()}`)
@@ -201,20 +215,20 @@ class UIHandler {
             })
             .catch(error => {
                 console.error('Erro ao buscar as reclamações:', error);
-                this.complaintsContainer.innerHTML = '<p>Ocorreu um erro ao buscar as reclamações.</p>';
+                this.complaintsContainer.innerHTML = `<p>${translations.error_fetching_complaints}</p>`;
             });
     }
 
     /**
-     * Exibe as reclamações na interface.
-     * @param {Array} complaints - A lista de reclamações a serem exibidas.
+     * Displays the complaints on the interface.
+     * @param {Array} complaints - The list of complaints to be displayed.
      */
     displayComplaints(complaints) {
         // Limpar o container
         this.complaintsContainer.innerHTML = '';
 
         if (complaints.length === 0) {
-            this.complaintsContainer.innerHTML = '<p>Nenhuma reclamação encontrada.</p>';
+            this.complaintsContainer.innerHTML = `<p>${translations.no_complaints_found}</p>`;
             return;
         }
 
@@ -224,17 +238,17 @@ class UIHandler {
             complaintDiv.classList.add('complaint');
 
             complaintDiv.innerHTML = `
-                <h3>Reclamação #${complaint.report_id}</h3>
-                <p><strong>Usuário ID:</strong> ${complaint.user_id}</p>
-                ${complaint.machine_id ? `<p><strong>Máquina ID:</strong> ${complaint.machine_id}</p>` : ''}
-                <p><strong>Alvo:</strong> ${complaint.report_target}</p>
-                <p><strong>Tipo:</strong> ${complaint.issue_type}</p>
-                <p><strong>Descrição:</strong> ${complaint.description}</p>
+                <h3>${translations.complaint} #${complaint.report_id}</h3>
+                <p><strong>${translations.user_id}:</strong> ${complaint.user_id}</p>
+                ${complaint.machine_id ? `<p><strong>${translations.machine_id}:</strong> ${complaint.machine_id}</p>` : ''}
+                <p><strong>${translations.target}:</strong> ${complaint.report_target}</p>
+                <p><strong>${translations.type}:</strong> ${complaint.issue_type}</p>
+                <p><strong>${translations.description}:</strong> ${complaint.description}</p>
                 <p class="status ${complaint.status === 'resolved' ? 'resolved' : 'unresolved'}">
-                    <strong>Status:</strong> ${complaint.status}
+                    <strong>${translations.status}:</strong> ${complaint.status}
                 </p>
-                <p><strong>Criado em:</strong> ${complaint.created_at}</p>
-                ${complaint.resolved_at ? `<p><strong>Resolvido em:</strong> ${complaint.resolved_at}</p>` : ''}
+                <p><strong>${translations.created_at}:</strong> ${complaint.created_at}</p>
+                ${complaint.resolved_at ? `<p><strong>${translations.resolved_at}:</strong> ${complaint.resolved_at}</p>` : ''}
             `;
 
             this.complaintsContainer.appendChild(complaintDiv);

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-11-02 20:13-0300\n"
-"PO-Revision-Date: 2024-11-02 20:14-0300\n"
+"POT-Creation-Date: 2024-11-03 12:48-0300\n"
+"PO-Revision-Date: 2024-11-03 12:50-0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: pt\n"
 "Language-Team: pt <LL@li.org>\n"
@@ -22,20 +22,20 @@ msgstr ""
 msgid "Página Inicial"
 msgstr "Página Inicial"
 
-#: app/templates/home.html:14 app/templates/settings.html:5
+#: app/templates/home.html:12 app/templates/settings.html:5
 #: app/templates/settings.html:12
 msgid "Configurações"
 msgstr "Configurações"
 
-#: app/templates/home.html:18
-msgid "Bem-vindo ao Sistema de Reclamações"
-msgstr "Bem-vindo ao Sistema de Reclamações"
+#: app/templates/home.html:16
+msgid "Sistema de Reclamações"
+msgstr "Sistema de Reclamações"
 
-#: app/templates/home.html:22 app/templates/report.html:13
+#: app/templates/home.html:20 app/templates/report.html:13
 msgid "Enviar Reclamação"
 msgstr "Enviar Reclamação"
 
-#: app/templates/home.html:27 app/templates/report_manager.html:13
+#: app/templates/home.html:25 app/templates/report_manager.html:13
 msgid "Painel do Gestor"
 msgstr "Painel do Gestor"
 
@@ -107,7 +107,7 @@ msgstr "Enviar"
 msgid "Painel do Gestor - Reclamações"
 msgstr "Painel do Gestor - Reclamações"
 
-#: app/templates/report_manager.html:16
+#: app/templates/report_manager.html:16 app/templates/report_manager.html:75
 msgid "Mostrar Filtros"
 msgstr "Mostrar Filtros"
 
@@ -128,7 +128,7 @@ msgstr "Número da Máquina"
 msgid "Todas"
 msgstr "Todas"
 
-#: app/templates/report_manager.html:46
+#: app/templates/report_manager.html:46 app/templates/report_manager.html:69
 msgid "Status"
 msgstr "Status"
 
@@ -140,13 +140,61 @@ msgstr "Resolvido"
 msgid "Não Resolvido"
 msgstr "Não Resolvido"
 
-#: app/templates/report_manager.html:53
+#: app/templates/report_manager.html:53 app/templates/report_manager.html:77
 msgid "Filtrar"
 msgstr "Filtrar"
 
-#: app/templates/report_manager.html:54
+#: app/templates/report_manager.html:54 app/templates/report_manager.html:78
 msgid "Resetar Filtros"
 msgstr "Resetar Filtros"
+
+#: app/templates/report_manager.html:63
+msgid "Reclamação"
+msgstr "Reclamação"
+
+#: app/templates/report_manager.html:64
+msgid "Usuário ID"
+msgstr "Usuário ID"
+
+#: app/templates/report_manager.html:65
+msgid "Máquina ID"
+msgstr "Máquina ID"
+
+#: app/templates/report_manager.html:66
+msgid "Alvo"
+msgstr "Alvo"
+
+#: app/templates/report_manager.html:67
+msgid "Tipo"
+msgstr "Tipo"
+
+#: app/templates/report_manager.html:68
+msgid "Descrição"
+msgstr "Descrição"
+
+#: app/templates/report_manager.html:70
+msgid "Criado em"
+msgstr "Criado em"
+
+#: app/templates/report_manager.html:71
+msgid "Resolvido em"
+msgstr "Resolvido em"
+
+#: app/templates/report_manager.html:72
+msgid "Carregando reclamações..."
+msgstr "Carregando reclamações..."
+
+#: app/templates/report_manager.html:73
+msgid "Ocorreu um erro ao buscar as reclamações."
+msgstr "Ocorreu um erro ao buscar as reclamações."
+
+#: app/templates/report_manager.html:74
+msgid "Nenhuma reclamação encontrada."
+msgstr "Nenhuma reclamação encontrada."
+
+#: app/templates/report_manager.html:76
+msgid "Esconder Filtros"
+msgstr "Esconder Filtros"
 
 #: app/templates/settings.html:14
 msgid "Selecione o Idioma"
@@ -156,15 +204,15 @@ msgstr "Selecione o Idioma"
 msgid "Português"
 msgstr "Português"
 
-#: app/templates/settings.html:17
+#: app/templates.settings.html:17
 msgid "Inglês"
 msgstr "Inglês"
 
-#: app/templates/settings.html:18
+#: app/templates.settings.html:18
 msgid "Espanhol"
 msgstr "Espanhol"
 
-#: app/templates/settings.html:20
+#: app/templates.settings.html:20
 msgid "Salvar"
 msgstr "Salvar"
 

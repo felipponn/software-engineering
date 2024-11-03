@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-11-02 20:13-0300\n"
+"POT-Creation-Date: 2024-11-03 12:48-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,20 +21,20 @@ msgstr ""
 msgid "Página Inicial"
 msgstr ""
 
-#: app/templates/home.html:14 app/templates/settings.html:5
+#: app/templates/home.html:12 app/templates/settings.html:5
 #: app/templates/settings.html:12
 msgid "Configurações"
 msgstr ""
 
-#: app/templates/home.html:18
-msgid "Bem-vindo ao Sistema de Reclamações"
+#: app/templates/home.html:16
+msgid "Sistema de Reclamações"
 msgstr ""
 
-#: app/templates/home.html:22 app/templates/report.html:13
+#: app/templates/home.html:20 app/templates/report.html:13
 msgid "Enviar Reclamação"
 msgstr ""
 
-#: app/templates/home.html:27 app/templates/report_manager.html:13
+#: app/templates/home.html:25 app/templates/report_manager.html:13
 msgid "Painel do Gestor"
 msgstr ""
 
@@ -106,7 +106,7 @@ msgstr ""
 msgid "Painel do Gestor - Reclamações"
 msgstr ""
 
-#: app/templates/report_manager.html:16
+#: app/templates/report_manager.html:16 app/templates/report_manager.html:75
 msgid "Mostrar Filtros"
 msgstr ""
 
@@ -127,7 +127,7 @@ msgstr ""
 msgid "Todas"
 msgstr ""
 
-#: app/templates/report_manager.html:46
+#: app/templates/report_manager.html:46 app/templates/report_manager.html:69
 msgid "Status"
 msgstr ""
 
@@ -139,12 +139,60 @@ msgstr ""
 msgid "Não Resolvido"
 msgstr ""
 
-#: app/templates/report_manager.html:53
+#: app/templates/report_manager.html:53 app/templates/report_manager.html:77
 msgid "Filtrar"
 msgstr ""
 
-#: app/templates/report_manager.html:54
+#: app/templates/report_manager.html:54 app/templates/report_manager.html:78
 msgid "Resetar Filtros"
+msgstr ""
+
+#: app/templates/report_manager.html:63
+msgid "Reclamação"
+msgstr ""
+
+#: app/templates/report_manager.html:64
+msgid "Usuário ID"
+msgstr ""
+
+#: app/templates/report_manager.html:65
+msgid "Máquina ID"
+msgstr ""
+
+#: app/templates/report_manager.html:66
+msgid "Alvo"
+msgstr ""
+
+#: app/templates/report_manager.html:67
+msgid "Tipo"
+msgstr ""
+
+#: app/templates/report_manager.html:68
+msgid "Descrição"
+msgstr ""
+
+#: app/templates/report_manager.html:70
+msgid "Criado em"
+msgstr ""
+
+#: app/templates/report_manager.html:71
+msgid "Resolvido em"
+msgstr ""
+
+#: app/templates/report_manager.html:72
+msgid "Carregando reclamações..."
+msgstr ""
+
+#: app/templates/report_manager.html:73
+msgid "Ocorreu um erro ao buscar as reclamações."
+msgstr ""
+
+#: app/templates/report_manager.html:74
+msgid "Nenhuma reclamação encontrada."
+msgstr ""
+
+#: app/templates/report_manager.html:76
+msgid "Esconder Filtros"
 msgstr ""
 
 #: app/templates/settings.html:14
