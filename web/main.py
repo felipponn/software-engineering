@@ -9,7 +9,7 @@ from backend.user import User
 from backend.machine import Machine
 from backend.manager import Manager
 
-# Inicializar o aplicativo Flask
+# Initialize the Flask application
 app = Flask(__name__, template_folder='app/templates', static_folder='app/static')
 app.secret_key = 'qualquer_coisa_vai_funcionar'
 
@@ -25,6 +25,9 @@ LANGUAGES = {
 }
 
 def get_locale():
+    '''
+    Function to get the language selected by the user.
+    '''
     language = session.get('language', 'pt')
     print(f"Idioma selecionado: {language}")
     return language
@@ -36,37 +39,38 @@ babel.init_app(app, locale_selector=get_locale)
 def inject_get_locale():
     return dict(get_locale=get_locale)
 
-# Função para simular a autenticação
 def simulate_authentication(email, password):
+    '''
+    Function to simulate authentication.
+    '''
     if email == 'fabricio@fabricio.com' and password == '123':
         return User.authenticate(email, password)
     elif email == 'fabricio@gestor.com' and password == '123':
         return Manager.authenticate(email, password)
     else:
         return None
-    
-# Simular a autenticação do usuário (altere o email para testar diferentes usuários)
-current_user = simulate_authentication('fabricio@gestor.com', '123')  # Gerente
-# current_user = simulate_authentication('fabricio@fabricio.com', '123')  # Usuário comum
+
+current_user = simulate_authentication('fabricio@gestor.com', '123')  # Manager
+# current_user = simulate_authentication('fabricio@fabricio.com', '123')  # Regular user
 
 @app.route('/')
 def home():
-    """
-    Rota para a página inicial que permite navegar entre as telas.
-    A opção do painel do gestor só aparece se o usuário for um gerente.
-    """
+    '''
+    Route for the home page that allows navigation between screens.
+    The manager dashboard option only appears if the user is a manager.
+    '''
     is_manager = isinstance(current_user, Manager)
     return render_template('home.html', is_manager=is_manager)
 
 @app.route('/report', methods=['GET', 'POST'])
 def report():
-    """
-    Rota para submissão de reclamações.
-    """
+    '''
+    Route for submitting complaints.
+    '''
     machine_ids = Machine.get_machines()
     
     if request.method == 'POST':
-        # Coletar dados do formulário para a reclamação
+        # Collect form data for the complaint
         destination = request.form.get('destination')
         complaint_type = request.form.get('complaintType')
         message = request.form.get('message')
@@ -74,7 +78,7 @@ def report():
         if destination == 'machine':
             machine_id = request.form.get('machineNumber')
         
-        # Registrar a reclamação se o usuário estiver autenticado
+        # Register the complaint if the user is authenticated
         if current_user:
             current_user.report(target=destination, type=complaint_type, machine_id=machine_id, message=message)
             return render_template('report.html', success=True, machine_ids=machine_ids)
@@ -85,10 +89,10 @@ def report():
 
 @app.route('/manager_dashboard')
 def manager_dashboard():
-    """
-    Rota para renderizar o painel do gestor.
-    Só acessível se o usuário for um gerente.
-    """
+    '''
+    Route to render the manager dashboard.
+    Only accessible if the user is a manager.
+    '''
     if not isinstance(current_user, Manager):
         return redirect(url_for('home'))
     machine_ids = Machine.get_machines()
@@ -96,10 +100,10 @@ def manager_dashboard():
 
 @app.route('/get_complaints', methods=['GET'])
 def get_complaints():
-    """
-    Rota de API para buscar reclamações com base em filtros.
-    Só acessível se o usuário for um gerente.
-    """
+    '''
+    API route to fetch complaints based on filters.
+    Only accessible if the user is a manager.
+    '''
     if not isinstance(current_user, Manager):
         return jsonify({'error': 'Não autorizado'}), 403
     
@@ -125,6 +129,9 @@ def get_complaints():
 
 @app.route('/settings', methods=['GET', 'POST'])
 def settings():
+    '''
+    Route to change the system language.
+    '''
     if request.method == 'POST':
         selected_language = request.form.get('language')
         print(f"Língua selecionada no formulário: {selected_language}")
@@ -135,6 +142,9 @@ def settings():
 
 @app.route('/set_language', methods=['POST'])
 def set_language():
+    '''
+    Route to change the system language.
+    '''
     language = request.form.get('language')
     session['language'] = language
     return redirect(url_for('home'))
