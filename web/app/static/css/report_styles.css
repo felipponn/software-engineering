@@ -299,6 +299,19 @@ button#btnReset:hover {
     }
 }
 
+.settings-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: #1877f2;
+    font-size: 24px;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.settings-button:hover {
+    color: #166fe5;
+}
 
 /* Responsive Styles */
 @media (max-width: 400px) {
