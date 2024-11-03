@@ -1,26 +1,28 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="{{ get_locale() }}">
 <head>
     <meta charset="UTF-8">
-    <title>Página Inicial</title>
+    <title>{{ _('Página Inicial') }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Incluindo a folha de estilo existente -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/report_styles.css') }}">
-    <!-- Incluindo ícones do Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-..." crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" crossorigin="anonymous">
 </head>
 <body>
     <div class="container home-container">
-        <h2>Sistema de Reclamações</h2>
+        <a href="{{ url_for('settings') }}" class="settings-button" title="{{ _('Configurações') }}">
+            <i class="fas fa-cog"></i>
+        </a>
+
+        <h2>{{ _('Bem-vindo ao Sistema de Reclamações') }}</h2>
         <div class="home-options">
             <a href="{{ url_for('report') }}" class="home-button">
                 <i class="fas fa-edit"></i>
-                Enviar Reclamação
+                {{ _('Enviar Reclamação') }}
             </a>
             {% if is_manager %}
             <a href="{{ url_for('manager_dashboard') }}" class="home-button">
                 <i class="fas fa-tachometer-alt"></i>
-                Painel do Gestor
+                {{ _('Painel do Gestor') }}
             </a>
             {% endif %}
         </div>
