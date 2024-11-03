@@ -2,13 +2,39 @@ import sys
 import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from flask import Flask, render_template, request, jsonify, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session, jsonify
+from flask_babel import Babel, gettext as _
+
 from backend.user import User
 from backend.machine import Machine
 from backend.manager import Manager
 
 # Inicializar o aplicativo Flask
 app = Flask(__name__, template_folder='app/templates', static_folder='app/static')
+app.secret_key = 'qualquer_coisa_vai_funcionar'
+
+base_dir = os.path.abspath(os.path.dirname(__file__))
+translations_path = os.path.join(base_dir, 'translations')
+app.config['BABEL_TRANSLATION_DIRECTORIES'] = translations_path
+app.config['BABEL_DEFAULT_LOCALE'] = 'pt'
+
+LANGUAGES = {
+    'en': 'English',
+    'pt': 'Português',
+    'es': 'Español'
+}
+
+def get_locale():
+    language = session.get('language', 'pt')
+    print(f"Idioma selecionado: {language}")
+    return language
+
+babel = Babel()
+babel.init_app(app, locale_selector=get_locale)
+
+@app.context_processor
+def inject_get_locale():
+    return dict(get_locale=get_locale)
 
 # Função para simular a autenticação
 def simulate_authentication(email, password):
@@ -19,21 +45,6 @@ def simulate_authentication(email, password):
     else:
         return None
     
-    # user_id SERIAL PRIMARY KEY,  -- Automatically generates a sequential integer ID
-    # name VARCHAR(255) NOT NULL,
-    # email VARCHAR(255) UNIQUE NOT NULL,
-    # phone_number VARCHAR(15),
-    # password VARCHAR(255),
-    # role VARCHAR(50) DEFAULT 'customer',  -- Can be 'customer', 'admin', etc.
-    # created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    
-#simular criação de usuário
-# user = User(email='fabricio@fabricio.com', password='123', user_name='Fabricio', phone='1234567890')
-# user.save_db()
-
-# gestor = Manager(email='fabricio@gestor.com', password='123', user_name='Fabricio', phone='1234567890')
-# gestor.save_db()
-
 # Simular a autenticação do usuário (altere o email para testar diferentes usuários)
 current_user = simulate_authentication('fabricio@gestor.com', '123')  # Gerente
 # current_user = simulate_authentication('fabricio@fabricio.com', '123')  # Usuário comum
@@ -112,6 +123,21 @@ def get_complaints():
 
     return jsonify(complaints)
 
+@app.route('/settings', methods=['GET', 'POST'])
+def settings():
+    if request.method == 'POST':
+        selected_language = request.form.get('language')
+        print(f"Língua selecionada no formulário: {selected_language}")
+        session['language'] = selected_language
+        return redirect(url_for('home'))
+    return render_template('settings.html')
+
+
+@app.route('/set_language', methods=['POST'])
+def set_language():
+    language = request.form.get('language')
+    session['language'] = language
+    return redirect(url_for('home'))
+
 if __name__ == '__main__':
-    # Executar o aplicativo Flask em modo de depuração
     app.run(debug=True)
