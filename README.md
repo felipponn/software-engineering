@@ -29,7 +29,7 @@ Para rodar, basta estar na root e rodar o arquivo `main.py` (`pyhton3 web/main.p
 
 #### Como Traduzir
 
-Primeiro, precisamos puxar todos os textos que estão marcados no html para o arquivo `messages.pot` usando o comando `python3 -m babel.messages.frontend extract -F babel.cfg -o messages.pot .`.
+Primeiro, no diretório `web`, precisamos puxar todos os textos que estão marcados no html para o arquivo `messages.pot` usando o comando `python3 -m babel.messages.frontend extract -F babel.cfg -o messages.pot .`.
 
 Depois, precisamos traduzir os textos para o idioma desejado e salvar no arquivo `messages.po`. Por exemplo, para traduzir para o espanhol, usamos o comando `python3 -m babel.messages.frontend init -i messages.pot -d translations -l pt`
 
