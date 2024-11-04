@@ -163,12 +163,19 @@ def machine_profile(machine_id):
     
     profile, available_products, reviews_info = machine.get_profile()
     
+    print('profile')
+    print(profile)
+    print('available_products')
+    print(available_products)
+    print('reviews_info')
+    print(reviews_info)
+
     profile = {
-        'machine_id': profile[0],
-        'location': profile[1],
-        'status': profile[2],
-        'last_maintenance': profile[3].strftime('%Y-%m-%d') if profile[3] else 'N/A',
-        'installation_date': profile[4].strftime('%Y-%m-%d') if profile[4] else 'N/A'
+        'machine_id': profile['machine_id'],
+        'location': profile['location'],
+        'status': profile['status'],
+        'last_maintenance': profile['last_maintenance'].strftime('%Y-%m-%d') if profile['last_maintenance'] else 'N/A',
+        'installation_date': profile['installation_date'].strftime('%Y-%m-%d') if profile['installation_date'] else 'N/A'
     }
     
     available_products = [{'name': p[0], 'price': f"{p[1]:.2f}"} for p in available_products]
