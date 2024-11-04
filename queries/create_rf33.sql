@@ -29,3 +29,37 @@ CREATE TABLE User_Reports (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  -- When the report was created
     resolved_at TIMESTAMP  -- Nullable, to record when the issue was resolved
 );
+
+-- Products Table
+CREATE TABLE Products (
+    product_id SERIAL PRIMARY KEY,  -- Unique ID for each product
+    name VARCHAR(255) NOT NULL,  -- Product name
+    description TEXT,  -- Description of the product
+    price DECIMAL(10, 2) NOT NULL,  -- Price of the product
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Coffee_Machine_Products Table (Many-to-Many relationship)
+CREATE TABLE Coffee_Machine_Products (
+    machine_id INT NOT NULL REFERENCES Coffee_Machines(machine_id) ON DELETE CASCADE,
+    product_id INT NOT NULL REFERENCES Products(product_id) ON DELETE CASCADE,
+    quantity INT DEFAULT 0,
+    PRIMARY KEY (machine_id, product_id)
+);
+
+-- Reviews Table
+CREATE TABLE Reviews (
+    review_id SERIAL PRIMARY KEY,  -- Unique ID for each review
+    user_id INT NOT NULL REFERENCES Users(user_id) ON DELETE CASCADE,  -- Reference to the user who wrote the review
+    machine_id INT NOT NULL REFERENCES Coffee_Machines(machine_id) ON DELETE CASCADE,  -- Reference to the machine being reviewed
+    rating INT CHECK (rating BETWEEN 1 AND 5) NOT NULL,  -- Rating between 1 and 5
+    comment TEXT,  -- Optional text comment for the review
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP  -- When the review was created
+);
+
+CREATE TABLE User_Selected_Machines (
+    user_id INT NOT NULL REFERENCES Users(user_id) ON DELETE CASCADE,  -- Reference to the user who selected the machine
+    machine_id INT NOT NULL REFERENCES Coffee_Machines(machine_id) ON DELETE CASCADE,  -- Reference to the selected machine
+    selected_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  -- Timestamp of when the machine was selected
+    PRIMARY KEY (user_id, machine_id)
+);
