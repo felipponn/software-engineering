@@ -5,7 +5,7 @@
     <title>{{ _('Selecionar Máquina') }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/select_machine.css') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-p6imS2j1mV3nLMvI2p3mChua0FqZwTZnChVkj9EYyj3gS1lBNuexUwL1jdgoM2I2E2Cj6J8rfN1YxR2+ehmfhw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
     <div class="container select-machine-container">
@@ -18,8 +18,10 @@
             {% for machine_id in machine_ids %}
             <div class="machine-card">
                 <i class="fas fa-store fa-3x"></i>
-                <p>Máquina ID: {{ machine_id[0] }}</p>
-                <button onclick="selectMachine('{{ machine_id[0] }}')">{{ _('Selecionar') }}</button>
+                <p>{{ _('Máquina ID') }}: {{ machine_id }}</p>
+                <button onclick="selectMachine('{{ machine_id }}')">
+                    <i class="fas fa-arrow-right"></i> {{ _('Selecionar') }}
+                </button>
             </div>
             {% endfor %}
         </div>
