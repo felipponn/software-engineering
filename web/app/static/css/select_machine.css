@@ -59,7 +59,6 @@ body {
 }
 
 .machine-card button {
-    padding: 10px 20px;
     background-color: #1877f2;
     color: #fff;
     border: none;
@@ -67,6 +66,7 @@ body {
     cursor: pointer;
     font-size: 16px;
     transition: background-color 0.3s ease;
+    text-align: center;
 }
 
 .machine-card button:hover {
