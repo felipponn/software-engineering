@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="{{ get_locale() }}">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ _('Perfil da Máquina') }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/machine_profile.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container machine-profile-container">
+        <a href="{{ url_for('select_machine') }}" class="back-button">{{ _('Voltar') }}</a>
+        <h2>{{ _('Perfil da Máquina') }}</h2>
+        
+        <div class="profile-section">
+            <h3>{{ _('Informações Gerais') }}</h3>
+            <p><strong>{{ _('ID da Máquina:') }}</strong> {{ profile.machine_id }}</p>
+            <p><strong>{{ _('Localização:') }}</strong> {{ profile.location }}</p>
+            <p><strong>{{ _('Status:') }}</strong> {{ profile.status }}</p>
+            <p><strong>{{ _('Última Manutenção:') }}</strong> {{ profile.last_maintenance }}</p>
+            <p><strong>{{ _('Data de Instalação:') }}</strong> {{ profile.installation_date }}</p>
+        </div>
+        
+        <div class="products-section">
+            <h3>{{ _('Produtos Disponíveis') }}</h3>
+            <ul>
+                {% for product in available_products %}
+                <li>{{ product.name }} - R$ {{ product.price }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        
+        <div class="reviews-section">
+            <h3>{{ _('Avaliações') }}</h3>
+            <p><strong>{{ _('Média das Avaliações:') }}</strong> {{ reviews_info.mean_rating }}</p>
+            <p><strong>{{ _('Total de Avaliações:') }}</strong> {{ reviews_info.count_reviews }}</p>
+            <p><strong>{{ _('Avaliações com Comentários:') }}</strong> {{ reviews_info.num_filtered_reviews }}</p>
+            
+            {% if reviews_info.reviews %}
+            <h4>{{ _('Comentários') }}</h4>
+            <ul>
+                {% for review in reviews_info.reviews %}
+                <li>
+                    <p><strong>{{ review.user_name }}</strong> ({{ review.rating }}/5)</p>
+                    <p>{{ review.comment }}</p>
+                    <p><em>{{ review.created_at }}</em></p>
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p>{{ _('Nenhum comentário disponível.') }}</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
