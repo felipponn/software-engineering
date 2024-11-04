@@ -1,60 +1,83 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="{{ get_locale() }}">
 <head>
     <meta charset="UTF-8">
-    <title>Painel do Gestor - Reclamações</title>
+    <title>{{ _('Painel do Gestor - Reclamações') }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/report_styles.css') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-..." crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" crossorigin="anonymous">
 </head>
 <body>
     <div class="container">
-        <h2>Painel do Gestor</h2>
+        <a href="{{ url_for('home') }}" class="back-link"> ⬅ </a>
+        <h2>{{ _('Painel do Gestor') }}</h2>
+
         <button id="toggleFilters" class="toggle-filters">
-            <i class="fas fa-filter"></i> Mostrar Filtros
+            <i class="fas fa-filter"></i> {{ _('Mostrar Filtros') }}
         </button>
 
         <div class="filters hidden" id="filtersSection">
-            <label for="filterTarget">Alvo da Reclamação:</label>
+            <label for="filterTarget">{{ _('Alvo da Reclamação') }}:</label>
             <select id="filterTarget">
-                <option value="all">Todos</option>
-                <option value="app">Aplicativo</option>
-                <option value="machine">Máquina</option>
+                <option value="all">{{ _('Todos') }}</option>
+                <option value="app">{{ _('Aplicativo') }}</option>
+                <option value="machine">{{ _('Máquina') }}</option>
             </select>
         
             <div id="filterMachineContainer" style="display: none;">
-                <label for="filterMachine">Número da Máquina:</label>
+                <label for="filterMachine">{{ _('Número da Máquina') }}:</label>
                 <select id="filterMachine">
-                    <option value="all">Todas</option>
+                    <option value="all">{{ _('Todas') }}</option>
                     {% for machine_id in machine_ids %}
                         <option value="{{ machine_id }}">{{ machine_id }}</option>
                     {% endfor %}
                 </select>
             </div>
         
-            <label for="filterType">Tipo de Reclamação:</label>
+            <label for="filterType">{{ _('Tipo de Reclamação') }}:</label>
             <select id="filterType">
-                <option value="all">Todos</option>
-                <option value="bug">Falha</option>
-                <option value="financial">Financeiro</option>
-                <option value="suggestion">Sugestão</option>
-                <option value="other">Outro</option>
+                <option value="all">{{ _('Todos') }}</option>
+                <option value="bug">{{ _('Falha') }}</option>
+                <option value="financial">{{ _('Financeiro') }}</option>
+                <option value="suggestion">{{ _('Sugestão') }}</option>
+                <option value="other">{{ _('Outro') }}</option>
             </select>
         
-            <label for="filterStatus">Status:</label>
+            <label for="filterStatus">{{ _('Status') }}:</label>
             <select id="filterStatus">
-                <option value="all">Todos</option>
-                <option value="resolved">Resolvido</option>
-                <option value="unresolved">Não Resolvido</option>
+                <option value="all">{{ _('Todos') }}</option>
+                <option value="resolved">{{ _('Resolvido') }}</option>
+                <option value="unresolved">{{ _('Não Resolvido') }}</option>
             </select>
         
-            <button id="btnFilter">Filtrar</button>
-            <button id="btnReset">Resetar Filtros</button>
+            <button id="btnFilter">{{ _('Filtrar') }}</button>
+            <button id="btnReset">{{ _('Resetar Filtros') }}</button>
         </div>
         
         <div id="complaintsContainer" class="complaints-container">
         </div>
     </div>
+
+    <script>
+        const translations = {
+            complaint: "{{ _('Reclamação') }}",
+            user_id: "{{ _('Usuário ID') }}",
+            machine_id: "{{ _('Máquina ID') }}",
+            target: "{{ _('Alvo') }}",
+            type: "{{ _('Tipo') }}",
+            description: "{{ _('Descrição') }}",
+            status: "{{ _('Status') }}",
+            created_at: "{{ _('Criado em') }}",
+            resolved_at: "{{ _('Resolvido em') }}",
+            loading_complaints: "{{ _('Carregando reclamações...') }}",
+            error_fetching_complaints: "{{ _('Ocorreu um erro ao buscar as reclamações.') }}",
+            no_complaints_found: "{{ _('Nenhuma reclamação encontrada.') }}",
+            show_filters: "{{ _('Mostrar Filtros') }}",
+            hide_filters: "{{ _('Esconder Filtros') }}",
+            filter: "{{ _('Filtrar') }}",
+            reset_filters: "{{ _('Resetar Filtros') }}"
+        };
+    </script>
 
     <script src="{{ url_for('static', filename='js/report_script.js') }}"></script>
 </body>

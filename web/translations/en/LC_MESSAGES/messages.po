@@ -1,0 +1,218 @@
+# English translations for PROJECT.
+# Copyright (C) 2024 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2024-11-03 12:48-0300\n"
+"PO-Revision-Date: 2024-11-03 12:49-0300\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.16.0\n"
+
+#: app/templates/home.html:5
+msgid "Página Inicial"
+msgstr "Home Page"
+
+#: app/templates/home.html:12 app/templates/settings.html:5
+#: app/templates/settings.html:12
+msgid "Configurações"
+msgstr "Settings"
+
+#: app/templates/home.html:16
+msgid "Sistema de Reclamações"
+msgstr "Complaint System"
+
+#: app/templates/home.html:20 app/templates/report.html:13
+msgid "Enviar Reclamação"
+msgstr "Submit Complaint"
+
+#: app/templates/home.html:25 app/templates/report_manager.html:13
+msgid "Painel do Gestor"
+msgstr "Manager Dashboard"
+
+#: app/templates/report.html:5
+msgid "Envio de Reclamações"
+msgstr "Complaint Submission"
+
+#: app/templates/report.html:17
+msgid "Relatório enviado com sucesso!"
+msgstr "Report successfully submitted!"
+
+#: app/templates/report.html:24
+msgid "Reclamação sobre"
+msgstr "Complaint about"
+
+#: app/templates/report.html:26 app/templates/report_manager.html:23
+msgid "Aplicativo"
+msgstr "Application"
+
+#: app/templates/report.html:27 app/templates.report_manager.html:24
+msgid "Máquina"
+msgstr "Machine"
+
+#: app/templates/report.html:31
+msgid "Selecione o Número da Máquina"
+msgstr "Select Machine Number"
+
+#: app/templates/report.html:33
+msgid "Selecione a máquina"
+msgstr "Select the machine"
+
+#: app/templates/report.html:40 app/templates/report_manager.html:37
+msgid "Tipo de Reclamação"
+msgstr "Type of Complaint"
+
+#: app/templates/report.html:42
+msgid "Selecione uma opção"
+msgstr "Select an option"
+
+#: app/templates/report.html:43 app/templates/report_manager.html:40
+msgid "Falha"
+msgstr "Failure"
+
+#: app/templates/report.html:44 app.templates/report_manager.html:41
+msgid "Financeiro"
+msgstr "Financial"
+
+#: app/templates/report.html:45 app/templates/report_manager.html:42
+msgid "Sugestão"
+msgstr "Suggestion"
+
+#: app/templates/report.html:46 app/templates/report_manager.html:43
+msgid "Outro"
+msgstr "Other"
+
+#: app/templates/report.html:49
+msgid "Mensagem"
+msgstr "Message"
+
+#: app/templates/report.html:50
+msgid "Descreva detalhadamente o problema..."
+msgstr "Describe the problem in detail..."
+
+#: app/templates/report.html:52
+msgid "Enviar"
+msgstr "Submit"
+
+#: app/templates/report_manager.html:5
+msgid "Painel do Gestor - Reclamações"
+msgstr "Manager Dashboard - Complaints"
+
+#: app/templates/report_manager.html:16 app/templates/report_manager.html:75
+msgid "Mostrar Filtros"
+msgstr "Show Filters"
+
+#: app/templates/report_manager.html:20
+msgid "Alvo da Reclamação"
+msgstr "Complaint Target"
+
+#: app/templates/report_manager.html:22 app.templates/report_manager.html:39
+#: app/templates/report_manager.html:48
+msgid "Todos"
+msgstr "All"
+
+#: app/templates/report_manager.html:28
+msgid "Número da Máquina"
+msgstr "Machine Number"
+
+#: app/templates/report_manager.html:30
+msgid "Todas"
+msgstr "All"
+
+#: app/templates/report_manager.html:46 app/templates/report_manager.html:69
+msgid "Status"
+msgstr "Status"
+
+#: app/templates/report_manager.html:49
+msgid "Resolvido"
+msgstr "Resolved"
+
+#: app/templates/report_manager.html:50
+msgid "Não Resolvido"
+msgstr "Unresolved"
+
+#: app/templates/report_manager.html:53 app.templates/report_manager.html:77
+msgid "Filtrar"
+msgstr "Filter"
+
+#: app/templates/report_manager.html:54 app.templates/report_manager.html:78
+msgid "Resetar Filtros"
+msgstr "Reset Filters"
+
+#: app/templates/report_manager.html:63
+msgid "Reclamação"
+msgstr "Complaint"
+
+#: app/templates/report_manager.html:64
+msgid "Usuário ID"
+msgstr "User ID"
+
+#: app/templates/report_manager.html:65
+msgid "Máquina ID"
+msgstr "Machine ID"
+
+#: app/templates/report_manager.html:66
+msgid "Alvo"
+msgstr "Target"
+
+#: app/templates/report_manager.html:67
+msgid "Tipo"
+msgstr "Type"
+
+#: app/templates/report_manager.html:68
+msgid "Descrição"
+msgstr "Description"
+
+#: app/templates/report_manager.html:70
+msgid "Criado em"
+msgstr "Created on"
+
+#: app/templates/report_manager.html:71
+msgid "Resolvido em"
+msgstr "Resolved on"
+
+#: app/templates/report_manager.html:72
+msgid "Carregando reclamações..."
+msgstr "Loading complaints..."
+
+#: app/templates/report_manager.html:73
+msgid "Ocorreu um erro ao buscar as reclamações."
+msgstr "An error occurred while fetching complaints."
+
+#: app/templates/report_manager.html:74
+msgid "Nenhuma reclamação encontrada."
+msgstr "No complaints found."
+
+#: app/templates/report_manager.html:76
+msgid "Esconder Filtros"
+msgstr "Hide Filters"
+
+#: app/templates/settings.html:14
+msgid "Selecione o Idioma"
+msgstr "Select Language"
+
+#: app.templates/settings.html:16
+msgid "Português"
+msgstr "Portuguese"
+
+#: app.templates/settings.html:17
+msgid "Inglês"
+msgstr "English"
+
+#: app.templates/settings.html:18
+msgid "Espanhol"
+msgstr "Spanish"
+
+#: app.templates/settings.html:20
+msgid "Salvar"
+msgstr "Save"
+

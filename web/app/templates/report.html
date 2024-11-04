@@ -1,54 +1,55 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="{{ get_locale() }}">
 <head>
     <meta charset="UTF-8">
-    <title>Envio de Reclamações</title>
+    <title>{{ _('Envio de Reclamações') }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/report_styles.css') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-..." crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" crossorigin="anonymous">
 </head>
 <body>
     <div class="container">
-        <h2>Enviar Reclamação</h2>
+        <a href="{{ url_for('home') }}" class="back-link"> ⬅ </a>
+        <h2>{{ _('Enviar Reclamação') }}</h2>
 
         <!-- Display success or error message -->
         {% if success %}
-            <div class="successMessage">Relatório enviado com sucesso!</div>
+            <div class="successMessage">{{ _('Relatório enviado com sucesso!') }}</div>
         {% elif error %}
             <div class="errorMessage">{{ error }}</div>
         {% endif %}
 
         <!-- Complaint Form -->
         <form id="complaintForm" action="{{ url_for('report') }}" method="post">
-            <label for="destination">Reclamação sobre: <span class="required">*</span></label>
+            <label for="destination">{{ _('Reclamação sobre') }}: <span class="required">*</span></label>
             <div class="destinationType">
-                <label><input type="radio" name="destination" value="app" required> Aplicativo</label>
-                <label><input type="radio" name="destination" value="machine"> Máquina</label>
+                <label><input type="radio" name="destination" value="app" required> {{ _('Aplicativo') }}</label>
+                <label><input type="radio" name="destination" value="machine"> {{ _('Máquina') }}</label>
             </div>
 
             <div id="machineInfo" style="display: none;">
-                <label for="machineNumber">Selecione o Número da Máquina: <span class="required">*</span></label>
+                <label for="machineNumber">{{ _('Selecione o Número da Máquina') }}: <span class="required">*</span></label>
                 <select id="machineNumber" name="machineNumber">
-                    <option value="" disabled selected>Selecione a máquina</option>
+                    <option value="" disabled selected>{{ _('Selecione a máquina') }}</option>
                     {% for machine_id in machine_ids %}
                         <option value="{{ machine_id }}">{{ machine_id }}</option>
                     {% endfor %}
                 </select>
             </div>
 
-            <label for="complaintType">Tipo de Reclamação: <span class="required">*</span></label>
+            <label for="complaintType">{{ _('Tipo de Reclamação') }}: <span class="required">*</span></label>
             <select id="complaintType" name="complaintType" required>
-                <option value="" disabled selected>Selecione uma opção</option>
-                <option value="bug">Falha</option>
-                <option value="financial">Financeiro</option>
-                <option value="suggestion">Sugestão</option>
-                <option value="other">Outro</option>
+                <option value="" disabled selected>{{ _('Selecione uma opção') }}</option>
+                <option value="bug">{{ _('Falha') }}</option>
+                <option value="financial">{{ _('Financeiro') }}</option>
+                <option value="suggestion">{{ _('Sugestão') }}</option>
+                <option value="other">{{ _('Outro') }}</option>
             </select>
 
-            <label for="message">Mensagem: <span class="required">*</span></label>
-            <textarea id="message" name="message" placeholder="Descreva detalhadamente o problema..." required></textarea>
+            <label for="message">{{ _('Mensagem') }}: <span class="required">*</span></label>
+            <textarea id="message" name="message" placeholder="{{ _('Descreva detalhadamente o problema...') }}" required></textarea>
 
-            <button type="submit">Enviar</button>
+            <button type="submit">{{ _('Enviar') }}</button>
         </form>
     </div>
     <script src="{{ url_for('static', filename='js/report_script.js') }}"></script>

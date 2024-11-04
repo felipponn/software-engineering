@@ -61,6 +61,21 @@ textarea {
     min-height: 100px;
 }
 
+.back-link {
+    display: inline-block;
+    margin-bottom: 5px;
+    padding: 5px 7px;
+    background-color: #007BFF;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.back-link:hover {
+    background-color: #0056b3;
+}
+
 /* Button Styles */
 button {
     margin-top: 20px;
@@ -230,6 +245,74 @@ button#btnReset:hover {
     color: #166fe5;
 }
 
+/* Estilos para a Página Inicial */
+.home-container {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.home-container h2 {
+    color: #1877f2;
+    margin-bottom: 30px;
+    font-size: 24px;
+}
+
+.home-options {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+}
+
+.home-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80%;
+    max-width: 300px;
+    padding: 15px;
+    background-color: #1877f2;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.home-button:hover {
+    background-color: #166fe5;
+}
+
+.home-button i {
+    margin-right: 10px;
+    font-size: 20px;
+}
+
+@media (max-width: 600px) {
+    .home-container h2 {
+        font-size: 20px;
+    }
+    .home-button {
+        font-size: 16px;
+        padding: 12px;
+    }
+}
+
+.settings-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: #1877f2;
+    font-size: 24px;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.settings-button:hover {
+    color: #166fe5;
+}
+
 /* Responsive Styles */
 @media (max-width: 400px) {
     .container {
@@ -275,3 +358,5 @@ button#btnReset:hover {
         right: 15px;
     }
 }
+
+
