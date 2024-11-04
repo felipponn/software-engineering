@@ -15,7 +15,7 @@ class TestMachine(unittest.TestCase):
     def test_get_machines(self, mock_execute_query_fetchall):
         # Mocking the database return value for machine IDs
         mock_execute_query_fetchall.return_value = [
-            (1,), (2,), (3,)
+            1, 2, 3
         ]
 
         # Call the static method to fetch machines
@@ -26,9 +26,9 @@ class TestMachine(unittest.TestCase):
         self.assertEqual(len(machines), 3)
 
         # Assert the values of the machine IDs
-        self.assertEqual(machines[0][0], 1)
-        self.assertEqual(machines[1][0], 2)
-        self.assertEqual(machines[2][0], 3)
+        self.assertEqual(machines[0], 1)
+        self.assertEqual(machines[1], 2)
+        self.assertEqual(machines[2], 3)
 
     @patch('backend.machine.execute_query_fetchall')
     def test_get_machines_no_data(self, mock_execute_query_fetchall):
