@@ -115,7 +115,7 @@ class Machine:
         total_rating = sum([review[2] for review in reviews])
         mean_rating = total_rating / len(reviews)
         count_reviews = len(reviews)
-        filtered_reviews = [review for review in reviews if review[3].strip() != '']
+        filtered_reviews = [review for review in reviews if review[3] and review[3].strip() != '']
         num_filtered_reviews = len(filtered_reviews)
 
         processed_reviews = []
