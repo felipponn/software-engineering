@@ -1,20 +1,15 @@
-/* app/static/css/machine_profile.css */
-
-/* Reset Styles */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* Global Styles */
 body {
     font-family: 'Arial', sans-serif;
     background-color: #f0f2f5;
     color: #333;
 }
 
-/* Container */
 .container {
     width: 100%;
     max-width: 900px;
@@ -26,7 +21,6 @@ body {
     position: relative;
 }
 
-/* Back Button */
 .back-button {
     position: absolute;
     top: 20px;
@@ -47,12 +41,11 @@ body {
     background-color: #166fe5;
 }
 
-/* Profile Header */
 .profile-header {
     display: flex;
     align-items: center;
     gap: 20px;
-    margin-top: 60px; /* Espaço para o botão voltar */
+    margin-top: 60px; 
     padding-bottom: 20px;
     border-bottom: 1px solid #ddd;
 }
@@ -74,7 +67,6 @@ body {
     color: #555;
 }
 
-/* Informações Gerais */
 .profile-section {
     margin-top: 20px;
 }
@@ -117,12 +109,10 @@ body {
     color: #333;
 }
 
-/* Status Item */
 .status-item i {
     font-size: 16px;
 }
 
-/* Produtos Disponíveis */
 .products-section {
     margin-top: 30px;
 }
@@ -169,7 +159,6 @@ body {
     color: #555;
 }
 
-/* Mensagem de Nenhum Produto */
 .no-products-message {
     font-size: 16px;
     color: #555;
@@ -177,7 +166,6 @@ body {
     margin-top: 10px;
 }
 
-/* Avaliações */
 .reviews-section {
     margin-top: 30px;
 }
@@ -226,7 +214,6 @@ body {
     color: #555;
 }
 
-/* Avaliações Detalhadas */
 .detailed-reviews .review-card {
     background-color: #f8f9fa;
     border-radius: 12px;
@@ -290,14 +277,12 @@ body {
     line-height: 1.4;
 }
 
-/* Nenhum Comentário */
 .reviews-section p {
     font-size: 16px;
     color: #555;
     text-align: center;
 }
 
-/* Responsividade */
 @media (max-width: 768px) {
     .profile-header {
         flex-direction: column;
