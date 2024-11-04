@@ -43,7 +43,7 @@ class Machine:
                 FROM Coffee_Machines;
                 """
         machines_data = execute_query_fetchall(query)
-        
+        machines_data = [id[0] for id in machines_data]
         return machines_data
 
     def get_profile(self):
