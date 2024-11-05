@@ -7,6 +7,7 @@ from decimal import Decimal
 import unittest
 from unittest.mock import patch, MagicMock
 from datetime import datetime
+from utils.connect_db import execute_query, execute_query_fetchone, execute_query_fetchall
 from backend.machine import Machine
 
 class TestMachine(unittest.TestCase):
@@ -29,7 +30,7 @@ class TestMachine(unittest.TestCase):
         self.assertEqual(machines[0], 1)
         self.assertEqual(machines[1], 2)
         self.assertEqual(machines[2], 3)
-
+        
     @patch('backend.machine.execute_query_fetchall')
     def test_get_machines_no_data(self, mock_execute_query_fetchall):
         # Simulate no machines in the database
@@ -58,15 +59,15 @@ class TestMachine(unittest.TestCase):
         profile = machine.get_profile()
 
         # Assert that the profile matches the expected data
-        self.assertEqual(profile[0], 1)
-        self.assertEqual(profile[1], 'Building A - Lobby')
-        self.assertEqual(profile[2], 'operational')
-        self.assertEqual(profile[3], datetime(2024, 9, 1))
-        self.assertEqual(profile[4], datetime(2023, 1, 15))
+        self.assertEqual(profile[0]['machine_id'], 1)
+        self.assertEqual(profile[0]['location'], 'Building A - Lobby')
+        self.assertEqual(profile[0]['status'], 'operational')
+        self.assertEqual(profile[0]['last_maintenance'], datetime(2024, 9, 1))
+        self.assertEqual(profile[0]['installation_date'], datetime(2023, 1, 15))
 
     @patch('backend.machine.execute_query_fetchone')
     @patch('backend.machine.execute_query_fetchall')
-    def test_get_profile(self, mock_execute_query_fetchall, mock_execute_query_fetchone):
+    def test_get_profile_with_products_and_reviews(self, mock_execute_query_fetchall, mock_execute_query_fetchone):
         # Mock the machine profile with service and installation dates
         mock_execute_query_fetchone.return_value = (1, 'Building A - Lobby', 'operational', datetime(2024, 9, 1).date(), datetime(2023, 1, 15).date())
         mock_execute_query_fetchall.side_effect = [
@@ -82,7 +83,13 @@ class TestMachine(unittest.TestCase):
         profile, available_products, reviews_info = machine.get_profile()
 
         # Adjust the expected profile output to match the mocked return value
-        expected_profile = (1, 'Building A - Lobby', 'operational', datetime(2024, 9, 1).date(), datetime(2023, 1, 15).date())
+        expected_profile = {
+            'machine_id': 1,
+            'location': 'Building A - Lobby',
+            'status': 'operational',
+            'last_maintenance': datetime(2024, 9, 1).date(),
+            'installation_date': datetime(2023, 1, 15).date()
+        }
         
         # Check if the profile matches
         self.assertEqual(profile, expected_profile)
@@ -90,11 +97,9 @@ class TestMachine(unittest.TestCase):
         self.assertEqual(available_products, [('Espresso', Decimal('2.50')), ('Cappuccino', Decimal('3.00'))])
         
         # Check if reviews_info is processed correctly
-        self.assertEqual(reviews_info['mean_rating'], 4.0)  # Mean of 4, 5, and 3
+        self.assertEqual(reviews_info['mean_rating'], 4)  # Mean of 3, 4 e 5
         self.assertEqual(reviews_info['count_reviews'], 3)  # Total reviews
         self.assertEqual(reviews_info['num_filtered_reviews'], 2)  # Reviews with comments
-
-
 
     def test_post_process_reviews(self):
         # Prepare mock reviews
@@ -109,7 +114,7 @@ class TestMachine(unittest.TestCase):
         self.assertEqual(processed_data['mean_rating'], 4.0)  # Mean of 4, 5, and 3
         self.assertEqual(processed_data['count_reviews'], 3)  # Total reviews
         self.assertEqual(processed_data['num_filtered_reviews'], 2)  # Reviews with comments
-        self.assertEqual(len(processed_data['filtered_reviews']), 2)  # Filtered reviews count
+        self.assertEqual(len(processed_data['reviews']), 2)  # Filtered reviews count
 
 if __name__ == '__main__':
     unittest.main()

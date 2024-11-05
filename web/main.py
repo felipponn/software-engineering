@@ -2,6 +2,9 @@ import sys
 import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
+from decimal import Decimal
+from datetime import datetime
+
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify
 from flask_babel import Babel, gettext as _
 
@@ -147,6 +150,37 @@ def set_language():
     language = request.form.get('language')
     session['language'] = language
     return redirect(url_for('home'))
+
+@app.route('/select_machine')
+def select_machine():
+    machine_ids = Machine.get_machines()
+    print(machine_ids)
+    return render_template('select_machine.html', machine_ids=machine_ids)
+
+@app.route('/machine_profile/<int:machine_id>')
+def machine_profile(machine_id):
+    machine = Machine(machine_id=machine_id)
+    
+    profile, available_products, reviews_info = machine.get_profile()
+    
+    print('profile')
+    print(profile)
+    print('available_products')
+    print(available_products)
+    print('reviews_info')
+    print(reviews_info)
+
+    profile = {
+        'machine_id': profile['machine_id'],
+        'location': profile['location'],
+        'status': profile['status'],
+        'last_maintenance': profile['last_maintenance'].strftime('%Y-%m-%d') if profile['last_maintenance'] else 'N/A',
+        'installation_date': profile['installation_date'].strftime('%Y-%m-%d') if profile['installation_date'] else 'N/A'
+    }
+    
+    available_products = [{'name': p[0], 'price': f"{p[1]:.2f}"} for p in available_products]
+    
+    return render_template('machine_profile.html', profile=profile, available_products=available_products, reviews_info=reviews_info)
 
 if __name__ == '__main__':
     app.run(debug=True)

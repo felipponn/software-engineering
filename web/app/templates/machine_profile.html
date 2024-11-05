@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="{{ get_locale() }}">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ _('Perfil da Máquina') }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/machine_profile.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container machine-profile-container">
+        <a href="{{ url_for('select_machine') }}" class="back-button">
+            <i class="fas fa-arrow-left"></i> {{ _('Voltar') }}
+        </a>
+        
+        <div class="profile-header">
+            <div class="profile-image">
+                <i class="fas fa-store fa-5x"></i>
+            </div>
+            <div class="profile-info">
+                <h2>{{ _('Máquina ID:') }} {{ profile.machine_id }}</h2>
+                <p><i class="fas fa-map-marker-alt"></i> {{ profile.location }}</p>
+            </div>
+        </div>
+        
+        <div class="profile-section">
+            <h3>{{ _('Informações Gerais') }}</h3>
+            <div class="info-grid">
+                <div class="info-item">
+                    <i class="fas fa-wrench"></i>
+                    <div>
+                        <strong>{{ _('Última Manutenção') }}:</strong>
+                        <span>{{ profile.last_maintenance }}</span>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-calendar-alt"></i>
+                    <div>
+                        <strong>{{ _('Data de Instalação') }}:</strong>
+                        <span>{{ profile.installation_date }}</span>
+                    </div>
+                </div>
+                <div class="info-item status-item">
+                    <i class="fas fa-circle {{ 'status-operational' if profile.status == 'operational' else 'status-down' }}"></i>
+                    <div>
+                        <strong>{{ _('Status') }}:</strong>
+                        <span>{{ _(profile.status.capitalize()) }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="products-section">
+            <h3>{{ _('Produtos Disponíveis') }}</h3>
+            {% if available_products %}
+            <div class="products-grid">
+                {% for product in available_products %}
+                <div class="product-card">
+                    <i class="fas fa-coffee fa-2x"></i>
+                    <p>{{ product.name }}</p>
+                    <span>R$ {{ product.price }}</span>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="no-products-message">{{ _('Nenhum produto disponível no momento.') }}</p>
+            {% endif %}
+        </div>
+        
+        <div class="reviews-section">
+            <h3>{{ _('Avaliações') }}</h3>
+            <div class="reviews-summary">
+                <div class="average-rating">
+                    <span>{{ reviews_info.mean_rating }}</span>
+                    <div class="stars">
+                        {% for i in range(1, 6) %}
+                            {% if i <= reviews_info.mean_rating %}
+                                <i class="fas fa-star"></i>
+                            {% elif i - reviews_info.mean_rating < 1 %}
+                                <i class="fas fa-star-half-stroke"></i>
+                            {% else %}
+                                <i class="far fa-star"></i>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="ratings-count">
+                    <p>{{ _('Total de Avaliações') }}: {{ reviews_info.count_reviews }}</p>
+                    <p>{{ _('Avaliações com Comentários') }}: {{ reviews_info.num_filtered_reviews }}</p>
+                </div>
+            </div>
+            
+            {% if reviews_info.reviews %}
+            <div class="detailed-reviews">
+                {% for review in reviews_info.reviews %}
+                <div class="review-card">
+                    <div class="review-header">
+                        <i class="fas fa-user-circle fa-2x"></i>
+                        <div class="review-user-info">
+                            <strong>{{ review.user_name }}</strong>
+                            <span>{{ review.created_at }}</span>
+                        </div>
+                        <div class="review-rating">
+                            <span class="user-rating">{{ review.rating }}</span>
+                            {% for i in range(1, 6) %}
+                                {% if i <= review.rating %}
+                                    <i class="fas fa-star"></i>
+                                {% else %}
+                                    <i class="far fa-star"></i>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <p>{{ review.comment }}</p>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p>{{ _('Nenhum comentário disponível.') }}</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
