@@ -97,7 +97,7 @@ class TestMachine(unittest.TestCase):
         self.assertEqual(available_products, [('Espresso', Decimal('2.50')), ('Cappuccino', Decimal('3.00'))])
         
         # Check if reviews_info is processed correctly
-        self.assertEqual(reviews_info['mean_rating'], 4)  # Mean of 5
+        self.assertEqual(reviews_info['mean_rating'], 4)  # Mean of 3, 4 e 5
         self.assertEqual(reviews_info['count_reviews'], 3)  # Total reviews
         self.assertEqual(reviews_info['num_filtered_reviews'], 2)  # Reviews with comments
 
