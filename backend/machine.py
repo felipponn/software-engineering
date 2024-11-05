@@ -87,7 +87,6 @@ class Machine:
             'installation_date': machine_profile[4]
         }
 
-        # Disponível para template
         return profile, available_products, reviews_info
     
 
