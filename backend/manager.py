@@ -29,8 +29,8 @@ class Manager(User):
         Fetches all reported issues from the database based on optional filters for issue, machine, type, and description.
         Returns a list of dictionaries representing the issues.
     """
-    def __init__(self, user_name: str, password: str, email: str, phone: str, user_id=None):
-        super().__init__(user_name, password, email, phone, user_id)
+    def __init__(self, user_name: str, password: str, email: str, phone: str, user_id=None, favorite_machines=[]):
+        super().__init__(user_name, password, email, phone, user_id, favorite_machines)
 
     def save_db(self):
         """
@@ -80,7 +80,16 @@ class Manager(User):
             if correct_password == password:
                 print(f"User {user_name} successfully logged in!")
                 # Creates and returns a User object if authentication is successful
-                user = Manager(user_name, password, email, phone, user_id=user_id)
+
+                favorites_query = """
+                                 SELECT machine_id
+                                 FROM User_Selected_Machines
+                                 WHERE user_id = %s;
+                                 """
+                favorite_machines = execute_query_fetchall(favorites_query, (user_id,))
+                favorite_machines = [row[0] for row in favorite_machines] if favorite_machines else []
+
+                user = Manager(user_name, password, email, phone, user_id=user_id, favorite_machines=favorite_machines)
                 return user
             
             else:
