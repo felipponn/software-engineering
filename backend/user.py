@@ -138,6 +138,37 @@ class User:
         except Exception as e:
             print(f"Error adding favorite: {e}")
             return False
+        
+    def remove_favorite(self, machine_id):
+        """
+        Remove a machine from the user's favorites.
+
+        Parameters:
+        ----------
+        machine_id : int
+            The ID of the machine to be removed from favorites.
+
+        Returns:
+        --------
+        bool
+            Returns True if the operation is successful, False otherwise.
+        """
+        if machine_id not in self.favorite_machines:
+            print("Machine not in favorites.")
+            return False
+
+        query = """
+                DELETE FROM User_Selected_Machines
+                WHERE user_id = %s AND machine_id = %s;
+                """
+        try:
+            execute_query(query, (self.user_id, machine_id))
+            self.favorite_machines.remove(machine_id)
+            print("Machine removed from favorites successfully.")
+            return True
+        except Exception as e:
+            print(f"Error removing favorite: {e}")
+            return False
 
     def report(self, target, type, machine_id=None, message=None):
         """
