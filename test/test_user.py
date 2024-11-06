@@ -35,11 +35,14 @@ class TestUser(unittest.TestCase):
         mock_fetchone.assert_called_once_with(expected_query, 
             ('test_name', 'test_email@example.com', '1234567890', 'test_password'), True)
 
-
     @patch('backend.user.execute_query_fetchone')
-    def test_authenticate_success(self, mock_fetchone):
-        # Setup the mock
+    @patch('backend.user.execute_query_fetchall')
+    def test_authenticate_success(self, mock_fetchall, mock_fetchone):
+        # Setup the mock for user data
         mock_fetchone.return_value = ['mock-user-id', 'test_name', 'test_email@example.com', 'hashed_password', '1234567890']
+        
+        # Setup the mock for favorite machines
+        mock_fetchall.return_value = [(1,), (2,)]
 
         # Call the authenticate method
         user = User.authenticate('test_email@example.com', 'hashed_password')
@@ -47,6 +50,9 @@ class TestUser(unittest.TestCase):
         # Assert a User object is returned
         self.assertIsInstance(user, User)
         self.assertEqual(user.email, 'test_email@example.com')
+        self.assertIn(1, user.favorite_machines)
+        self.assertIn(2, user.favorite_machines)
+    
 
     @patch('backend.user.execute_query_fetchone')
     def test_authenticate_fail_wrong_password(self, mock_fetchone):
@@ -75,6 +81,43 @@ class TestUser(unittest.TestCase):
                 """,
             ('mock-user-id', 'mock-machine-id', 'Machine', 'Broken Machine', 'Machine not working.')
         )
+
+    def setUp(self):
+        self.user = User('test_name', 'test_password', 'test_email@example.com', '1234567890', user_id='mock-user-id', favorite_machines=[1])
+
+    @patch('backend.user.execute_query', return_value=None) 
+    def test_add_favorite_local(self, mock_execute_query):
+        machine_id = 2
+        result = self.user.add_favorite(machine_id)
+
+        self.assertTrue(result)
+        self.assertIn(machine_id, self.user.favorite_machines)
+
+    @patch('backend.user.execute_query', return_value=None) 
+    def test_add_favorite_already_exists(self, mock_execute_query):
+        machine_id = 1
+        result = self.user.add_favorite(machine_id)
+
+        self.assertFalse(result)
+
+        self.assertEqual(self.user.favorite_machines.count(machine_id), 1)
+
+    @patch('backend.user.execute_query', return_value=None)
+    def test_remove_favorite_local(self, mock_execute_query):
+        machine_id = 1
+        result = self.user.remove_favorite(machine_id)
+
+        self.assertTrue(result)
+
+        self.assertNotIn(machine_id, self.user.favorite_machines)
+
+    @patch('backend.user.execute_query', return_value=None)  
+    def test_remove_favorite_not_in_list(self, mock_execute_query):
+        machine_id = 2
+        result = self.user.remove_favorite(machine_id)
+
+        self.assertFalse(result)
+        self.assertNotIn(machine_id, self.user.favorite_machines)
 
 if __name__ == '__main__':
     unittest.main()
