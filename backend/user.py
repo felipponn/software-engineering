@@ -172,17 +172,10 @@ class User:
     
     def load_favorites(self):
         """
-        Loads the user's favorite machines from the database.
+        Loads the user's favorite machines.
 
         Updates the `favorite_machines` list of the instance.
         """
-        query = """
-                SELECT machine_id
-                FROM User_Selected_Machines
-                WHERE user_id = %s;
-                """
-        favorite_machines = execute_query_fetchall(query, (self.user_id,))
-        self.favorite_machines = [row[0] for row in favorite_machines] if favorite_machines else []
         return self.favorite_machines
 
     def report(self, target, type, machine_id=None, message=None):
