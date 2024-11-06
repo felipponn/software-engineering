@@ -54,7 +54,6 @@ def simulate_authentication(email, password):
 
 current_user = Manager.authenticate('fabricio@gestor.com', '123')  # Manager
 # current_user = User.authenticate('fabricio@fabricio.com', '123')  # Regular user
-print(current_user.favorite_machines)
 
 @app.route('/')
 def home():
@@ -137,7 +136,6 @@ def settings():
     '''
     if request.method == 'POST':
         selected_language = request.form.get('language')
-        print(f"Língua selecionada no formulário: {selected_language}")
         session['language'] = selected_language
         return redirect(url_for('home'))
     return render_template('settings.html')
@@ -155,7 +153,6 @@ def set_language():
 @app.route('/select_machine')
 def select_machine():
     machine_ids = Machine.get_machines()
-    print(machine_ids)
     return render_template('select_machine.html', machine_ids=machine_ids)
 
 @app.route('/machine_profile/<int:machine_id>')
@@ -174,9 +171,6 @@ def machine_profile(machine_id):
     
     available_products = [{'name': p[0], 'price': f"{p[1]:.2f}"} for p in available_products]
     is_favorite = current_user.is_favorite(machine_id)
-
-    print(f"is_favorite: {is_favorite}")
-    print(f"current_user.list_favorites(): {current_user.favorite_machines}")
     
     return render_template('machine_profile.html', profile=profile, available_products=available_products, reviews_info=reviews_info, is_favorite=is_favorite)
 
