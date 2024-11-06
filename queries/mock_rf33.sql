@@ -59,3 +59,28 @@ VALUES
 
     ((SELECT user_id FROM Users WHERE email = 'bob@example.com'), 
      (SELECT machine_id FROM Coffee_Machines WHERE location = 'Building B - Kitchen'));
+
+-- Inserting Mock Notifications for out-of-stock products in selected machines
+
+-- Notification for Bob Johnson about 'Latte' being out of stock in 'Building B - Kitchen'
+INSERT INTO Notifications (user_id, machine_id, product_id, message, status)
+VALUES
+    (
+        (SELECT user_id FROM Users WHERE email = 'bob@example.com'),
+        (SELECT machine_id FROM Coffee_Machines WHERE location = 'Building B - Kitchen'),
+        (SELECT product_id FROM Products WHERE name = 'Latte'),
+        'Product Latte is out of stock in machine Building B - Kitchen.',
+        'pending'
+    );
+
+-- Notification for Alice Smith about 'Cappuccino' being low stock in 'Building A - Lobby'
+-- Note: This is an example, even though the product isn't technically out of stock, we can insert a similar notification.
+INSERT INTO Notifications (user_id, machine_id, product_id, message, status)
+VALUES
+    (
+        (SELECT user_id FROM Users WHERE email = 'alice@example.com'),
+        (SELECT machine_id FROM Coffee_Machines WHERE location = 'Building A - Lobby'),
+        (SELECT product_id FROM Products WHERE name = 'Cappuccino'),
+        'Product Cappuccino is running low in machine Building A - Lobby.',
+        'sent'
+    );

@@ -63,3 +63,40 @@ CREATE TABLE User_Selected_Machines (
     selected_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  -- Timestamp of when the machine was selected
     PRIMARY KEY (user_id, machine_id)
 );
+
+-- Trigger to check and notify users when a selected machine is out of stock
+CREATE OR REPLACE FUNCTION check_out_of_stock() RETURNS TRIGGER AS $$
+BEGIN
+    -- Check if the selected machine is out of stock
+    IF EXISTS (
+        SELECT 1
+        FROM Coffee_Machine_Products
+        WHERE machine_id = NEW.machine_id
+        AND quantity = 0
+    ) THEN
+        -- Insert a notification for the user
+        INSERT INTO Notifications (user_id, message, created_at)
+        VALUES (
+            NEW.user_id,
+            'Selected machine is out of stock. Please choose another machine.',
+            CURRENT_TIMESTAMP
+        );
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER out_of_stock_trigger
+AFTER INSERT ON User_Selected_Machines
+FOR EACH ROW EXECUTE FUNCTION check_out_of_stock();
+
+-- Notifications Table
+CREATE TABLE Notifications (
+    notification_id SERIAL PRIMARY KEY,  -- Unique ID for each notification
+    user_id INT NOT NULL REFERENCES Users(user_id) ON DELETE CASCADE,  -- Reference to the user receiving the notification
+    machine_id INT REFERENCES Coffee_Machines(machine_id) ON DELETE SET NULL,  -- Nullable, reference to the machine related to the notification
+    product_id INT REFERENCES Products(product_id) ON DELETE SET NULL,  -- Nullable, reference to the product related to the notification
+    message TEXT NOT NULL,  -- Notification message
+    status VARCHAR(50) DEFAULT 'pending',  -- Status could be 'pending', 'read', 'resolved', etc.
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP  -- When the notification was created
+);
