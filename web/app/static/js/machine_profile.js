@@ -1,12 +1,11 @@
-
-// Start of Selection
+// This script handles the favorite icon on the machine profile page
+// Future add new features
 
 document.addEventListener('DOMContentLoaded', function() {
     const heartIcon = document.querySelector('.favorite-icon i');
     if (heartIcon) {
         heartIcon.addEventListener('click', function() {
             const machineId = this.getAttribute('data-machine-id');
-            const isFavorite = this.classList.contains('favorite');
             
             fetch(`/toggle_favorite/${machineId}`, {
                 method: 'POST',
@@ -27,12 +26,12 @@ document.addEventListener('DOMContentLoaded', function() {
                         this.classList.add('far', 'not-favorite');
                     }
                 } else {
-                    alert(data.message || 'An error occurred.');
+                    alert(data.message || 'Ocorreu um erro.');
                 }
             })
             .catch(error => {
-                console.error('Error:', error);
-                alert('An error occurred while processing the request.');
+                console.error('Erro:', error);
+                alert('Ocorreu um erro ao processar a solicitação.');
             });
         });
     }

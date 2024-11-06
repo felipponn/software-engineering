@@ -290,19 +290,16 @@ body {
 }
 
 .favorite-icon i.favorite {
-    color: #e74c3c; 
-}
-
-.favorite-icon i.not-favorite {
-    color: #ccc; 
-}
-
-.favorite-icon i:hover {
-    transform: scale(1.2);
-    transition: transform 0.2s;
     color: #e74c3c;
 }
 
+.favorite-icon i.not-favorite {
+    color: #ccc;
+}
+
+.favorite-icon i:hover {
+    transition: transform 0.2s;
+}
 
 @media (max-width: 768px) {
     .profile-header {

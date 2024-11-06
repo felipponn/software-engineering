@@ -22,8 +22,9 @@
                 <p><i class="fas fa-map-marker-alt"></i> {{ profile.location }}</p>
             </div>
             <div class="favorite-icon">
-                <i class="{{ 'fas fa-heart favorite' if is_favorite else 'far fa-heart not-favorite' }}" data-machine-id="{{ profile.machine_id }}"></i>
+                <i class="fa-heart fa-2x {{ 'fas favorite' if is_favorite else 'far not-favorite' }}" data-machine-id="{{ profile.machine_id }}"></i>
             </div>
+            
             
         </div>
         
