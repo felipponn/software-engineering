@@ -107,6 +107,38 @@ class User:
         else:
             print("User not found!")
 
+    def add_favorite(self, machine_id):
+        """
+        Adds a machine to the user's favorites.
+
+        Parameters:
+        ----------
+        machine_id : int
+            The ID of the machine to be added to favorites.
+
+        Returns:
+        -------
+        bool
+            Returns True if the operation is successful, False otherwise.
+        """
+        if machine_id in self.favorite_machines:
+            print("Machine already in favorites.")
+            return False
+
+        query = """
+                INSERT INTO User_Selected_Machines (user_id, machine_id)
+                VALUES (%s, %s)
+                ON CONFLICT DO NOTHING;
+                """
+        try:
+            execute_query(query, (self.user_id, machine_id))
+            self.favorite_machines.append(machine_id)
+            print("Machine added to favorites successfully.")
+            return True
+        except Exception as e:
+            print(f"Error adding favorite: {e}")
+            return False
+
     def report(self, target, type, machine_id=None, message=None):
         """
         Submits a user report (e.g., for a machine or the app).
