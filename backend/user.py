@@ -1,4 +1,4 @@
-from utils.connect_db import execute_query, execute_query_fetchone
+from utils.connect_db import execute_query, execute_query_fetchone, execute_query_fetchall
 class User:
     """
     A class representing a User in the system, allowing for actions like saving to the database,
@@ -91,8 +91,15 @@ class User:
             # Checks if the provided password matches the stored password
             if correct_password == password:
                 print(f"User {user_name} successfully logged in!")
-                # Creates and returns a User object if authentication is successful
-                user = User(user_name, password, email, phone, user_id=user_id)
+                favorites_query = """
+                                 SELECT machine_id
+                                 FROM User_Selected_Machines
+                                 WHERE user_id = %s;
+                                 """
+                favorite_machines = execute_query_fetchall(favorites_query, (user_id,))
+                favorite_machines = [row[0] for row in favorite_machines] if favorite_machines else []
+
+                user = User(user_name, password, email, phone, user_id=user_id, favorite_machines=favorite_machines)
                 return user
             
             else:
