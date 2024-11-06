@@ -162,13 +162,6 @@ def machine_profile(machine_id):
     machine = Machine(machine_id=machine_id)
     
     profile, available_products, reviews_info = machine.get_profile()
-    
-    print('profile')
-    print(profile)
-    print('available_products')
-    print(available_products)
-    print('reviews_info')
-    print(reviews_info)
 
     profile = {
         'machine_id': profile['machine_id'],
@@ -179,8 +172,9 @@ def machine_profile(machine_id):
     }
     
     available_products = [{'name': p[0], 'price': f"{p[1]:.2f}"} for p in available_products]
+    is_favorite = current_user.is_favorite(machine_id)
     
-    return render_template('machine_profile.html', profile=profile, available_products=available_products, reviews_info=reviews_info)
+    return render_template('machine_profile.html', profile=profile, available_products=available_products, reviews_info=reviews_info, is_favorite=is_favorite)
 
 if __name__ == '__main__':
     app.run(debug=True)
