@@ -170,13 +170,22 @@ class User:
             print(f"Error removing favorite: {e}")
             return False
     
-    def load_favorites(self):
+    def is_favorite(self, machine_id):
         """
-        Loads the user's favorite machines.
+        Checks if a specific machine is in the user's list of favorite machines.
 
-        Updates the `favorite_machines` list of the instance.
+        Parameters:
+        ----------
+        machine_id : int
+            The ID of the machine to check.
+
+        Returns:
+        -------
+        bool
+            Returns True if the machine is a favorite, False otherwise.
         """
-        return self.favorite_machines
+        return machine_id in self.favorite_machines
+
 
     def report(self, target, type, machine_id=None, message=None):
         """
