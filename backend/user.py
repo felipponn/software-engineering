@@ -18,7 +18,7 @@ class User:
         The unique identifier for the user, generated after saving to the database.
     """
 
-    def __init__(self, user_name, password, email, phone, user_id=None):
+    def __init__(self, user_name, password, email, phone, user_id=None, favorite_machines=[]):
         """
         Initialize a new User instance.
 
@@ -42,7 +42,7 @@ class User:
         self.email = email
         self.phone = phone
         self.user_id = user_id
-        self.favorite_machines = []
+        self.favorite_machines = favorite_machines
 
     def save_db(self):
         """
