@@ -1,4 +1,4 @@
-from utils.connect_db import execute_query, execute_query_fetchone
+from utils.connect_db import execute_query, execute_query_fetchone, execute_query_fetchall
 class User:
     """
     A class representing a User in the system, allowing for actions like saving to the database,
@@ -18,7 +18,7 @@ class User:
         The unique identifier for the user, generated after saving to the database.
     """
 
-    def __init__(self, user_name, password, email, phone, user_id=None):
+    def __init__(self, user_name, password, email, phone, user_id=None, favorite_machines=[]):
         """
         Initialize a new User instance.
 
@@ -34,12 +34,15 @@ class User:
             The phone number for the user.
         user_id : UUID, optional
             The user's unique identifier (default is None, assigned after saving to the database).
+        favorite_machines : list, optional
+            List of machine_ids that the user has favorited (default is empty list).
         """
         self.user_name = user_name
         self.password = password
         self.email = email
         self.phone = phone
         self.user_id = user_id
+        self.favorite_machines = favorite_machines
 
     def save_db(self):
         """
@@ -88,14 +91,101 @@ class User:
             # Checks if the provided password matches the stored password
             if correct_password == password:
                 print(f"User {user_name} successfully logged in!")
-                # Creates and returns a User object if authentication is successful
-                user = User(user_name, password, email, phone, user_id=user_id)
+                favorites_query = """
+                                 SELECT machine_id
+                                 FROM User_Selected_Machines
+                                 WHERE user_id = %s;
+                                 """
+                favorite_machines = execute_query_fetchall(favorites_query, (user_id,))
+                favorite_machines = [row[0] for row in favorite_machines] if favorite_machines else []
+
+                user = User(user_name, password, email, phone, user_id=user_id, favorite_machines=favorite_machines)
                 return user
             
             else:
                 print("Incorrect password!")
         else:
             print("User not found!")
+
+    def add_favorite(self, machine_id):
+        """
+        Adds a machine to the user's favorites.
+
+        Parameters:
+        ----------
+        machine_id : int
+            The ID of the machine to be added to favorites.
+
+        Returns:
+        -------
+        bool
+            Returns True if the operation is successful, False otherwise.
+        """
+        if machine_id in self.favorite_machines:
+            print("Machine already in favorites.")
+            return False
+
+        query = """
+                INSERT INTO User_Selected_Machines (user_id, machine_id)
+                VALUES (%s, %s)
+                ON CONFLICT DO NOTHING;
+                """
+        try:
+            execute_query(query, (self.user_id, machine_id))
+            self.favorite_machines.append(machine_id)
+            print("Machine added to favorites successfully.")
+            return True
+        except Exception as e:
+            print(f"Error adding favorite: {e}")
+            return False
+        
+    def remove_favorite(self, machine_id):
+        """
+        Remove a machine from the user's favorites.
+
+        Parameters:
+        ----------
+        machine_id : int
+            The ID of the machine to be removed from favorites.
+
+        Returns:
+        --------
+        bool
+            Returns True if the operation is successful, False otherwise.
+        """
+        if machine_id not in self.favorite_machines:
+            print("Machine not in favorites.")
+            return False
+
+        query = """
+                DELETE FROM User_Selected_Machines
+                WHERE user_id = %s AND machine_id = %s;
+                """
+        try:
+            execute_query(query, (self.user_id, machine_id))
+            self.favorite_machines.remove(machine_id)
+            print("Machine removed from favorites successfully.")
+            return True
+        except Exception as e:
+            print(f"Error removing favorite: {e}")
+            return False
+    
+    def is_favorite(self, machine_id):
+        """
+        Checks if a specific machine is in the user's list of favorite machines.
+
+        Parameters:
+        ----------
+        machine_id : int
+            The ID of the machine to check.
+
+        Returns:
+        -------
+        bool
+            Returns True if the machine is a favorite, False otherwise.
+        """
+        return machine_id in self.favorite_machines
+
 
     def report(self, target, type, machine_id=None, message=None):
         """
