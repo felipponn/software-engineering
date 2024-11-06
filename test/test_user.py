@@ -87,35 +87,41 @@ class TestUser(unittest.TestCase):
 
     @patch('backend.user.execute_query', return_value=None) 
     def test_add_favorite_local(self, mock_execute_query):
+        # Test adding a new favorite machine
         machine_id = 2
         result = self.user.add_favorite(machine_id)
 
+        # Assert that the machine was successfully added
         self.assertTrue(result)
         self.assertIn(machine_id, self.user.favorite_machines)
 
     @patch('backend.user.execute_query', return_value=None) 
     def test_add_favorite_already_exists(self, mock_execute_query):
+        # Test adding a machine that is already a favorite
         machine_id = 1
         result = self.user.add_favorite(machine_id)
 
+        # Assert that the machine was not added again
         self.assertFalse(result)
-
         self.assertEqual(self.user.favorite_machines.count(machine_id), 1)
 
     @patch('backend.user.execute_query', return_value=None)
     def test_remove_favorite_local(self, mock_execute_query):
+        # Test removing a favorite machine
         machine_id = 1
         result = self.user.remove_favorite(machine_id)
 
+        # Assert that the machine was successfully removed
         self.assertTrue(result)
-
         self.assertNotIn(machine_id, self.user.favorite_machines)
 
     @patch('backend.user.execute_query', return_value=None)  
     def test_remove_favorite_not_in_list(self, mock_execute_query):
+        # Test removing a machine that is not in the favorites list
         machine_id = 2
         result = self.user.remove_favorite(machine_id)
 
+        # Assert that the machine was not removed since it was not in the list
         self.assertFalse(result)
         self.assertNotIn(machine_id, self.user.favorite_machines)
 
