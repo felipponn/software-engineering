@@ -45,15 +45,16 @@ def simulate_authentication(email, password):
     '''
     Function to simulate authentication.
     '''
-    if email == 'fabricio@fabricio.com' and password == '123':
+    if email == 'fabricio@fabricio.com':
         return User.authenticate(email, password)
-    elif email == 'fabricio@gestor.com' and password == '123':
+    elif email == 'fabricio@gestor.com':
         return Manager.authenticate(email, password)
     else:
         return None
 
-current_user = simulate_authentication('fabricio@gestor.com', '123')  # Manager
-# current_user = simulate_authentication('fabricio@fabricio.com', '123')  # Regular user
+current_user = Manager.authenticate('fabricio@gestor.com', '123')  # Manager
+# current_user = User.authenticate('fabricio@fabricio.com', '123')  # Regular user
+print(current_user.favorite_machines)
 
 @app.route('/')
 def home():
@@ -173,6 +174,9 @@ def machine_profile(machine_id):
     
     available_products = [{'name': p[0], 'price': f"{p[1]:.2f}"} for p in available_products]
     is_favorite = current_user.is_favorite(machine_id)
+
+    print(f"is_favorite: {is_favorite}")
+    print(f"current_user.list_favorites(): {current_user.favorite_machines}")
     
     return render_template('machine_profile.html', profile=profile, available_products=available_products, reviews_info=reviews_info, is_favorite=is_favorite)
 
