@@ -34,12 +34,15 @@ class User:
             The phone number for the user.
         user_id : UUID, optional
             The user's unique identifier (default is None, assigned after saving to the database).
+        favorite_machines : list, optional
+            List of machine_ids that the user has favorited (default is empty list).
         """
         self.user_name = user_name
         self.password = password
         self.email = email
         self.phone = phone
         self.user_id = user_id
+        self.favorite_machines = []
 
     def save_db(self):
         """
