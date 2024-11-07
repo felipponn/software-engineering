@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-11-03 12:48-0300\n"
-"PO-Revision-Date: 2024-11-03 12:49-0300\n"
+"POT-Creation-Date: 2024-11-07 10:08-0300\n"
+"PO-Revision-Date: 2024-11-07 10:08-0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
 "Language-Team: en <LL@li.org>\n"
@@ -22,8 +22,8 @@ msgstr ""
 msgid "Página Inicial"
 msgstr "Home Page"
 
-#: app/templates/home.html:12 app/templates/settings.html:5
-#: app/templates/settings.html:12
+#: app/templates/home.html:12 app/templates/select_machine.html:10
+#: app/templates/settings.html:5 app/templates/settings.html:12
 msgid "Configurações"
 msgstr "Settings"
 
@@ -37,7 +37,60 @@ msgstr "Submit Complaint"
 
 #: app/templates/home.html:25 app/templates/report_manager.html:13
 msgid "Painel do Gestor"
-msgstr "Manager Dashboard"
+msgstr "Manager Panel"
+
+#: app/templates/machine_profile.html:5
+msgid "Perfil da Máquina"
+msgstr "Machine Profile"
+
+#: app/templates/machine_profile.html:13
+msgid "Voltar"
+msgstr "Back"
+
+#: app/templates/machine_profile.html:21
+msgid "Máquina ID:"
+msgstr "Machine ID:"
+
+#: app/templates/machine_profile.html:32
+msgid "Informações Gerais"
+msgstr "General Information"
+
+#: app/templates/machine_profile.html:37
+msgid "Última Manutenção"
+msgstr "Last Maintenance"
+
+#: app/templates/machine_profile.html:44
+msgid "Data de Instalação"
+msgstr "Installation Date"
+
+#: app/templates/machine_profile.html:51 app/templates/report_manager.html:46
+#: app/templates/report_manager.html:69
+msgid "Status"
+msgstr "Status"
+
+#: app/templates/machine_profile.html:59
+msgid "Produtos Disponíveis"
+msgstr "Available Products"
+
+#: app/templates/machine_profile.html:71
+msgid "Nenhum produto disponível no momento."
+msgstr "No products available at the moment."
+
+#: app/templates/machine_profile.html:76
+msgid "Avaliações"
+msgstr "Reviews"
+
+#: app/templates/machine_profile.html:93
+msgid "Total de Avaliações"
+msgstr "Total Reviews"
+
+#: app/templates/machine_profile.html:94
+msgid "Avaliações com Comentários"
+msgstr "Reviews with Comments"
+
+#: app/templates/machine_profile.html:124
+msgid "Nenhum comentário disponível."
+msgstr "No comments available."
 
 #: app/templates/report.html:5
 msgid "Envio de Reclamações"
@@ -55,7 +108,7 @@ msgstr "Complaint about"
 msgid "Aplicativo"
 msgstr "Application"
 
-#: app/templates/report.html:27 app/templates.report_manager.html:24
+#: app/templates/report.html:27 app/templates/report_manager.html:24
 msgid "Máquina"
 msgstr "Machine"
 
@@ -79,7 +132,7 @@ msgstr "Select an option"
 msgid "Falha"
 msgstr "Failure"
 
-#: app/templates/report.html:44 app.templates/report_manager.html:41
+#: app/templates/report.html:44 app/templates/report_manager.html:41
 msgid "Financeiro"
 msgstr "Financial"
 
@@ -105,7 +158,7 @@ msgstr "Submit"
 
 #: app/templates/report_manager.html:5
 msgid "Painel do Gestor - Reclamações"
-msgstr "Manager Dashboard - Complaints"
+msgstr "Manager Panel - Complaints"
 
 #: app/templates/report_manager.html:16 app/templates/report_manager.html:75
 msgid "Mostrar Filtros"
@@ -115,7 +168,7 @@ msgstr "Show Filters"
 msgid "Alvo da Reclamação"
 msgstr "Complaint Target"
 
-#: app/templates/report_manager.html:22 app.templates/report_manager.html:39
+#: app/templates/report_manager.html:22 app/templates/report_manager.html:39
 #: app/templates/report_manager.html:48
 msgid "Todos"
 msgstr "All"
@@ -128,10 +181,6 @@ msgstr "Machine Number"
 msgid "Todas"
 msgstr "All"
 
-#: app/templates/report_manager.html:46 app/templates/report_manager.html:69
-msgid "Status"
-msgstr "Status"
-
 #: app/templates/report_manager.html:49
 msgid "Resolvido"
 msgstr "Resolved"
@@ -140,11 +189,11 @@ msgstr "Resolved"
 msgid "Não Resolvido"
 msgstr "Unresolved"
 
-#: app/templates/report_manager.html:53 app.templates/report_manager.html:77
+#: app/templates/report_manager.html:53 app/templates/report_manager.html:77
 msgid "Filtrar"
 msgstr "Filter"
 
-#: app/templates/report_manager.html:54 app.templates/report_manager.html:78
+#: app/templates/report_manager.html:54 app/templates/report_manager.html:78
 msgid "Resetar Filtros"
 msgstr "Reset Filters"
 
@@ -156,7 +205,7 @@ msgstr "Complaint"
 msgid "Usuário ID"
 msgstr "User ID"
 
-#: app/templates/report_manager.html:65
+#: app/templates/report_manager.html:65 app/templates/select_machine.html:19
 msgid "Máquina ID"
 msgstr "Machine ID"
 
@@ -196,23 +245,35 @@ msgstr "No complaints found."
 msgid "Esconder Filtros"
 msgstr "Hide Filters"
 
+#: app/templates/select_machine.html:5
+msgid "Selecionar Máquina"
+msgstr "Select Machine"
+
+#: app/templates/select_machine.html:14
+msgid "Selecione uma Máquina"
+msgstr "Select a Machine"
+
+#: app/templates/select_machine.html:21
+msgid "Selecionar"
+msgstr "Select"
+
 #: app/templates/settings.html:14
 msgid "Selecione o Idioma"
 msgstr "Select Language"
 
-#: app.templates/settings.html:16
+#: app/templates/settings.html:16
 msgid "Português"
 msgstr "Portuguese"
 
-#: app.templates/settings.html:17
+#: app/templates.settings.html:17
 msgid "Inglês"
 msgstr "English"
 
-#: app.templates/settings.html:18
+#: app/templates.settings.html:18
 msgid "Espanhol"
 msgstr "Spanish"
 
-#: app.templates/settings.html:20
+#: app/templates.settings.html:20
 msgid "Salvar"
 msgstr "Save"
 
