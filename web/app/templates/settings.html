@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="container">
-        <a href="{{ url_for('home') }}" class="back-link"> ⬅ </a>
+        <a href="javascript:history.back()" class="back-link"> ⬅ </a>
         <h2>{{ _('Configurações') }}</h2>
         <form action="{{ url_for('settings') }}" method="post">
             <label for="language">{{ _('Selecione o Idioma') }}:</label>
