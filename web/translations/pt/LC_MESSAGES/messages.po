@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-11-03 12:48-0300\n"
-"PO-Revision-Date: 2024-11-03 12:50-0300\n"
+"POT-Creation-Date: 2024-11-07 10:08-0300\n"
+"PO-Revision-Date: 2024-11-07 10:08-0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: pt\n"
 "Language-Team: pt <LL@li.org>\n"
@@ -22,8 +22,8 @@ msgstr ""
 msgid "Página Inicial"
 msgstr "Página Inicial"
 
-#: app/templates/home.html:12 app/templates/settings.html:5
-#: app/templates/settings.html:12
+#: app/templates/home.html:12 app/templates/select_machine.html:10
+#: app/templates/settings.html:5 app/templates/settings.html:12
 msgid "Configurações"
 msgstr "Configurações"
 
@@ -38,6 +38,59 @@ msgstr "Enviar Reclamação"
 #: app/templates/home.html:25 app/templates/report_manager.html:13
 msgid "Painel do Gestor"
 msgstr "Painel do Gestor"
+
+#: app/templates/machine_profile.html:5
+msgid "Perfil da Máquina"
+msgstr "Perfil da Máquina"
+
+#: app/templates/machine_profile.html:13
+msgid "Voltar"
+msgstr "Voltar"
+
+#: app/templates/machine_profile.html:21
+msgid "Máquina ID:"
+msgstr "Máquina ID:"
+
+#: app/templates/machine_profile.html:32
+msgid "Informações Gerais"
+msgstr "Informações Gerais"
+
+#: app/templates/machine_profile.html:37
+msgid "Última Manutenção"
+msgstr "Última Manutenção"
+
+#: app/templates/machine_profile.html:44
+msgid "Data de Instalação"
+msgstr "Data de Instalação"
+
+#: app/templates/machine_profile.html:51 app/templates/report_manager.html:46
+#: app/templates/report_manager.html:69
+msgid "Status"
+msgstr "Status"
+
+#: app/templates/machine_profile.html:59
+msgid "Produtos Disponíveis"
+msgstr "Produtos Disponíveis"
+
+#: app/templates/machine_profile.html:71
+msgid "Nenhum produto disponível no momento."
+msgstr "Nenhum produto disponível no momento."
+
+#: app/templates/machine_profile.html:76
+msgid "Avaliações"
+msgstr "Avaliações"
+
+#: app/templates/machine_profile.html:93
+msgid "Total de Avaliações"
+msgstr "Total de Avaliações"
+
+#: app/templates/machine_profile.html:94
+msgid "Avaliações com Comentários"
+msgstr "Avaliações com Comentários"
+
+#: app/templates/machine_profile.html:124
+msgid "Nenhum comentário disponível."
+msgstr "Nenhum comentário disponível."
 
 #: app/templates/report.html:5
 msgid "Envio de Reclamações"
@@ -128,10 +181,6 @@ msgstr "Número da Máquina"
 msgid "Todas"
 msgstr "Todas"
 
-#: app/templates/report_manager.html:46 app/templates/report_manager.html:69
-msgid "Status"
-msgstr "Status"
-
 #: app/templates/report_manager.html:49
 msgid "Resolvido"
 msgstr "Resolvido"
@@ -156,7 +205,7 @@ msgstr "Reclamação"
 msgid "Usuário ID"
 msgstr "Usuário ID"
 
-#: app/templates/report_manager.html:65
+#: app/templates/report_manager.html:65 app/templates/select_machine.html:19
 msgid "Máquina ID"
 msgstr "Máquina ID"
 
@@ -196,6 +245,18 @@ msgstr "Nenhuma reclamação encontrada."
 msgid "Esconder Filtros"
 msgstr "Esconder Filtros"
 
+#: app/templates/select_machine.html:5
+msgid "Selecionar Máquina"
+msgstr "Selecionar Máquina"
+
+#: app/templates/select_machine.html:14
+msgid "Selecione uma Máquina"
+msgstr "Selecione uma Máquina"
+
+#: app/templates/select_machine.html:21
+msgid "Selecionar"
+msgstr "Selecionar"
+
 #: app/templates/settings.html:14
 msgid "Selecione o Idioma"
 msgstr "Selecione o Idioma"
@@ -204,15 +265,15 @@ msgstr "Selecione o Idioma"
 msgid "Português"
 msgstr "Português"
 
-#: app/templates.settings.html:17
+#: app/templates/settings.html:17
 msgid "Inglês"
 msgstr "Inglês"
 
-#: app/templates.settings.html:18
+#: app/templates/settings.html:18
 msgid "Espanhol"
 msgstr "Espanhol"
 
-#: app/templates.settings.html:20
+#: app/templates/settings.html:20
 msgid "Salvar"
 msgstr "Salvar"
 
