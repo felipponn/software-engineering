@@ -2,9 +2,6 @@ import sys
 import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from decimal import Decimal
-from datetime import datetime
-
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify
 from flask_babel import Babel, gettext as _
 
@@ -134,21 +131,17 @@ def settings():
     '''
     Route to change the system language.
     '''
+    if request.method == 'GET':
+        # Save the previous URL in the session
+        session['previous_url'] = request.referrer
+        return render_template('settings.html')
+    
     if request.method == 'POST':
         selected_language = request.form.get('language')
         session['language'] = selected_language
-        return redirect(url_for('home'))
-    return render_template('settings.html')
+        # Redirect to the previous URL, if available
+        return redirect(session.get('previous_url', url_for('home')))
 
-
-@app.route('/set_language', methods=['POST'])
-def set_language():
-    '''
-    Route to change the system language.
-    '''
-    language = request.form.get('language')
-    session['language'] = language
-    return redirect(url_for('home'))
 
 @app.route('/select_machine')
 def select_machine():
