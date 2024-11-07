@@ -283,6 +283,24 @@ body {
     text-align: center;
 }
 
+.favorite-icon {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.favorite-icon i.favorite {
+    color: #e74c3c;
+}
+
+.favorite-icon i.not-favorite {
+    color: #ccc;
+}
+
+.favorite-icon i:hover {
+    transition: transform 0.2s;
+}
+
 @media (max-width: 768px) {
     .profile-header {
         flex-direction: column;

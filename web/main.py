@@ -45,15 +45,15 @@ def simulate_authentication(email, password):
     '''
     Function to simulate authentication.
     '''
-    if email == 'fabricio@fabricio.com' and password == '123':
+    if email == 'fabricio@fabricio.com':
         return User.authenticate(email, password)
-    elif email == 'fabricio@gestor.com' and password == '123':
+    elif email == 'fabricio@gestor.com':
         return Manager.authenticate(email, password)
     else:
         return None
 
-current_user = simulate_authentication('fabricio@gestor.com', '123')  # Manager
-# current_user = simulate_authentication('fabricio@fabricio.com', '123')  # Regular user
+current_user = Manager.authenticate('fabricio@gestor.com', '123')  # Manager
+# current_user = User.authenticate('fabricio@fabricio.com', '123')  # Regular user
 
 @app.route('/')
 def home():
@@ -136,7 +136,6 @@ def settings():
     '''
     if request.method == 'POST':
         selected_language = request.form.get('language')
-        print(f"Língua selecionada no formulário: {selected_language}")
         session['language'] = selected_language
         return redirect(url_for('home'))
     return render_template('settings.html')
@@ -154,7 +153,6 @@ def set_language():
 @app.route('/select_machine')
 def select_machine():
     machine_ids = Machine.get_machines()
-    print(machine_ids)
     return render_template('select_machine.html', machine_ids=machine_ids)
 
 @app.route('/machine_profile/<int:machine_id>')
@@ -162,13 +160,6 @@ def machine_profile(machine_id):
     machine = Machine(machine_id=machine_id)
     
     profile, available_products, reviews_info = machine.get_profile()
-    
-    print('profile')
-    print(profile)
-    print('available_products')
-    print(available_products)
-    print('reviews_info')
-    print(reviews_info)
 
     profile = {
         'machine_id': profile['machine_id'],
@@ -179,8 +170,32 @@ def machine_profile(machine_id):
     }
     
     available_products = [{'name': p[0], 'price': f"{p[1]:.2f}"} for p in available_products]
+    is_favorite = current_user.is_favorite(machine_id)
     
-    return render_template('machine_profile.html', profile=profile, available_products=available_products, reviews_info=reviews_info)
+    return render_template('machine_profile.html', profile=profile, available_products=available_products, reviews_info=reviews_info, is_favorite=is_favorite)
+
+@app.route('/toggle_favorite/<int:machine_id>', methods=['POST'])
+def toggle_favorite(machine_id):
+    if not current_user:
+        return jsonify({'success': False, 'message': 'Usuário não autenticado.'}), 401
+    
+    try:
+        if current_user.is_favorite(machine_id):
+            success = current_user.remove_favorite(machine_id)
+            is_favorite = False
+            message = 'Máquina removida das favoritas.'
+        else:
+            success = current_user.add_favorite(machine_id)
+            is_favorite = True
+            message = 'Máquina adicionada às favoritas.'
+        
+        if success:
+            return jsonify({'success': True, 'is_favorite': is_favorite, 'message': message}), 200
+        else:
+            return jsonify({'success': False, 'message': 'Operação falhou.'}), 400
+    except Exception as e:
+        print(f"Erro no toggle_favorite: {e}")
+        return jsonify({'success': False, 'message': 'Ocorreu um erro no servidor.'}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)

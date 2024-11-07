@@ -21,6 +21,11 @@
                 <h2>{{ _('Máquina ID:') }} {{ profile.machine_id }}</h2>
                 <p><i class="fas fa-map-marker-alt"></i> {{ profile.location }}</p>
             </div>
+            <div class="favorite-icon">
+                <i class="fa-heart fa-2x {{ 'fas favorite' if is_favorite else 'far not-favorite' }}" data-machine-id="{{ profile.machine_id }}"></i>
+            </div>
+            
+            
         </div>
         
         <div class="profile-section">
@@ -120,5 +125,7 @@
             {% endif %}
         </div>
     </div>
+
+    <script src="{{ url_for('static', filename='js/machine_profile.js') }}"></script>
 </body>
 </html>
