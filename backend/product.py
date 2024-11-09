@@ -1,6 +1,6 @@
 from utils.connect_db import execute_query, execute_query_fetchone, execute_query_fetchall
 
-class Procuct:
+class Product:
     """
     Product class to represent a product in a vending machine.
 
