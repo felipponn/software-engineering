@@ -63,3 +63,11 @@ CREATE TABLE User_Selected_Machines (
     selected_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  -- Timestamp of when the machine was selected
     PRIMARY KEY (user_id, machine_id)
 );
+
+CREATE TABLE Product_Reviews (
+    product_review_id SERIAL PRIMARY KEY,  -- Unique ID for each product review
+    product_id INT NOT NULL REFERENCES Products(product_id) ON DELETE CASCADE,  -- Reference to the product being reviewed
+    user_id INT NOT NULL REFERENCES Users(user_id) ON DELETE CASCADE,  -- Reference to the user who wrote the review
+    rating INT CHECK (rating BETWEEN 1 AND 5) NOT NULL,  -- Rating between 1 and 5
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  -- When the review was created
+);
