@@ -59,3 +59,18 @@ VALUES
 
     ((SELECT user_id FROM Users WHERE email = 'bob@example.com'), 
      (SELECT machine_id FROM Coffee_Machines WHERE location = 'Building B - Kitchen'));
+
+-- Insert Mock User Product Reviews
+INSERT INTO Product_Reviews (user_id, product_id, rating, created_at)
+VALUES
+    ((SELECT user_id FROM Users WHERE email = 'alice@example.com'), 
+     (SELECT product_id FROM Products WHERE name = 'Espresso'), 
+     4, '2024-10-15 09:45:00'),
+
+    ((SELECT user_id FROM Users WHERE email = 'bob@example.com'), 
+     (SELECT product_id FROM Products WHERE name = 'Cappuccino'), 
+     3, '2024-10-16 13:15:00'),
+
+    ((SELECT user_id FROM Users WHERE email = 'alice@example.com'), 
+     (SELECT product_id FROM Products WHERE name = 'Latte'), 
+     5, '2024-10-16 09:45:00');
