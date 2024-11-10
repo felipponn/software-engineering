@@ -69,7 +69,7 @@ VALUES
 
     ((SELECT user_id FROM Users WHERE email = 'bob@example.com'), 
      (SELECT product_id FROM Products WHERE name = 'Cappuccino'), 
-     3, 'Decent cappuccino, could be creamier.', '2024-10-16 13:15:00');,
+     3, 'Decent cappuccino, could be creamier.', '2024-10-16 13:15:00'),
 
     ((SELECT user_id FROM Users WHERE email = 'alice@example.com'), 
      (SELECT product_id FROM Products WHERE name = 'Latte'), 
