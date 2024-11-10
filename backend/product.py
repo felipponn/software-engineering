@@ -32,18 +32,18 @@ class Product:
     @staticmethod
     def get_products():
         """
-        Static method to return a list of Product ids from the database.
+        Static method to return a list of Product ids and names from the database.
 
         Returns:
-        - list
-            The list of Product objects.
+        - dict
+            The dictionary with the Product ids and names.
         """
         query = """
-                SELECT product_id
+                SELECT product_id, name
                 FROM Products;
                 """
         products_data = execute_query_fetchall(query)
-        products_data = [id[0] for id in products_data]
+        products_data = {id[0]: id[1] for id in products_data}
         return products_data
     
     def get_profile(self):
