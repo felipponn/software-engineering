@@ -98,5 +98,119 @@ class TestManager(unittest.TestCase):
         # Assert that the result is an empty list
         self.assertEqual(result, [])
 
+    @patch('backend.manager.execute_query_fetchall')
+    def test_get_stock_no_filters(self, mock_execute_query):
+        """
+        Test get_stock with no filters (should return all stock information).
+        """
+        manager = Manager(user_name="John Doe", email="john.doe@example.com", password="password123", phone="1234567890")
+        
+        # Mock data returned by execute_query_fetchall
+        mock_execute_query.return_value = [
+            (1, 'Downtown', 'Espresso', 20, 'Medium'),
+            (2, 'Uptown', 'Cappuccino', 100, 'Full'),
+            (1, 'Downtown', 'Latte', 0, 'Critical'),
+        ]
+        
+        # Call the method without filters
+        result = manager.get_stock()
+        
+        # Expected result
+        expected_result = [
+            {'machine_id': 1, 'location': 'Downtown', 'product_name': 'Espresso', 'quantity': 20, 'quantity_category': 'Medium'},
+            {'machine_id': 2, 'location': 'Uptown', 'product_name': 'Cappuccino', 'quantity': 100, 'quantity_category': 'Full'},
+            {'machine_id': 1, 'location': 'Downtown', 'product_name': 'Latte', 'quantity': 0, 'quantity_category': 'Critical'},
+        ]
+        
+        # Assert the result
+        self.assertEqual(result, expected_result)
+
+    @patch('backend.manager.execute_query_fetchall')
+    def test_get_stock_with_machine_id_filter(self, mock_execute_query):
+        """
+        Test get_stock with a filter for machine_id.
+        """
+        manager = Manager(user_name="John Doe", email="john.doe@example.com", password="password123", phone="1234567890")
+        
+        # Mock data returned by execute_query_fetchall
+        mock_execute_query.return_value = [
+            (1, 'Downtown', 'Espresso', 5, 'Low'),
+            (1, 'Downtown', 'Latte', 0, 'Critical')
+        ]
+        
+        # Call the method with a machine_id filter
+        result = manager.get_stock(machine_id=1)
+        
+        # Expected result
+        expected_result = [
+            {'machine_id': 1, 'location': 'Downtown', 'product_name': 'Espresso', 'quantity': 5, 'quantity_category': 'Low'},
+            {'machine_id': 1, 'location': 'Downtown', 'product_name': 'Latte', 'quantity': 0, 'quantity_category': 'Critical'}
+        ]
+        
+        # Assert the result
+        self.assertEqual(result, expected_result)
+
+    @patch('backend.manager.execute_query_fetchall')
+    def test_get_stock_with_category_filter(self, mock_execute_query):
+        """
+        Test get_stock with a filter for quantity_category.
+        """
+        manager = Manager(user_name="John Doe", email="john.doe@example.com", password="password123", phone="1234567890")
+        
+        # Mock data returned by execute_query_fetchall
+        mock_execute_query.return_value = [
+            (2, 'Uptown', 'Americano', 7, 'Low')
+        ]
+        
+        # Call the method with a quantity_category filter
+        result = manager.get_stock(quantity_category="Low")
+        
+        # Expected result
+        expected_result = [
+            {'machine_id': 2, 'location': 'Uptown', 'product_name': 'Americano', 'quantity': 7, 'quantity_category': 'Low'}
+        ]
+        
+        # Assert the result
+        self.assertEqual(result, expected_result)
+
+    @patch('backend.manager.execute_query_fetchall')
+    def test_get_stock_with_all_filters(self, mock_execute_query):
+        """
+        Test get_stock with all filters (machine_id, product_name, and quantity_category).
+        """
+        manager = Manager(user_name="John Doe", email="john.doe@example.com", password="password123", phone="1234567890")
+        
+        # Mock data returned by execute_query_fetchall
+        mock_execute_query.return_value = [
+            (1, 'Downtown', 'Espresso', 8, 'Low')
+        ]
+        
+        # Call the method with all filters
+        result = manager.get_stock(machine_id=1, product_name="Espresso", quantity_category="Low")
+        
+        # Expected result
+        expected_result = [
+            {'machine_id': 1, 'location': 'Downtown', 'product_name': 'Espresso', 'quantity': 8, 'quantity_category': 'Low'}
+        ]
+        
+        # Assert the result
+        self.assertEqual(result, expected_result)
+
+    @patch('backend.manager.execute_query_fetchall')
+    def test_get_stock_no_results(self, mock_execute_query):
+        """
+        Test get_stock with filters that result in no matches.
+        """
+        manager = Manager(user_name="John Doe", email="john.doe@example.com", password="password123", phone="1234567890")
+        
+        # Mock data returned by execute_query_fetchall (empty list, no matches)
+        mock_execute_query.return_value = []
+
+        # Call the method with filters that result in no matches
+        result = manager.get_stock(machine_id=999, quantity_category="Nonexistent", product_name="Invalid Product")
+
+        # Assert that the result is an empty list
+        self.assertEqual(result, [])
+
 if __name__ == '__main__':
     unittest.main()

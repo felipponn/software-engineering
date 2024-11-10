@@ -1,3 +1,8 @@
+
+import sys
+import os
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 from utils.connect_db import execute_query_fetchall, execute_query_fetchone
 from datetime import datetime
 from backend.user import User
@@ -146,3 +151,57 @@ class Manager(User):
                 'resolved_at': issue[8],
             } for issue in issues
         ]
+
+    def get_stock(self, machine_id=None, product_name=None, quantity_category=None):
+        """
+        Fetches the stock information for a specific machine or product. If no filters are provided, fetches all stock information.
+        """
+        query = """
+            WITH CategorizedStock AS (
+                SELECT 
+                    cm.machine_id,
+                    cm.location,
+                    p.name AS product_name,
+                    cmp.quantity,
+                    CASE 
+                        WHEN cmp.quantity = 0 THEN 'Critical'
+                        WHEN cmp.quantity < 10 THEN 'Low'
+                        WHEN cmp.quantity < 50 THEN 'Medium'
+                        WHEN cmp.quantity < 100 THEN 'High'
+                        ELSE 'Full'
+                    END AS quantity_category
+                FROM 
+                    Coffee_Machine_Products cmp
+                JOIN 
+                    Products p ON cmp.product_id = p.product_id
+                JOIN 
+                    Coffee_Machines cm ON cmp.machine_id = cm.machine_id
+            )
+            SELECT 
+                machine_id,
+                location,
+                product_name,
+                quantity,
+                quantity_category
+            FROM 
+                CategorizedStock
+            WHERE 
+                (machine_id = %s OR %s IS NULL)
+                AND (quantity_category = %s OR %s IS NULL)
+                AND (product_name = %s OR %s IS NULL)
+            ORDER BY 
+                quantity ASC;
+        """
+        
+        stock_info = execute_query_fetchall(query, (machine_id, machine_id, quantity_category, quantity_category, product_name, product_name))
+
+        return [
+            {
+                'machine_id': row[0],
+                'location': row[1],
+                'product_name': row[2],
+                'quantity': row[3],
+                'quantity_category': row[4]
+            } for row in stock_info
+        ]
+
