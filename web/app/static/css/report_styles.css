@@ -1,32 +1,6 @@
-/* Reset Styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-/* Global Styles */
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f0f2f5;
-}
-
 /* Layout Styles */
 .container {
-    width: 100%;
     max-width: 800px;
-    margin: 50px auto;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    padding: 30px;
-}
-
-/* Typography Styles */
-h2 {
-    text-align: center;
-    color: #1877f2;
-    margin-bottom: 20px;
 }
 
 label {
@@ -40,7 +14,6 @@ label {
     color: red;
 }
 
-/* Form Styles */
 input[type="text"], select, textarea {
     width: 100%;
     padding: 12px;
