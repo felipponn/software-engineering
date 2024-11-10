@@ -8,6 +8,7 @@ from flask_babel import Babel, gettext as _
 from backend.user import User
 from backend.machine import Machine
 from backend.manager import Manager
+from backend.product import Product
 
 # Initialize the Flask application
 app = Flask(__name__, template_folder='app/templates', static_folder='app/static')
@@ -145,11 +146,17 @@ def settings():
 
 @app.route('/select_machine')
 def select_machine():
+    '''
+    Route to render the machine selection page.
+    '''
     machine_ids = Machine.get_machines()
     return render_template('select_machine.html', machine_ids=machine_ids)
 
 @app.route('/machine_profile/<int:machine_id>')
 def machine_profile(machine_id):
+    '''
+    Route to render the machine profile page.
+    '''
     machine = Machine(machine_id=machine_id)
     
     profile, available_products, reviews_info = machine.get_profile()
@@ -169,6 +176,9 @@ def machine_profile(machine_id):
 
 @app.route('/toggle_favorite/<int:machine_id>', methods=['POST'])
 def toggle_favorite(machine_id):
+    '''
+    API route to toggle a machine as a favorite.
+    '''
     if not current_user:
         return jsonify({'success': False, 'message': 'Usuário não autenticado.'}), 401
     
@@ -189,6 +199,39 @@ def toggle_favorite(machine_id):
     except Exception as e:
         print(f"Erro no toggle_favorite: {e}")
         return jsonify({'success': False, 'message': 'Ocorreu um erro no servidor.'}), 500
+    
+@app.route('/manager_stock')
+def manager_stock():
+    '''
+    Route to render the manager's stock panel.
+    Only accessible if the user is a manager.
+    '''
+    machine_ids = Machine.get_machines()
+    product_names = Product.get_products()
+    quantity_categories = ['Critical', 'Low', 'Medium', 'High', 'Full']
+    return render_template('stock_manager.html', machine_ids=machine_ids, product_names=product_names, quantity_categories=quantity_categories)
+
+@app.route('/get_stock', methods=['GET'])
+def get_stock():
+    '''
+    API route to fetch stock information based on filters.
+    Only accessible if the user is a manager.
+    '''
+    machine_id = request.args.get('machine_id')
+    product_name = request.args.get('product_name')
+    quantity_category = request.args.get('quantity_category')
+
+    if machine_id == 'all':
+        machine_id = None
+    if product_name == 'all':
+        product_name = None
+    if quantity_category == 'all':
+        quantity_category = None
+
+    stock_info = current_user.get_stock(machine_id=machine_id, product_name=product_name, quantity_category=quantity_category)
+
+    return jsonify(stock_info)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
