@@ -41,6 +41,8 @@ button {
     cursor: pointer;
     font-weight: bold;
     transition: background-color 0.3s ease;
+    display: block;
+    margin: 0 auto;
 }
 
 button:hover {

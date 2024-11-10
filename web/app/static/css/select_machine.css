@@ -34,20 +34,6 @@
     margin-bottom: 20px;
 }
 
-.machine-card button {
-    background-color: #1877f2;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
-    text-align: center;
-}
-
-.machine-card button:hover {
-    background-color: #166fe5;
-}
 
 .settings-button {
     position: absolute;
