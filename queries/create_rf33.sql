@@ -69,5 +69,6 @@ CREATE TABLE Product_Reviews (
     user_id INT NOT NULL REFERENCES Users(user_id) ON DELETE CASCADE,  -- Reference to the user who wrote the review
     product_id INT NOT NULL REFERENCES Products(product_id) ON DELETE CASCADE,  -- Reference to the product being reviewed
     rating INT CHECK (rating BETWEEN 1 AND 5) NOT NULL,  -- Rating between 1 and 5
+    comment TEXT,  -- Optional text comment for the review
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  -- When the review was created
 );

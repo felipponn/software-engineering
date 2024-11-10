@@ -71,7 +71,7 @@ class Product:
         available_machines = execute_query_fetchall(available_machines_query)
 
         product_reviews_query = f"""
-            SELECT r.product_review_id, u.name, r.rating, r.created_at
+            SELECT r.product_review_id, u.name, r.rating, r.comment, r.created_at
             FROM Product_Reviews r
             JOIN Users u
             ON r.user_id = u.user_id
@@ -109,17 +109,34 @@ class Product:
                 'mean_rating': 0,
                 'count_reviews': 0,
                 'most_recent': datetime(year=1970, month=1, day=1),
+                'num_filtered_reviews': 0,
+                'reviews': []
             }
         
         # Calculate mean rating
         mean_rating = sum(review[2] for review in reviews) / len(reviews)
         count_reviews = len(reviews)
-        most_recent = max(review[3] for review in reviews)
+        most_recent = max(review[4] for review in reviews)
+        filtered_reviews = [review for review in reviews if review[3] and review[3].strip()]
+        num_filtered_reviews = len(filtered_reviews)
 
+        processed_reviews = []
+        for review in reviews:
+            review_id, user_name, rating, comment, created_at = review
+            processed_reviews.append({
+                'review_id': review_id,
+                'user_name': user_name,
+                'rating': rating,
+                'comment': comment,
+                'created_at': created_at.strftime('%Y-%m-%d')
+            })
+        
         reviews_info = {
             'mean_rating': mean_rating,
             'count_reviews': count_reviews,
-            'most_recent': most_recent
+            'most_recent': most_recent,
+            'num_filtered_reviews': num_filtered_reviews,
+            'reviews': processed_reviews
         }
 
         return reviews_info

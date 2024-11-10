@@ -59,9 +59,9 @@ class TestProduct(unittest.TestCase):
             (3, "Av. Paulista, 1500")
         ]
         mock_execute_query_fetchall_2.return_value = [
-            (1, "Alice Smith", 4, datetime(2024, 4, 1)),
-            (2, "Bob Johnson", 3, datetime(2021, 1, 15)),
-            (3, "John Bobson", 2, datetime(2023, 9, 1))
+            (1, "Alice Smith", 4, "So refreshing!", datetime(2024, 4, 1)),
+            (2, "Bob Johnson", 3, "Could be better...", datetime(2021, 1, 15)),
+            (3, "John Bobson", 2, "", datetime(2023, 9, 1))
         ]
 
         # Create a Product object with product_id 1
@@ -90,9 +90,9 @@ class TestProduct(unittest.TestCase):
                 (3, "Av. Paulista, 1500")
             ],
             [
-                (1, "Alice Smith", 4, datetime(2024, 4, 1)),
-                (2, "Bob Johnson", 3, datetime(2021, 1, 15)),
-                (3, "John Bobson", 2, datetime(2023, 9, 1))
+                (1, "Alice Smith", 4, "So refreshing!", datetime(2024, 4, 1)),
+                (2, "Bob Johnson", 3, "Could be better...", datetime(2021, 1, 15)),
+                (3, "John Bobson", 2, "", datetime(2023, 9, 1))
             ]
         ]
 
@@ -118,17 +118,20 @@ class TestProduct(unittest.TestCase):
 
         # Assert that the reviews are as expected
         self.assertIsInstance(profile[2], dict)
-        self.assertEqual(len(profile[2]), 3)
+        self.assertEqual(len(profile[2]), 5)
         self.assertEqual(profile[2]['mean_rating'], 3)
         self.assertEqual(profile[2]['count_reviews'], 3)
         self.assertEqual(profile[2]['most_recent'], datetime(2024, 4, 1))
+        self.assertEqual(profile[2]['num_filtered_reviews'], 2)
+        self.assertIsInstance(profile[2]['reviews'], list)
+        self.assertEqual(len(profile[2]['reviews']), 3)
 
     def test_post_process_reviews(self):
         # Prepare mock reviews
         reviews = [
-            (1, "Alice Smith", 4, datetime(2024, 4, 1)),
-            (2, "Bob Johnson", 3, datetime(2021, 1, 15)),
-            (3, "John Bobson", 2, datetime(2023, 9, 1))
+            (1, "Alice Smith", 4, "So refreshing!", datetime(2024, 4, 1)),
+            (2, "Bob Johnson", 3, "Could be better...", datetime(2021, 1, 15)),
+            (3, "John Bobson", 2, "", datetime(2023, 9, 1))
         ]
 
         processed_reviews = Product.post_process_reviews(reviews)
@@ -136,6 +139,9 @@ class TestProduct(unittest.TestCase):
         self.assertEqual(processed_reviews['mean_rating'], 3)
         self.assertEqual(processed_reviews['count_reviews'], 3)
         self.assertEqual(processed_reviews['most_recent'], datetime(2024, 4, 1))
+        self.assertEqual(processed_reviews['num_filtered_reviews'], 2)
+        self.assertIsInstance(processed_reviews['reviews'], list)
+        self.assertEqual(len(processed_reviews['reviews']), 3)
 
 if __name__ == '__main__':
     unittest.main()

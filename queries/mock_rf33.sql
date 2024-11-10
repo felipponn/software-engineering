@@ -65,12 +65,12 @@ INSERT INTO Product_Reviews (user_id, product_id, rating, created_at)
 VALUES
     ((SELECT user_id FROM Users WHERE email = 'alice@example.com'), 
      (SELECT product_id FROM Products WHERE name = 'Espresso'), 
-     4, '2024-10-15 09:45:00'),
+     4, 'Great espresso, perfect for mornings!', '2024-10-15 09:45:00'),
 
     ((SELECT user_id FROM Users WHERE email = 'bob@example.com'), 
      (SELECT product_id FROM Products WHERE name = 'Cappuccino'), 
-     3, '2024-10-16 13:15:00'),
+     3, 'Decent cappuccino, could be creamier.', '2024-10-16 13:15:00');,
 
     ((SELECT user_id FROM Users WHERE email = 'alice@example.com'), 
      (SELECT product_id FROM Products WHERE name = 'Latte'), 
-     5, '2024-10-16 09:45:00');
+     5, 'Best latte I''ve ever had!', '2024-10-16 09:45:00');
