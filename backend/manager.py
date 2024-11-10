@@ -155,6 +155,20 @@ class Manager(User):
     def get_stock(self, machine_id=None, product_name=None, quantity_category=None):
         """
         Fetches the stock information for a specific machine or product. If no filters are provided, fetches all stock information.
+        
+        Parameters:
+        ----------
+        machine_id : str or None
+            The machine_id to filter the stock information.
+        product_name : str or None
+            The product_name to filter the stock information.
+        quantity_category : str or None
+            The quantity_category to filter the stock information.
+
+        Returns:
+        -------
+        list:
+            Returns a list of dictionaries representing the stock information.
         """
         query = """
             WITH CategorizedStock AS (
