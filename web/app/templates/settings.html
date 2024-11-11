@@ -18,7 +18,7 @@
                 <option value="en" {% if get_locale() == 'en' %}selected{% endif %}>{{ _('Inglês') }}</option>
                 <option value="es" {% if get_locale() == 'es' %}selected{% endif %}>{{ _('Espanhol') }}</option>
             </select>            
-            <button type="submit">{{ _('Salvar') }}</button>
+            <button id="btnSave" type="submit">{{ _('Salvar') }}</button>
         </form>
     </div>
 </body>
