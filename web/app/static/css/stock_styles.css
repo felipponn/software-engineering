@@ -29,3 +29,28 @@
 .stock-item p strong {
     font-weight: bold;
 }
+
+.stock-item.critical {
+    border-left: 6px solid #FF0000; 
+    background-color: #ffe6e6; 
+}
+
+.stock-item.low {
+    border-left: 6px solid #FFA500; 
+    background-color: #fff5e6; 
+}
+
+.stock-item.medium {
+    border-left: 6px solid #FFFF00; 
+    background-color: #ffffe6; 
+}
+
+.stock-item.high {
+    border-left: 6px solid #008000; 
+    background-color: #e6ffe6; 
+}
+
+.stock-item.full {
+    border-left: 6px solid #0000FF; 
+    background-color: #e6e6ff; 
+}

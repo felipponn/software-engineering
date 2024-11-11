@@ -39,6 +39,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 data.forEach(item => { // Iterate over the data and create elements for display
                     const stockDiv = document.createElement('div');
                     stockDiv.classList.add('stock-item');
+
+                    // Add the quantity category class to the stockDiv
+                    const categoryClass = item.quantity_category.toLowerCase(); 
+                    stockDiv.classList.add(categoryClass);
+
                     stockDiv.innerHTML = `
                         <h3>${translations.product_name}: ${item.product_name}</h3>
                         <p><strong>${translations.machine_id}:</strong> ${item.machine_id}</p>
