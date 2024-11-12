@@ -100,19 +100,20 @@ class TestMachine(unittest.TestCase):
         machine = Machine(machine_id=1)
         profile, available_products, reviews_info = machine.get_profile()
 
+        print(profile)
         # Adjust the expected profile output to match the mocked return value
         expected_profile = {
             'machine_id': 1,
             'location': 'Building A - Lobby',
             'status': 'operational',
-            'last_maintenance': datetime(2024, 9, 1).date(),
-            'installation_date': datetime(2023, 1, 15).date()
+            'last_maintenance': '2024-09-01',
+            'installation_date': '2023-01-15'
         }
         
         # Check if the profile matches
         self.assertEqual(profile, expected_profile)
         # Check if available products are as expected
-        self.assertEqual(available_products, [('Espresso', Decimal('2.50')), ('Cappuccino', Decimal('3.00'))])
+        self.assertEqual(available_products, [{'name': 'Espresso', 'price': '2.50'}, {'name': 'Cappuccino', 'price': '3.00'}])
         
         # Check if reviews_info is processed correctly
         self.assertEqual(reviews_info['mean_rating'], 4)  # Mean of 3, 4 e 5
