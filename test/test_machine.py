@@ -80,15 +80,20 @@ class TestMachine(unittest.TestCase):
 
     @patch('backend.machine.execute_query_fetchone')
     @patch('backend.machine.execute_query_fetchall')
-    def test_get_profile_with_products_and_reviews(self, mock_execute_query_fetchall, mock_execute_query_fetchone):
-        # Mock the machine profile with service and installation dates
-        mock_execute_query_fetchone.return_value = (1, 'Building A - Lobby', 'operational', datetime(2024, 9, 1).date(), datetime(2023, 1, 15).date())
+    def test_get_profile(self, mock_execute_query_fetchall, mock_execute_query_fetchone):
+        # Mocking the database return value for a machine profile
+        mock_execute_query_fetchone.return_value = (
+            1, 'Building A - Lobby', 'operational', datetime(2024, 9, 1), datetime(2023, 1, 15)
+        )
         mock_execute_query_fetchall.side_effect = [
-            [('Espresso', Decimal('2.50')), ('Cappuccino', Decimal('3.00'))],  # Adjusted available products
             [
-                (1, 'Alice Smith', 4, 'Great machine!', datetime.now()),  # Reviews
+                ('Espresso', Decimal('2.50')),
+                ('Cappuccino', Decimal('3.00'))
+            ],
+            [
+                (1, 'Alice Smith', 4, 'Great machine!', datetime.now()),
                 (2, 'Bob Johnson', 5, 'Best coffee ever!', datetime.now()),
-                (3, 'Charlie Brown', 3, None, datetime.now()),  # Review without comment
+                (3, 'Charlie Brown', 3, None, datetime.now()),
             ]
         ]
 
