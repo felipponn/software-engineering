@@ -68,6 +68,7 @@ class Machine:
             WHERE cmp.machine_id = {self.machine_id} AND cmp.quantity > 0;
         """
         available_products = execute_query_fetchall(available_products_query)
+        available_products = [{'name': p[0], 'price': f"{p[1]:.2f}"} for p in available_products]
 
         machine_reviews_query = f"""
             SELECT r.review_id, u.name AS user_name, r.rating, r.comment, r.created_at
@@ -83,8 +84,8 @@ class Machine:
             'machine_id': machine_profile[0],
             'location': machine_profile[1],
             'status': machine_profile[2],
-            'last_maintenance': machine_profile[3],
-            'installation_date': machine_profile[4]
+            'last_maintenance': machine_profile[3].strftime('%Y-%m-%d') if machine_profile[3] else 'N/A',
+            'installation_date': machine_profile[4].strftime('%Y-%m-%d') if machine_profile[4] else 'N/A'
         }
 
         return profile, available_products, reviews_info
