@@ -170,9 +170,6 @@ def toggle_favorite(machine_id):
     '''
     API route to toggle a machine as a favorite.
     '''
-    if not current_user:
-        return jsonify({'success': False, 'message': 'Usuário não autenticado.'}), 401
-    
     try:
         if current_user.is_favorite(machine_id):
             success = current_user.remove_favorite(machine_id)
