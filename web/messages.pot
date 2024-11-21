@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-11-21 01:58-0300\n"
+"POT-Creation-Date: 2024-11-21 02:49-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -39,6 +39,14 @@ msgstr ""
 msgid "Painel do Gestor"
 msgstr ""
 
+#: app/templates/home.html:30
+msgid "Lista de Máquinas"
+msgstr ""
+
+#: app/templates/home.html:34
+msgid "Lista de Produtos"
+msgstr ""
+
 #: app/templates/machine_profile.html:5
 msgid "Perfil da Máquina"
 msgstr ""
@@ -47,7 +55,7 @@ msgstr ""
 msgid "Voltar"
 msgstr ""
 
-#: app/templates/machine_profile.html:22
+#: app/templates/machine_profile.html:22 app/templates/select_machine.html:20
 msgid "Máquina ID:"
 msgstr ""
 
@@ -242,8 +250,7 @@ msgstr ""
 msgid "Usuário ID"
 msgstr ""
 
-#: app/templates/report_manager.html:66 app/templates/select_machine.html:20
-#: app/templates/stock_manager.html:56
+#: app/templates/report_manager.html:66 app/templates/stock_manager.html:56
 msgid "Máquina ID"
 msgstr ""
 

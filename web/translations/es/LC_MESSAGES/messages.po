@@ -40,6 +40,14 @@ msgstr "Enviar Reclamación"
 msgid "Painel do Gestor"
 msgstr "Panel del Gestor"
 
+#: app/templates/home.html:30
+msgid "Lista de Máquinas"
+msgstr "Lista de Máquinas"
+
+#: app/templates/home.html:34
+msgid "Lista de Produtos"
+msgstr "Lista de Productos"
+
 #: app/templates/machine_profile.html:5
 msgid "Perfil da Máquina"
 msgstr "Perfil de la Máquina"
@@ -246,19 +254,19 @@ msgstr "ID de Usuario"
 #: app/templates/report_manager.html:66 app/templates/select_machine.html:20
 #: app/templates/stock_manager.html:56
 msgid "Máquina ID"
-msgstr ""
+msgstr "ID de Máquina"
 
 #: app/templates/report_manager.html:67
 msgid "Alvo"
-msgstr ""
+msgstr "Objetivo"
 
 #: app/templates/report_manager.html:68
 msgid "Tipo"
-msgstr ""
+msgstr "Tipo"
 
 #: app/templates/report_manager.html:69
 msgid "Descrição"
-msgstr ""
+msgstr "Descripción"
 
 #: app/templates/report_manager.html:71
 msgid "Criado em"
@@ -346,7 +354,7 @@ msgstr "Ubicación"
 
 #: app/templates/stock_manager.html:59
 msgid "Quantidade"
-msgstr ""
+msgstr "Cantidad"
 
 #: app/templates/stock_manager.html:60
 msgid "Categoria de Quantidade"

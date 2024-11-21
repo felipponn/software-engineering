@@ -25,6 +25,14 @@
                 {{ _('Painel do Gestor') }}
             </a>
             {% endif %}
+            <a href="{{ url_for('select_machine') }}" class="home-button">
+                <i class="fas fa-search"></i>
+                {{ _('Lista de Máquinas') }}
+            </a>
+            <a href="{{ url_for('select_product') }}" class="home-button">
+                <i class="fas fa-search"></i>
+                {{ _('Lista de Produtos') }}
+            </a>
         </div>
     </div>
 </body>
