@@ -122,7 +122,7 @@ class Product:
         num_filtered_reviews = len(filtered_reviews)
 
         processed_reviews = []
-        for review in reviews:
+        for review in filtered_reviews:
             review_id, user_name, rating, comment, created_at = review
             processed_reviews.append({
                 'review_id': review_id,
