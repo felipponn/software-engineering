@@ -64,7 +64,8 @@
                 <div class="product-card">
                     <i class="fas fa-coffee fa-2x"></i>
                     <p>{{ product.name }}</p>
-                    <span>R$ {{ product.price }}</span>
+                    <span>R$ {{ product.price }}</span><br>
+                    <span>{{ _('Quantidade:') }} {{ product.quantity }}</span>
                     <button onclick="selectProduct('{{ product.product_id }}')">
                         {{ _('Detalhes') }}
                     </button>

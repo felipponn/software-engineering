@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-11-07 10:08-0300\n"
-"PO-Revision-Date: 2024-11-07 10:08-0300\n"
+"POT-Creation-Date: 2024-11-21 01:58-0300\n"
+"PO-Revision-Date: 2024-11-21 01:59-0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: pt\n"
 "Language-Team: pt <LL@li.org>\n"
@@ -22,8 +22,9 @@ msgstr ""
 msgid "Página Inicial"
 msgstr "Página Inicial"
 
-#: app/templates/home.html:12 app/templates/select_machine.html:10
-#: app/templates/settings.html:5 app/templates/settings.html:12
+#: app/templates/home.html:12 app/templates/select_machine.html:11
+#: app/templates/select_product.html:11 app/templates/settings.html:5
+#: app/templates/settings.html:13
 msgid "Configurações"
 msgstr "Configurações"
 
@@ -31,11 +32,11 @@ msgstr "Configurações"
 msgid "Sistema de Reclamações"
 msgstr "Sistema de Reclamações"
 
-#: app/templates/home.html:20 app/templates/report.html:13
+#: app/templates/home.html:20 app/templates/report.html:14
 msgid "Enviar Reclamação"
 msgstr "Enviar Reclamação"
 
-#: app/templates/home.html:25 app/templates/report_manager.html:13
+#: app/templates/home.html:25 app/templates/report_manager.html:14
 msgid "Painel do Gestor"
 msgstr "Painel do Gestor"
 
@@ -43,116 +44,149 @@ msgstr "Painel do Gestor"
 msgid "Perfil da Máquina"
 msgstr "Perfil da Máquina"
 
-#: app/templates/machine_profile.html:13
+#: app/templates/machine_profile.html:14 app/templates/product_profile.html:14
 msgid "Voltar"
 msgstr "Voltar"
 
-#: app/templates/machine_profile.html:21
+#: app/templates/machine_profile.html:22
 msgid "Máquina ID:"
 msgstr "Máquina ID:"
 
-#: app/templates/machine_profile.html:32
+#: app/templates/machine_profile.html:33 app/templates/product_profile.html:32
 msgid "Informações Gerais"
 msgstr "Informações Gerais"
 
-#: app/templates/machine_profile.html:37
+#: app/templates/machine_profile.html:38
 msgid "Última Manutenção"
 msgstr "Última Manutenção"
 
-#: app/templates/machine_profile.html:44
+#: app/templates/machine_profile.html:45
 msgid "Data de Instalação"
 msgstr "Data de Instalação"
 
-#: app/templates/machine_profile.html:51 app/templates/report_manager.html:46
-#: app/templates/report_manager.html:69
+#: app/templates/machine_profile.html:52 app/templates/report_manager.html:47
+#: app/templates/report_manager.html:70
 msgid "Status"
 msgstr "Status"
 
-#: app/templates/machine_profile.html:59
+#: app/templates/machine_profile.html:60
 msgid "Produtos Disponíveis"
 msgstr "Produtos Disponíveis"
 
-#: app/templates/machine_profile.html:71
+#: app/templates/machine_profile.html:68 app/templates/product_profile.html:53
+msgid "Quantidade:"
+msgstr "Quantidade:"
+
+#: app/templates/machine_profile.html:70 app/templates/product_profile.html:55
+msgid "Detalhes"
+msgstr "Detalhes"
+
+#: app/templates/machine_profile.html:76
 msgid "Nenhum produto disponível no momento."
 msgstr "Nenhum produto disponível no momento."
 
-#: app/templates/machine_profile.html:76
+#: app/templates/machine_profile.html:81 app/templates/product_profile.html:66
 msgid "Avaliações"
 msgstr "Avaliações"
 
-#: app/templates/machine_profile.html:93
+#: app/templates/machine_profile.html:98 app/templates/product_profile.html:83
 msgid "Total de Avaliações"
 msgstr "Total de Avaliações"
 
-#: app/templates/machine_profile.html:94
+#: app/templates/machine_profile.html:99 app/templates/product_profile.html:84
 msgid "Avaliações com Comentários"
 msgstr "Avaliações com Comentários"
 
-#: app/templates/machine_profile.html:124
+#: app/templates/machine_profile.html:129
+#: app/templates/product_profile.html:114
 msgid "Nenhum comentário disponível."
 msgstr "Nenhum comentário disponível."
+
+#: app/templates/product_profile.html:5
+msgid "Perfil do Produto"
+msgstr "Perfil do Produto"
+
+#: app/templates/product_profile.html:22
+msgid "Nome do produto:"
+msgstr "Nome do produto:"
+
+#: app/templates/product_profile.html:37
+msgid "Preço"
+msgstr "Preço"
+
+#: app/templates/product_profile.html:45
+msgid "Máquinas Disponíveis"
+msgstr "Máquinas Disponíveis"
+
+#: app/templates/product_profile.html:52
+msgid "Endereço:"
+msgstr "Endereço:"
+
+#: app/templates/product_profile.html:61
+msgid "Nenhuma máquina disponível no momento."
+msgstr "Nenhuma máquina disponível no momento."
 
 #: app/templates/report.html:5
 msgid "Envio de Reclamações"
 msgstr "Envio de Reclamações"
 
-#: app/templates/report.html:17
+#: app/templates/report.html:18
 msgid "Relatório enviado com sucesso!"
 msgstr "Relatório enviado com sucesso!"
 
-#: app/templates/report.html:24
+#: app/templates/report.html:25
 msgid "Reclamação sobre"
 msgstr "Reclamação sobre"
 
-#: app/templates/report.html:26 app/templates/report_manager.html:23
+#: app/templates/report.html:27 app/templates/report_manager.html:24
 msgid "Aplicativo"
 msgstr "Aplicativo"
 
-#: app/templates/report.html:27 app/templates/report_manager.html:24
+#: app/templates/report.html:28 app/templates/report_manager.html:25
 msgid "Máquina"
 msgstr "Máquina"
 
-#: app/templates/report.html:31
+#: app/templates/report.html:32
 msgid "Selecione o Número da Máquina"
 msgstr "Selecione o Número da Máquina"
 
-#: app/templates/report.html:33
+#: app/templates/report.html:34
 msgid "Selecione a máquina"
 msgstr "Selecione a máquina"
 
-#: app/templates/report.html:40 app/templates/report_manager.html:37
+#: app/templates/report.html:41 app/templates/report_manager.html:38
 msgid "Tipo de Reclamação"
 msgstr "Tipo de Reclamação"
 
-#: app/templates/report.html:42
+#: app/templates/report.html:43
 msgid "Selecione uma opção"
 msgstr "Selecione uma opção"
 
-#: app/templates/report.html:43 app/templates/report_manager.html:40
+#: app/templates/report.html:44 app/templates/report_manager.html:41
 msgid "Falha"
 msgstr "Falha"
 
-#: app/templates/report.html:44 app/templates/report_manager.html:41
+#: app/templates/report.html:45 app/templates/report_manager.html:42
 msgid "Financeiro"
 msgstr "Financeiro"
 
-#: app/templates/report.html:45 app/templates/report_manager.html:42
+#: app/templates/report.html:46 app/templates/report_manager.html:43
 msgid "Sugestão"
 msgstr "Sugestão"
 
-#: app/templates/report.html:46 app/templates/report_manager.html:43
+#: app/templates/report.html:47 app/templates/report_manager.html:44
 msgid "Outro"
 msgstr "Outro"
 
-#: app/templates/report.html:49
+#: app/templates/report.html:50
 msgid "Mensagem"
 msgstr "Mensagem"
 
-#: app/templates/report.html:50
+#: app/templates/report.html:51
 msgid "Descreva detalhadamente o problema..."
 msgstr "Descreva detalhadamente o problema..."
 
-#: app/templates/report.html:52
+#: app/templates/report.html:53
 msgid "Enviar"
 msgstr "Enviar"
 
@@ -160,88 +194,93 @@ msgstr "Enviar"
 msgid "Painel do Gestor - Reclamações"
 msgstr "Painel do Gestor - Reclamações"
 
-#: app/templates/report_manager.html:16 app/templates/report_manager.html:75
+#: app/templates/report_manager.html:17 app/templates/report_manager.html:76
+#: app/templates/stock_manager.html:18 app/templates/stock_manager.html:64
 msgid "Mostrar Filtros"
 msgstr "Mostrar Filtros"
 
-#: app/templates/report_manager.html:20
+#: app/templates/report_manager.html:21
 msgid "Alvo da Reclamação"
 msgstr "Alvo da Reclamação"
 
-#: app/templates/report_manager.html:22 app/templates/report_manager.html:39
-#: app/templates/report_manager.html:48
+#: app/templates/report_manager.html:23 app/templates/report_manager.html:40
+#: app/templates/report_manager.html:49 app/templates/stock_manager.html:32
 msgid "Todos"
 msgstr "Todos"
 
-#: app/templates/report_manager.html:28
+#: app/templates/report_manager.html:29 app/templates/stock_manager.html:22
 msgid "Número da Máquina"
 msgstr "Número da Máquina"
 
-#: app/templates/report_manager.html:30
+#: app/templates/report_manager.html:31 app/templates/stock_manager.html:24
+#: app/templates/stock_manager.html:40
 msgid "Todas"
 msgstr "Todas"
 
-#: app/templates/report_manager.html:49
+#: app/templates/report_manager.html:50
 msgid "Resolvido"
 msgstr "Resolvido"
 
-#: app/templates/report_manager.html:50
+#: app/templates/report_manager.html:51
 msgid "Não Resolvido"
 msgstr "Não Resolvido"
 
-#: app/templates/report_manager.html:53 app/templates/report_manager.html:77
+#: app/templates/report_manager.html:54 app/templates/report_manager.html:78
+#: app/templates/stock_manager.html:46 app/templates/stock_manager.html:66
 msgid "Filtrar"
 msgstr "Filtrar"
 
-#: app/templates/report_manager.html:54 app/templates/report_manager.html:78
+#: app/templates/report_manager.html:55 app/templates/report_manager.html:79
+#: app/templates/stock_manager.html:47 app/templates/stock_manager.html:67
 msgid "Resetar Filtros"
 msgstr "Resetar Filtros"
 
-#: app/templates/report_manager.html:63
+#: app/templates/report_manager.html:64
 msgid "Reclamação"
 msgstr "Reclamação"
 
-#: app/templates/report_manager.html:64
+#: app/templates/report_manager.html:65
 msgid "Usuário ID"
 msgstr "Usuário ID"
 
-#: app/templates/report_manager.html:65 app/templates/select_machine.html:19
+#: app/templates/report_manager.html:66 app/templates/select_machine.html:20
+#: app/templates/stock_manager.html:56
 msgid "Máquina ID"
-msgstr "Máquina ID"
-
-#: app/templates/report_manager.html:66
-msgid "Alvo"
-msgstr "Alvo"
+msgstr ""
 
 #: app/templates/report_manager.html:67
-msgid "Tipo"
-msgstr "Tipo"
+msgid "Alvo"
+msgstr ""
 
 #: app/templates/report_manager.html:68
-msgid "Descrição"
-msgstr "Descrição"
+msgid "Tipo"
+msgstr ""
 
-#: app/templates/report_manager.html:70
+#: app/templates/report_manager.html:69
+msgid "Descrição"
+msgstr ""
+
+#: app/templates/report_manager.html:71
 msgid "Criado em"
 msgstr "Criado em"
 
-#: app/templates/report_manager.html:71
+#: app/templates/report_manager.html:72
 msgid "Resolvido em"
 msgstr "Resolvido em"
 
-#: app/templates/report_manager.html:72
+#: app/templates/report_manager.html:73
 msgid "Carregando reclamações..."
 msgstr "Carregando reclamações..."
 
-#: app/templates/report_manager.html:73
+#: app/templates/report_manager.html:74
 msgid "Ocorreu um erro ao buscar as reclamações."
 msgstr "Ocorreu um erro ao buscar as reclamações."
 
-#: app/templates/report_manager.html:74
+#: app/templates/report_manager.html:75
 msgid "Nenhuma reclamação encontrada."
 msgstr "Nenhuma reclamação encontrada."
 
-#: app/templates/report_manager.html:76
+#: app/templates/report_manager.html:77 app/templates/stock_manager.html:65
 msgid "Esconder Filtros"
 msgstr "Esconder Filtros"
 
@@ -249,31 +288,79 @@ msgstr "Esconder Filtros"
 msgid "Selecionar Máquina"
 msgstr "Selecionar Máquina"
 
-#: app/templates/select_machine.html:14
+#: app/templates/select_machine.html:15
 msgid "Selecione uma Máquina"
 msgstr "Selecione uma Máquina"
 
-#: app/templates/select_machine.html:21
+#: app/templates/select_machine.html:22 app/templates/select_product.html:22
 msgid "Selecionar"
 msgstr "Selecionar"
 
-#: app/templates/settings.html:14
+#: app/templates/select_product.html:5
+msgid "Selecionar Produto"
+msgstr "Selecionar Produto"
+
+#: app/templates/select_product.html:15
+msgid "Selecione um Produto"
+msgstr "Selecione um Produto"
+
+#: app/templates/select_product.html:20 app/templates/stock_manager.html:58
+msgid "Produto"
+msgstr "Produto"
+
+#: app/templates/settings.html:15
 msgid "Selecione o Idioma"
 msgstr "Selecione o Idioma"
 
-#: app/templates/settings.html:16
+#: app/templates/settings.html:17
 msgid "Português"
 msgstr "Português"
 
-#: app/templates/settings.html:17
+#: app/templates/settings.html:18
 msgid "Inglês"
 msgstr "Inglês"
 
-#: app/templates/settings.html:18
+#: app/templates/settings.html:19
 msgid "Espanhol"
 msgstr "Espanhol"
 
-#: app/templates/settings.html:20
+#: app/templates/settings.html:21
 msgid "Salvar"
 msgstr "Salvar"
+
+#: app/templates/stock_manager.html:5 app/templates/stock_manager.html:15
+msgid "Estoque"
+msgstr "Estoque"
+
+#: app/templates/stock_manager.html:30
+msgid "Nome do Produto"
+msgstr "Nome do Produto"
+
+#: app/templates/stock_manager.html:38
+msgid "Categoria"
+msgstr "Categoria"
+
+#: app/templates/stock_manager.html:57
+msgid "Localização"
+msgstr "Localização"
+
+#: app/templates/stock_manager.html:59
+msgid "Quantidade"
+msgstr ""
+
+#: app/templates/stock_manager.html:60
+msgid "Categoria de Quantidade"
+msgstr "Categoria de Quantidade"
+
+#: app/templates/stock_manager.html:61
+msgid "Carregando informações de estoque..."
+msgstr "Carregando informações de estoque..."
+
+#: app/templates/stock_manager.html:62
+msgid "Ocorreu um erro ao buscar as informações de estoque."
+msgstr "Ocorreu um erro ao buscar as informações de estoque."
+
+#: app/templates/stock_manager.html:63
+msgid "Nenhuma informação de estoque encontrada."
+msgstr "Nenhuma informação de estoque encontrada."
 

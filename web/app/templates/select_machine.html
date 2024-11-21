@@ -17,7 +17,7 @@
             {% for machine_id in machine_ids %}
             <div class="machine-card">
                 <i class="fas fa-store fa-3x"></i>
-                <p>{{ _('Máquina ID') }}: {{ machine_id }}</p>
+                <p>{{ _('Máquina ID:') }} {{ machine_id }}</p>
                 <button onclick="selectMachine('{{ machine_id }}')">
                     {{ _('Selecionar') }}
                 </button>

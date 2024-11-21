@@ -62,13 +62,14 @@ class Machine:
         machine_profile = execute_query_fetchone(profile_query)
 
         available_products_query = f"""
-            SELECT p.name, p.price, p.product_id
+            SELECT p.name, p.price, p.product_id, cmp.quantity
             FROM Products p
             JOIN Coffee_Machine_Products cmp ON p.product_id = cmp.product_id
             WHERE cmp.machine_id = {self.machine_id} AND cmp.quantity > 0;
         """
         available_products = execute_query_fetchall(available_products_query)
-        available_products = [{'name': p[0], 'price': f"{p[1]:.2f}", "product_id": p[2]} for p in available_products]
+        available_products = [{'name': p[0], 'price': f"{p[1]:.2f}", "product_id": p[2],
+                               'quantity': p[3]} for p in available_products]
 
         machine_reviews_query = f"""
             SELECT r.review_id, u.name AS user_name, r.rating, r.comment, r.created_at
