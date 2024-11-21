@@ -43,7 +43,7 @@ class Product:
                 FROM Products;
                 """
         products_data = execute_query_fetchall(query)
-        products_data = {id[0]: id[1] for id in products_data}
+        # products_data = {id[0]: id[1] for id in products_data}
         return products_data
     
     def get_profile(self):
@@ -54,30 +54,31 @@ class Product:
         -list
             The list of atributes of the product.
         """
-        profile_query = f"""
+        profile_query = """
             SELECT *
             FROM Products
-            WHERE product_id = {self.product_id};
+            WHERE product_id = %s;
             """
-        product_data = execute_query_fetchone(profile_query)
+        product_data = execute_query_fetchone(profile_query, (str(self.product_id)))
 
-        available_machines_query = f"""
+        available_machines_query = """
             SELECT m.machine_id, m.location
             FROM Coffee_Machines m
             JOIN Coffee_Machine_Products mp
             ON m.machine_id = mp.machine_id
-            WHERE mp.product_id = {self.product_id} AND mp.quantity > 0;
+            WHERE mp.product_id = %s AND mp.quantity > 0;
             """
-        available_machines = execute_query_fetchall(available_machines_query)
+        available_machines = execute_query_fetchall(available_machines_query, (str(self.product_id)))
+        available_machines = [{'machine_id': m[0], 'location': m[1]} for m in available_machines]
 
-        product_reviews_query = f"""
+        product_reviews_query = """
             SELECT r.product_review_id, u.name, r.rating, r.comment, r.created_at
             FROM Product_Reviews r
             JOIN Users u
             ON r.user_id = u.user_id
-            WHERE r.product_id = {self.product_id};
+            WHERE r.product_id = %s;
             """
-        product_reviews = execute_query_fetchall(product_reviews_query)
+        product_reviews = execute_query_fetchall(product_reviews_query, (str(self.product_id)))
 
         reviews_info = self.post_process_reviews(product_reviews)
 
@@ -121,7 +122,7 @@ class Product:
         num_filtered_reviews = len(filtered_reviews)
 
         processed_reviews = []
-        for review in reviews:
+        for review in filtered_reviews:
             review_id, user_name, rating, comment, created_at = review
             processed_reviews.append({
                 'review_id': review_id,
