@@ -165,6 +165,28 @@ def machine_profile(machine_id):
     
     return render_template('machine_profile.html', profile=profile, available_products=available_products, reviews_info=reviews_info, is_favorite=is_favorite)
 
+@app.route('/select_product')
+def select_product():
+    '''
+    Route to render the product selection page.
+    '''
+    product_ids = Product.get_products()
+    return render_template('select_product.html', product_ids=product_ids)
+
+@app.route('/product_profile/<int:product_id>')
+def product_profile(product_id):
+    '''
+    Route to render the product profile page.
+    '''
+    product = Product(product_id=product_id)
+    
+    profile, available_machines, reviews_info = product.get_profile()
+    profile["status"] = "ativo"
+    
+    # is_favorite = current_user.is_favorite(product_id)
+    
+    return render_template('product_profile.html', profile=profile, available_machines=available_machines, reviews_info=reviews_info)
+
 @app.route('/toggle_favorite/<int:machine_id>', methods=['POST'])
 def toggle_favorite(machine_id):
     '''
