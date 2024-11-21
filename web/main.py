@@ -181,9 +181,6 @@ def product_profile(product_id):
     product = Product(product_id=product_id)
     
     profile, available_machines, reviews_info = product.get_profile()
-    profile["status"] = "ativo"
-    
-    # is_favorite = current_user.is_favorite(product_id)
     
     return render_template('product_profile.html', profile=profile, available_machines=available_machines, reviews_info=reviews_info)
 

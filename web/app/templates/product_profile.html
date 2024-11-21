@@ -38,27 +38,6 @@
                         <span>R$ {{ profile.price }}</span>
                     </div>
                 </div>
-                <!-- <div class="info-item">
-                    <i class="fas fa-wrench"></i>
-                    <div>
-                        <strong>{{ _('Última Manutenção') }}:</strong>
-                        <span>{{ profile.last_maintenance }}</span>
-                    </div>
-                </div>
-                <div class="info-item">
-                    <i class="fas fa-calendar-alt"></i>
-                    <div>
-                        <strong>{{ _('Data de Instalação') }}:</strong>
-                        <span>{{ profile.installation_date }}</span>
-                    </div>
-                </div>
-                <div class="info-item status-item">
-                    <i class="fas fa-circle {{ 'status-operational' if profile.status == 'operational' else 'status-down' }}"></i>
-                    <div>
-                        <strong>{{ _('Status') }}:</strong>
-                        <span>{{ _(profile.status.capitalize()) }}</span>
-                    </div>
-                </div> -->
             </div>
         </div>
         
@@ -136,7 +115,6 @@
         </div>
     </div>
 
-    <!-- <script src="{{ url_for('static', filename='js/product_profile.js') }}"></script> -->
     <script>
         function selectMachine(machineId) {
             window.location.href = `/machine_profile/${machineId}`;
