@@ -62,14 +62,14 @@ class Product:
         product_data = execute_query_fetchone(profile_query, (str(self.product_id)))
 
         available_machines_query = """
-            SELECT m.machine_id, m.location
+            SELECT m.machine_id, m.location, mp.quantity
             FROM Coffee_Machines m
             JOIN Coffee_Machine_Products mp
             ON m.machine_id = mp.machine_id
             WHERE mp.product_id = %s AND mp.quantity > 0;
             """
         available_machines = execute_query_fetchall(available_machines_query, (str(self.product_id)))
-        available_machines = [{'machine_id': m[0], 'location': m[1]} for m in available_machines]
+        available_machines = [{'machine_id': m[0], 'location': m[1], 'quantity': m[2]} for m in available_machines]
 
         product_reviews_query = """
             SELECT r.product_review_id, u.name, r.rating, r.comment, r.created_at

@@ -49,7 +49,8 @@
                 <div class="product-card">
                     <i class="fas fa-store fa-2x"></i>
                     <p>{{ machine.machine_id }}</p>
-                    <span>{{ _('Endereço:') }} {{ machine.location }}</span>
+                    <span>{{ _('Endereço:') }} {{ machine.location }}</span><br>
+                    <span>{{ _('Quantidade:') }} {{ machine.quantity }}</span>
                     <button onclick="selectMachine('{{ machine.machine_id }}')">
                         {{ _('Detalhes') }}
                     </button>
