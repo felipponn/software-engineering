@@ -1,4 +1,3 @@
-/* Variáveis de Cores para Facilidade de Manutenção */
 :root {
     --primary-color: #1877f2;
     --primary-hover: #166fe5;
@@ -11,14 +10,12 @@
     --transition-speed: 0.3s;
 }
 
-/* Reset Básico */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* Corpo da Página */
 body {
     font-family: var(--font-family);
     background-color: var(--background-color);
@@ -29,7 +26,6 @@ body {
     padding: 20px;
 }
 
-/* Container do Formulário de Login */
 .login-container {
     width: 100%;
     max-width: 400px;
@@ -46,7 +42,6 @@ body {
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
 }
 
-/* Título do Formulário */
 .login-container h2 {
     margin-bottom: 25px;
     color: #333;
@@ -55,7 +50,6 @@ body {
     font-weight: 600;
 }
 
-/* Grupos de Formulário */
 .form-group {
     margin-bottom: 20px;
 }
@@ -83,7 +77,6 @@ body {
     outline: none;
 }
 
-/* Botão de Login */
 .btn-primary {
     width: 100%;
     padding: 14px 0;
@@ -105,7 +98,6 @@ body {
     transform: scale(0.98);
 }
 
-/* Mensagem de Erro */
 .error-message {
     display: flex;
     align-items: center;
@@ -124,7 +116,6 @@ body {
     font-size: 1.2rem;
 }
 
-/* Botões de Ação Secundária (Opcional) */
 .btn-secondary {
     width: 100%;
     padding: 12px 0;
@@ -148,7 +139,6 @@ body {
     transform: scale(0.98);
 }
 
-/* Estilos Responsivos */
 @media (max-width: 480px) {
     .login-container {
         padding: 25px 15px;
@@ -178,14 +168,12 @@ body {
         padding: 8px 12px;
     }
 
-    /* Ajustes para Botões Secundários (Opcional) */
     .btn-secondary {
         padding: 10px 0;
         font-size: 0.95rem;
     }
 }
 
-/* Melhorias Adicionais para Acessibilidade e Usabilidade */
 input::placeholder {
     color: #999;
 }
@@ -199,4 +187,3 @@ button:disabled {
     background-color: #a0c5f2;
     cursor: not-allowed;
 }
-
