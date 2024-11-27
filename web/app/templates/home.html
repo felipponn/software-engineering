@@ -5,26 +5,30 @@
     <title>{{ _('Página Inicial') }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/report_styles.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
 </head>
 <body>
+    <!-- Botão de Configurações -->
     <a href="{{ url_for('settings') }}" class="settings-button" title="{{ _('Configurações') }}">
         <i class="fas fa-cog"></i>
     </a>
+    
     <div class="container home-container">
-        <h2>{{ _('Sistema de Reclamações') }}</h2>
-        <div class="home-options">
-            <a href="{{ url_for('report') }}" class="home-button">
-                <i class="fas fa-edit"></i>
-                {{ _('Enviar Reclamação') }}
+        <h2>{{ _('Bem-vindo ao CaféLab') }}</h2>
+        <div class="home-tabs">
+            <a href="{{ url_for('select_machine') }}" class="home-tab">
+                <i class="fas fa-store fa-3x"></i>
+                <p>{{ _('Máquinas') }}</p>
             </a>
-            {% if is_manager %}
-            <a href="{{ url_for('manager_dashboard') }}" class="home-button">
-                <i class="fas fa-tachometer-alt"></i>
-                {{ _('Painel do Gestor') }}
+            <a href="{{ url_for('select_product') }}" class="home-tab">
+                <i class="fas fa-box fa-3x"></i>
+                <p>{{ _('Produtos') }}</p>
             </a>
-            {% endif %}
+            <a href="{{ url_for('report_menu') }}" class="home-tab">
+                <i class="fas fa-exclamation-triangle fa-3x"></i>
+                <p>{{ _('Reclamações') }}</p>
+            </a>
         </div>
     </div>
 </body>
