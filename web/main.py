@@ -137,10 +137,18 @@ def logout():
 @login_required
 def home():
     """
-    Route for the home page after login.
+    Rota para a página inicial após login.
+    """
+    return render_template('home.html')
+
+@app.route('/report_menu')
+@login_required
+def report_menu():
+    """
+    Route for the report menu page after login.
     """
     is_manager = g.current_user.role == 'manager'
-    return render_template('home.html', is_manager=is_manager)
+    return render_template('report_menu.html')
 
 @app.route('/report', methods=['GET', 'POST'])
 @login_required
