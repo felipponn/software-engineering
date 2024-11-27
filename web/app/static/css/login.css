@@ -1,0 +1,202 @@
+/* Variáveis de Cores para Facilidade de Manutenção */
+:root {
+    --primary-color: #1877f2;
+    --primary-hover: #166fe5;
+    --background-color: #f0f2f5;
+    --form-background: #ffffff;
+    --border-color: #e1e4e8;
+    --error-color: #ff4d4f;
+    --input-focus: #1877f2;
+    --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --transition-speed: 0.3s;
+}
+
+/* Reset Básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Corpo da Página */
+body {
+    font-family: var(--font-family);
+    background-color: var(--background-color);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* Container do Formulário de Login */
+.login-container {
+    width: 100%;
+    max-width: 400px;
+    padding: 30px 20px;
+    background-color: var(--form-background);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+}
+
+.login-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* Título do Formulário */
+.login-container h2 {
+    margin-bottom: 25px;
+    color: #333;
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+
+/* Grupos de Formulário */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #555;
+    font-size: 1rem;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+}
+
+.form-group input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 5px rgba(24, 119, 242, 0.3);
+    outline: none;
+}
+
+/* Botão de Login */
+.btn-primary {
+    width: 100%;
+    padding: 14px 0;
+    background-color: var(--primary-color);
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color var(--transition-speed) ease, transform 0.2s ease;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-hover);
+}
+
+.btn-primary:active {
+    transform: scale(0.98);
+}
+
+/* Mensagem de Erro */
+.error-message {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    margin-bottom: 20px;
+    background-color: #ffe6e6;
+    border: 1px solid var(--error-color);
+    border-radius: 6px;
+    color: var(--error-color);
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+.error-message i {
+    margin-right: 10px;
+    font-size: 1.2rem;
+}
+
+/* Botões de Ação Secundária (Opcional) */
+.btn-secondary {
+    width: 100%;
+    padding: 12px 0;
+    background-color: #ffffff;
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease, transform 0.2s ease;
+    margin-top: 10px;
+}
+
+.btn-secondary:hover {
+    background-color: var(--primary-color);
+    color: #ffffff;
+}
+
+.btn-secondary:active {
+    transform: scale(0.98);
+}
+
+/* Estilos Responsivos */
+@media (max-width: 480px) {
+    .login-container {
+        padding: 25px 15px;
+    }
+
+    .login-container h2 {
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        font-size: 0.95rem;
+    }
+
+    .form-group input {
+        padding: 10px 14px;
+        font-size: 0.95rem;
+    }
+
+    .btn-primary {
+        padding: 12px 0;
+        font-size: 1rem;
+    }
+
+    .error-message {
+        font-size: 0.9rem;
+        padding: 8px 12px;
+    }
+
+    /* Ajustes para Botões Secundários (Opcional) */
+    .btn-secondary {
+        padding: 10px 0;
+        font-size: 0.95rem;
+    }
+}
+
+/* Melhorias Adicionais para Acessibilidade e Usabilidade */
+input::placeholder {
+    color: #999;
+}
+
+input:disabled {
+    background-color: #f5f5f5;
+    cursor: not-allowed;
+}
+
+button:disabled {
+    background-color: #a0c5f2;
+    cursor: not-allowed;
+}
+
