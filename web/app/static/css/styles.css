@@ -49,6 +49,40 @@ button:hover {
     background-color: #166fe5;
 }
 
+.settings-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: #1877f2;
+    font-size: 24px;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.settings-button:hover {
+    color: #166fe5;
+}
+
+.back-button {
+    position: absolute;
+    top: 19px;
+    left: 10px;
+    background-color: #1877f2;
+    color: #fff;
+    padding: 6px 8px;
+    text-decoration: none;
+    border-radius: 20px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.back-button:hover {
+    background-color: #166fe5;
+}
+
 /* Responsive Styles */
 @media (max-width: 400px) {
     .container, .select-machine-container {
@@ -60,3 +94,5 @@ button:hover {
         padding: 12px;
     }
 }
+
+
