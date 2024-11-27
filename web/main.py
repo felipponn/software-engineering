@@ -1,8 +1,10 @@
 import sys
 import os
+from functools import wraps
+from flask import Flask, render_template, request, redirect, url_for, session, jsonify, g
+
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from flask import Flask, render_template, request, redirect, url_for, session, jsonify
 from flask_babel import Babel, gettext as _
 
 from backend.user import User
@@ -37,40 +39,119 @@ babel.init_app(app, locale_selector=get_locale)
 
 @app.context_processor
 def inject_get_locale():
-    return dict(get_locale=get_locale)
+    return dict(get_locale=get_locale, current_user=g.get('current_user', None))
 
 def simulate_authentication(email, password):
-    '''
-    Function to simulate authentication.
-    '''
-    if email == 'fabricio@fabricio.com':
-        return User.authenticate(email, password)
-    elif email == 'fabricio@gestor.com':
-        return Manager.authenticate(email, password)
-    else:
-        return None
+    """
+    Function to authenticate a user based on their role.
+    """
+    user = User.authenticate(email, password)
+    if user and user.role == 'customer':
+        return user
 
-current_user = Manager.authenticate('fabricio@gestor.com', '123')  # Manager
-# current_user = User.authenticate('fabricio@fabricio.com', '123')  # Regular user
+    manager = Manager.authenticate(email, password)
+    if manager and manager.role == 'manager':
+        return manager
+
+    return None
+
+
+def login_required(f):
+    """
+    Decorator to require authentication for the login.
+    """
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not g.current_user:
+            return redirect(url_for('login', next=request.url))
+        return f(*args, **kwargs)
+    return decorated_function
+
+@app.before_request
+def load_current_user():
+    """
+    Loads the current user based on the session data.
+    """
+    user_id = session.get('user_id')
+    if user_id:
+        role = session.get('role')
+        email = session.get('email')
+        password = session.get('password')
+        
+        # Authentication based on the user's role
+        if role == 'manager':
+            user = Manager.authenticate(email, password)
+        elif role == 'customer':
+            user = User.authenticate(email, password)
+        else:
+            user = None
+        
+        if user:
+            g.current_user = user
+        else:
+            session.clear()
+            g.current_user = None
+    else:
+        g.current_user = None
 
 @app.route('/')
+def index():
+    '''
+    Root route that redirects to login or home based on authentication.
+    '''
+    if g.current_user:
+        return redirect(url_for('home'))
+    else:
+        return redirect(url_for('login'))
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    """
+    Route for user login.
+    """
+    if request.method == 'POST':
+        email = request.form.get('email')
+        password = request.form.get('password')
+        user = simulate_authentication(email, password)
+        
+        if user:
+            session['user_id'] = user.user_id
+            session['email'] = user.email
+            session['role'] = user.role 
+            session['password'] = user.password
+            return redirect(url_for('home'))
+        else:
+            error = _("Credenciais inválidas. Tente novamente.")
+            return render_template('login.html', error=error)
+    return render_template('login.html')
+
+@app.route('/logout')
+def logout():
+    """
+    Route for user logout.
+    """
+    session.clear()
+    return redirect(url_for('login'))
+
+@app.route('/home')
+@login_required
 def home():
-    '''
-    Route for the home page that allows navigation between screens.
-    The manager dashboard option only appears if the user is a manager.
-    '''
-    is_manager = isinstance(current_user, Manager)
+    """
+    Route for the home page after login.
+    """
+    is_manager = g.current_user.role == 'manager'
     return render_template('home.html', is_manager=is_manager)
 
 @app.route('/report', methods=['GET', 'POST'])
+@login_required
 def report():
-    '''
-    Route for submitting complaints.
-    '''
+    """
+    Route for sending complaints.
+    """
     machine_ids = Machine.get_machines()
     
     if request.method == 'POST':
-        # Collect form data for the complaint
+        # Collects form data
         destination = request.form.get('destination')
         complaint_type = request.form.get('complaintType')
         message = request.form.get('message')
@@ -78,33 +159,35 @@ def report():
         if destination == 'machine':
             machine_id = request.form.get('machineNumber')
         
-        # Register the complaint if the user is authenticated
-        if current_user:
-            current_user.report(target=destination, type=complaint_type, machine_id=machine_id, message=message)
+        # Registers the complaint if the user is authenticated
+        if g.current_user:
+            g.current_user.report(target=destination, type=complaint_type, machine_id=machine_id, message=message)
             return render_template('report.html', success=True, machine_ids=machine_ids)
         else:
-            return render_template('report.html', error="Usuário não autenticado", machine_ids=machine_ids)
+            return render_template('report.html', error=_("Usuário não autenticado"), machine_ids=machine_ids)
     
     return render_template('report.html', machine_ids=machine_ids)
 
 @app.route('/manager_dashboard')
+@login_required
 def manager_dashboard():
-    '''
-    Route to render the manager dashboard.
+    """
+    Route for rendering the manager's dashboard.
     Only accessible if the user is a manager.
-    '''
-    if not isinstance(current_user, Manager):
+    """
+    if not isinstance(g.current_user, Manager):
         return redirect(url_for('home'))
     machine_ids = Machine.get_machines()
     return render_template('report_manager.html', machine_ids=machine_ids)
 
 @app.route('/get_complaints', methods=['GET'])
+@login_required
 def get_complaints():
-    '''
-    API route to fetch complaints based on filters.
+    """
+    API to search complaints based on filters.
     Only accessible if the user is a manager.
-    '''
-    if not isinstance(current_user, Manager):
+    """
+    if not isinstance(g.current_user, Manager):
         return jsonify({'error': 'Não autorizado'}), 403
     
     issue = request.args.get('target')
@@ -118,7 +201,7 @@ def get_complaints():
         None: None
     }
 
-    complaints = current_user.view_all_issues(
+    complaints = g.current_user.view_all_issues(
         issue=issue,
         machine=machine_id,
         type=issue_type,
@@ -128,56 +211,60 @@ def get_complaints():
     return jsonify(complaints)
 
 @app.route('/settings', methods=['GET', 'POST'])
+@login_required
 def settings():
-    '''
+    """
     Route to change the system language.
-    '''
+    """
     if request.method == 'GET':
-        # Save the previous URL in the session
+        # Saves the previous URL in the session
         session['previous_url'] = request.referrer
         return render_template('settings.html')
     
     if request.method == 'POST':
         selected_language = request.form.get('language')
         session['language'] = selected_language
-        # Redirect to the previous URL, if available
+        # Redirects to the previous URL, if available
         return redirect(session.get('previous_url', url_for('home')))
 
-
 @app.route('/select_machine')
+@login_required
 def select_machine():
-    '''
+    """
     Route to render the machine selection page.
-    '''
+    """
     machine_ids = Machine.get_machines()
     return render_template('select_machine.html', machine_ids=machine_ids)
 
 @app.route('/machine_profile/<int:machine_id>')
+@login_required
 def machine_profile(machine_id):
-    '''
+    """
     Route to render the machine profile page.
-    '''
+    """
     machine = Machine(machine_id=machine_id)
     
     profile, available_products, reviews_info = machine.get_profile()
     
-    is_favorite = current_user.is_favorite(machine_id)
+    is_favorite = g.current_user.is_favorite(machine_id)
     
     return render_template('machine_profile.html', profile=profile, available_products=available_products, reviews_info=reviews_info, is_favorite=is_favorite)
 
 @app.route('/select_product')
+@login_required
 def select_product():
-    '''
+    """
     Route to render the product selection page.
-    '''
+    """
     product_ids = Product.get_products()
     return render_template('select_product.html', product_ids=product_ids)
 
 @app.route('/product_profile/<int:product_id>')
+@login_required
 def product_profile(product_id):
-    '''
+    """
     Route to render the product profile page.
-    '''
+    """
     product = Product(product_id=product_id)
     
     profile, available_machines, reviews_info = product.get_profile()
@@ -185,17 +272,18 @@ def product_profile(product_id):
     return render_template('product_profile.html', profile=profile, available_machines=available_machines, reviews_info=reviews_info)
 
 @app.route('/toggle_favorite/<int:machine_id>', methods=['POST'])
+@login_required
 def toggle_favorite(machine_id):
-    '''
-    API route to toggle a machine as a favorite.
-    '''
+    """
+    API to toggle a machine as a favorite.
+    """
     try:
-        if current_user.is_favorite(machine_id):
-            success = current_user.remove_favorite(machine_id)
+        if g.current_user.is_favorite(machine_id):
+            success = g.current_user.remove_favorite(machine_id)
             is_favorite = False
             message = 'Máquina removida das favoritas.'
         else:
-            success = current_user.add_favorite(machine_id)
+            success = g.current_user.add_favorite(machine_id)
             is_favorite = True
             message = 'Máquina adicionada às favoritas.'
         
@@ -206,24 +294,26 @@ def toggle_favorite(machine_id):
     except Exception as e:
         print(f"Erro no toggle_favorite: {e}")
         return jsonify({'success': False, 'message': 'Ocorreu um erro no servidor.'}), 500
-    
+
 @app.route('/manager_stock')
+@login_required
 def manager_stock():
-    '''
-    Route to render the manager's stock panel.
+    """
+    Route to render the manager's stock dashboard.
     Only accessible if the user is a manager.
-    '''
+    """
     machine_ids = Machine.get_machines()
     product_names = list(Product.get_products().values())
     quantity_categories = ['Critical', 'Low', 'Medium', 'High', 'Full']
     return render_template('stock_manager.html', machine_ids=machine_ids, product_names=product_names, quantity_categories=quantity_categories)
 
 @app.route('/get_stock', methods=['GET'])
+@login_required
 def get_stock():
-    '''
-    API route to fetch stock information based on filters.
+    """
+    API to search stock information based on filters.
     Only accessible if the user is a manager.
-    '''
+    """
     machine_id = request.args.get('machine_id')
     product_name = request.args.get('product_name')
     quantity_category = request.args.get('quantity_category')
@@ -235,10 +325,9 @@ def get_stock():
     if quantity_category == 'all':
         quantity_category = None
 
-    stock_info = current_user.get_stock(machine_id=machine_id, product_name=product_name, quantity_category=quantity_category)
+    stock_info = g.current_user.get_stock(machine_id=machine_id, product_name=product_name, quantity_category=quantity_category)
 
     return jsonify(stock_info)
-
 
 if __name__ == '__main__':
     app.run(debug=True)
