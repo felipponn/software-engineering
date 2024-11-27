@@ -3,68 +3,81 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
-class Notification:
-    def __init__(self, user_email, product_name, machine_location):
-        self.user_email = user_email
-        self.product_name = product_name
-        self.machine_location = machine_location
-
-    def send_email(self):
-        msg = MIMEMultipart()
-        msg['From'] = 'donodaempresa242@gmail.com'
-        msg['To'] = self.user_email
-        msg['Subject'] = 'Product Out of Stock Notification'
-
-        body = f'The product {self.product_name} is out of stock at the vending machine located at {self.machine_location}. Please check another machine.'
-        msg.attach(MIMEText(body, 'plain'))
-
+class EmailSender:
+    def __init__(self, smtp_server, smtp_port, smtp_user, smtp_password):
+        self.smtp_server = smtp_server
+        self.smtp_port = smtp_port
+        self.smtp_user = smtp_user
+        self.smtp_password = smtp_password
+        
+    def send_email(self, receiver_email, subject, body): 
         try:
-            server = smtplib.SMTP('smtp.gmail.com', 587)
-            server.starttls()
-            server.login('donodaempresa242@gmail.com', 'Abcd@1234')
-            text = msg.as_string()
-            server.sendmail('donodaempresa242@gmail.com', self.user_email, text)
-            server.quit()
+            message = MIMEMultipart()
+            message['From'] = self.smtp_user
+            message['To'] = receiver_email
+            message['Subject'] = subject
+            message.attach(MIMEText(body, 'plain'))
+            
+            with smtplib.SMTP(self.smtp_server, self.smtp_port) as server:
+                server.starttls()
+                server.login(self.smtp_user, self.smtp_password)
+                server.send_message(message)
+                
             print("Email sent successfully")
+            
         except Exception as e:
-            print(f"Failed to send email: {e}")
-
-    @staticmethod
-    def check_stock(machine_id, product_id):
-        """
-        Check the stock of a product in a specific machine.
-        Returns True if out of stock, False otherwise.
-        """
+            print(f"Error sending email: {e}")
+            
+class Notification:
+    def __init__(self):
+        self.subscribers = []
+        
+    def subscribe(self, user_email):
+        if user_email not in self.subscribers:
+            self.subscribers.append(user_email)
+            print(f"Subscribed {user_email}")
+            
+    def unsubscribe(self, user_email):
+        if user_email in self.subscribers:
+            self.subscribers.remove(user_email)
+            print(f"Unsubscribed {user_email}")
+            
+    def notify(self, subject, body):
+        email_sender = EmailSender("smtp.gmail.com", 587, "donodaempresa242@gmail.com", "Abcd@1234")
+        
+        for subscriber in self.subscribers:
+            email_sender.send_email(subscriber, subject, body)
+            
+        print("All subscribers notified!")
+        
+    def check_stock(self):
         query = """
-        SELECT quantity
-        FROM Coffee_Machine_Products
-        WHERE machine_id = %s AND product_id = %s
+            SELECT 
+                u.email, cm.location, p.name 
+            FROM Coffee_Machine_Products cmp
+            JOIN Coffee_Machines cm ON cmp.machine_id = cm.machine_id
+            JOIN Products p ON cmp.product_id = p.product_id
+            JOIN User_Selected_Machines usm ON cmp.machine_id = usm.machine_id
+            JOIN Users u ON usm.user_id = u.user_id
+            WHERE cmp.quantity = 0;
         """
-        result = execute_query_fetchone(query, (machine_id, product_id))
-        return result['quantity'] == 0
-
-    @staticmethod
-    def notify_user_out_of_stock(user_id):
-        """
-        Notify users about products out of stock for their selected machines.
-        """
-        query = """
-        SELECT 
-            u.email AS user_email,
-            p.name AS product_name,
-            cm.location AS machine_location
-        FROM User_Selected_Machines usm
-        JOIN Users u ON usm.user_id = u.user_id
-        JOIN Coffee_Machine_Products cmp ON cmp.machine_id = usm.machine_id
-        JOIN Products p ON p.product_id = cmp.product_id
-        JOIN Coffee_Machines cm ON cm.machine_id = usm.machine_id
-        WHERE u.user_id = %s AND cmp.quantity = 0
-        """
-        results = execute_query_fetchall(query, (user_id,))
-        for row in results:
-            notification = Notification(
-                user_email=row['user_email'],
-                product_name=row['product_name'],
-                machine_location=row['machine_location']
-            )
-            notification.send_email()
+        
+        out_of_stock_products = execute_query_fetchall(query)
+        
+        if out_of_stock_products:
+            for product in out_of_stock_products:
+                email = product[0]
+                machine_location = product[1]
+                product_name = product[2]
+                
+                notification = Notification()
+                notification.subscribe(email)
+                notification.notify("Out of Stock Notification", f"{product_name} is out of stock in {machine_location}")
+                
+        else:
+            print("No out of stock products found!")
+            
+        return out_of_stock_products
+    
+    def send_email(self):
+        self.check_stock()
