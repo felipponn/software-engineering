@@ -34,8 +34,8 @@ class Manager(User):
         Fetches all reported issues from the database based on optional filters for issue, machine, type, and description.
         Returns a list of dictionaries representing the issues.
     """
-    def __init__(self, user_name: str, password: str, email: str, phone: str, user_id=None, favorite_machines=[]):
-        super().__init__(user_name, password, email, phone, user_id, favorite_machines)
+    def __init__(self, user_name: str, password: str, email: str, phone: str, user_id=None, favorite_machines=[], role=None):
+        super().__init__(user_name, password, email, phone, user_id, favorite_machines, role)
 
     def save_db(self):
         """
@@ -71,7 +71,7 @@ class Manager(User):
             Returns a User object if authentication is successful, or None if the authentication fails.
         """
         query = """
-                SELECT user_id, name, email, password, phone_number
+                SELECT user_id, name, email, password, phone_number, role
                 FROM users 
                 WHERE email = %s;
             """
@@ -79,7 +79,7 @@ class Manager(User):
         user_data = execute_query_fetchone(query, (email,))
 
         if user_data:
-            user_id, user_name, email, correct_password, phone = user_data
+            user_id, user_name, email, correct_password, phone, role = user_data
 
             # Checks if the provided password matches the stored password
             if correct_password == password:
@@ -94,7 +94,7 @@ class Manager(User):
                 favorite_machines = execute_query_fetchall(favorites_query, (user_id,))
                 favorite_machines = [row[0] for row in favorite_machines] if favorite_machines else []
 
-                user = Manager(user_name, password, email, phone, user_id=user_id, favorite_machines=favorite_machines)
+                user = Manager(user_name, password, email, phone, user_id=user_id, favorite_machines=favorite_machines, role=role)
                 return user
             
             else:
