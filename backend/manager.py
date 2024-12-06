@@ -1,3 +1,8 @@
+
+import sys
+import os
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 from utils.connect_db import execute_query_fetchall, execute_query_fetchone
 from datetime import datetime
 from backend.user import User
@@ -29,8 +34,8 @@ class Manager(User):
         Fetches all reported issues from the database based on optional filters for issue, machine, type, and description.
         Returns a list of dictionaries representing the issues.
     """
-    def __init__(self, user_name: str, password: str, email: str, phone: str, user_id=None):
-        super().__init__(user_name, password, email, phone, user_id)
+    def __init__(self, user_name: str, password: str, email: str, phone: str, user_id=None, favorite_machines=[], role=None):
+        super().__init__(user_name, password, email, phone, user_id, favorite_machines, role)
 
     def save_db(self):
         """
@@ -66,7 +71,7 @@ class Manager(User):
             Returns a User object if authentication is successful, or None if the authentication fails.
         """
         query = """
-                SELECT user_id, name, email, password, phone_number
+                SELECT user_id, name, email, password, phone_number, role
                 FROM users 
                 WHERE email = %s;
             """
@@ -74,13 +79,22 @@ class Manager(User):
         user_data = execute_query_fetchone(query, (email,))
 
         if user_data:
-            user_id, user_name, email, correct_password, phone = user_data
+            user_id, user_name, email, correct_password, phone, role = user_data
 
             # Checks if the provided password matches the stored password
             if correct_password == password:
                 print(f"User {user_name} successfully logged in!")
                 # Creates and returns a User object if authentication is successful
-                user = Manager(user_name, password, email, phone, user_id=user_id)
+
+                favorites_query = """
+                                 SELECT machine_id
+                                 FROM User_Selected_Machines
+                                 WHERE user_id = %s;
+                                 """
+                favorite_machines = execute_query_fetchall(favorites_query, (user_id,))
+                favorite_machines = [row[0] for row in favorite_machines] if favorite_machines else []
+
+                user = Manager(user_name, password, email, phone, user_id=user_id, favorite_machines=favorite_machines, role=role)
                 return user
             
             else:
@@ -137,3 +151,71 @@ class Manager(User):
                 'resolved_at': issue[8],
             } for issue in issues
         ]
+
+    def get_stock(self, machine_id=None, product_name=None, quantity_category=None):
+        """
+        Fetches the stock information for a specific machine or product. If no filters are provided, fetches all stock information.
+        
+        Parameters:
+        ----------
+        machine_id : str or None
+            The machine_id to filter the stock information.
+        product_name : str or None
+            The product_name to filter the stock information.
+        quantity_category : str or None
+            The quantity_category to filter the stock information.
+
+        Returns:
+        -------
+        list:
+            Returns a list of dictionaries representing the stock information.
+        """
+        query = """
+            WITH CategorizedStock AS (
+                SELECT 
+                    cm.machine_id,
+                    cm.location,
+                    p.name AS product_name,
+                    cmp.quantity,
+                    CASE 
+                        WHEN cmp.quantity = 0 THEN 'Critical'
+                        WHEN cmp.quantity < 10 THEN 'Low'
+                        WHEN cmp.quantity < 50 THEN 'Medium'
+                        WHEN cmp.quantity < 100 THEN 'High'
+                        ELSE 'Full'
+                    END AS quantity_category
+                FROM 
+                    Coffee_Machine_Products cmp
+                JOIN 
+                    Products p ON cmp.product_id = p.product_id
+                JOIN 
+                    Coffee_Machines cm ON cmp.machine_id = cm.machine_id
+            )
+            SELECT 
+                machine_id,
+                location,
+                product_name,
+                quantity,
+                quantity_category
+            FROM 
+                CategorizedStock
+            WHERE 
+                (machine_id = %s OR %s IS NULL)
+                AND (quantity_category = %s OR %s IS NULL)
+                AND (product_name = %s OR %s IS NULL)
+            ORDER BY 
+                quantity ASC;
+        """
+        
+        stock_info = execute_query_fetchall(query, (machine_id, machine_id, quantity_category, quantity_category, product_name, product_name))
+
+        return [
+            {
+                'machine_id': row[0],
+                'location': row[1],
+                'product_name': row[2],
+                'quantity': row[3],
+                'quantity_category': row[4]
+            } for row in stock_info
+        ]
+

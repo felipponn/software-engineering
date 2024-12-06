@@ -60,27 +60,17 @@ VALUES
     ((SELECT user_id FROM Users WHERE email = 'bob@example.com'), 
      (SELECT machine_id FROM Coffee_Machines WHERE location = 'Building B - Kitchen'));
 
--- Inserting Mock Notifications for out-of-stock products in selected machines
-
--- Notification for Bob Johnson about 'Latte' being out of stock in 'Building B - Kitchen'
-INSERT INTO Notifications (user_id, machine_id, product_id, message, status)
+-- Insert Mock User Product Reviews
+INSERT INTO Product_Reviews (user_id, product_id, rating, created_at)
 VALUES
-    (
-        (SELECT user_id FROM Users WHERE email = 'bob@example.com'),
-        (SELECT machine_id FROM Coffee_Machines WHERE location = 'Building B - Kitchen'),
-        (SELECT product_id FROM Products WHERE name = 'Latte'),
-        'Product Latte is out of stock in machine Building B - Kitchen.',
-        'pending'
-    );
+    ((SELECT user_id FROM Users WHERE email = 'alice@example.com'), 
+     (SELECT product_id FROM Products WHERE name = 'Espresso'), 
+     4, 'Great espresso, perfect for mornings!', '2024-10-15 09:45:00'),
 
--- Notification for Alice Smith about 'Cappuccino' being low stock in 'Building A - Lobby'
--- Note: This is an example, even though the product isn't technically out of stock, we can insert a similar notification.
-INSERT INTO Notifications (user_id, machine_id, product_id, message, status)
-VALUES
-    (
-        (SELECT user_id FROM Users WHERE email = 'alice@example.com'),
-        (SELECT machine_id FROM Coffee_Machines WHERE location = 'Building A - Lobby'),
-        (SELECT product_id FROM Products WHERE name = 'Cappuccino'),
-        'Product Cappuccino is running low in machine Building A - Lobby.',
-        'sent'
-    );
+    ((SELECT user_id FROM Users WHERE email = 'bob@example.com'), 
+     (SELECT product_id FROM Products WHERE name = 'Cappuccino'), 
+     3, 'Decent cappuccino, could be creamier.', '2024-10-16 13:15:00'),
+
+    ((SELECT user_id FROM Users WHERE email = 'alice@example.com'), 
+     (SELECT product_id FROM Products WHERE name = 'Latte'), 
+     5, 'Best latte I''ve ever had!', '2024-10-16 09:45:00');

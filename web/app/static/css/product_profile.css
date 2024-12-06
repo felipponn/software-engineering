@@ -101,17 +101,17 @@
     font-size: 16px;
 }
 
-.products-section {
+.machines-section {
     margin-top: 30px;
 }
 
-.products-section h3 {
+.machines-section h3 {
     font-size: 20px;
     margin-bottom: 15px;
     color: #1877f2;
 }
 
-.products-grid {
+.machines-grid {
     display: flex;
     flex-wrap: wrap;
     gap: 15px;
@@ -127,7 +127,7 @@
 }
 
 .product-card button {
-    margin-top: 10px;
+    margin-top: 20px;
     padding: 10px 20px;
 }
 
@@ -152,7 +152,7 @@
     color: #555;
 }
 
-.no-products-message {
+.no-machines-message {
     font-size: 16px;
     color: #555;
     text-align: center;
@@ -309,7 +309,7 @@
         flex: 1 1 100%;
     }
 
-    .products-grid {
+    .machines-grid {
         justify-content: center;
     }
 

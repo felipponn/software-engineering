@@ -2,29 +2,28 @@
 <html lang="{{ get_locale() }}">
 <head>
     <meta charset="UTF-8">
-    <title>{{ _('Perfil da Máquina') }}</title>
+    <title>{{ _('Perfil do Produto') }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/machine_profile.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/product_profile.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" crossorigin="anonymous">
 </head>
 <body>
-    <div class="container machine-profile-container">
-        <a href="{{ url_for('select_machine') }}" class="back-button">
+    <div class="container product-profile-container">
+        <a href="{{ url_for('select_product') }}" class="back-button">
             <i class="fas fa-arrow-left"></i> {{ _('Voltar') }}
         </a>
         
         <div class="profile-header">
             <div class="profile-image">
-                <i class="fas fa-store fa-5x"></i>
+                <i class="fas fa-coffee fa-5x"></i>
             </div>
             <div class="profile-info">
-                <h2>{{ _('Máquina ID:') }} {{ profile.machine_id }}</h2>
-                <p><i class="fas fa-map-marker-alt"></i> {{ profile.location }}</p>
+                <h2>{{ _('Nome do produto:') }} {{ profile.name }}</h2>
             </div>
-            <div class="favorite-icon">
+            <!-- <div class="favorite-icon">
                 <i class="fa-heart fa-2x {{ 'fas favorite' if is_favorite else 'far not-favorite' }}" data-machine-id="{{ profile.machine_id }}"></i>
-            </div>
+            </div> -->
             
             
         </div>
@@ -33,47 +32,33 @@
             <h3>{{ _('Informações Gerais') }}</h3>
             <div class="info-grid">
                 <div class="info-item">
-                    <i class="fas fa-wrench"></i>
+                    <i class="fas fa-dollar-sign"></i>
                     <div>
-                        <strong>{{ _('Última Manutenção') }}:</strong>
-                        <span>{{ profile.last_maintenance }}</span>
-                    </div>
-                </div>
-                <div class="info-item">
-                    <i class="fas fa-calendar-alt"></i>
-                    <div>
-                        <strong>{{ _('Data de Instalação') }}:</strong>
-                        <span>{{ profile.installation_date }}</span>
-                    </div>
-                </div>
-                <div class="info-item status-item">
-                    <i class="fas fa-circle {{ 'status-operational' if profile.status == 'operational' else 'status-down' }}"></i>
-                    <div>
-                        <strong>{{ _('Status') }}:</strong>
-                        <span>{{ _(profile.status.capitalize()) }}</span>
+                        <strong>{{ _('Preço') }}:</strong>
+                        <span>R$ {{ profile.price }}</span>
                     </div>
                 </div>
             </div>
         </div>
         
-        <div class="products-section">
-            <h3>{{ _('Produtos Disponíveis') }}</h3>
-            {% if available_products %}
+        <div class="machines-section">
+            <h3>{{ _('Máquinas Disponíveis') }}</h3>
+            {% if available_machines %}
             <div class="products-grid">
-                {% for product in available_products %}
+                {% for machine in available_machines %}
                 <div class="product-card">
-                    <i class="fas fa-coffee fa-2x"></i>
-                    <p>{{ product.name }}</p>
-                    <span>R$ {{ product.price }}</span><br>
-                    <span>{{ _('Quantidade:') }} {{ product.quantity }}</span>
-                    <button onclick="selectProduct('{{ product.product_id }}')">
+                    <i class="fas fa-store fa-2x"></i>
+                    <p>{{ machine.machine_id }}</p>
+                    <span>{{ _('Endereço:') }} {{ machine.location }}</span><br>
+                    <span>{{ _('Quantidade:') }} {{ machine.quantity }}</span>
+                    <button onclick="selectMachine('{{ machine.machine_id }}')">
                         {{ _('Detalhes') }}
                     </button>
                 </div>
                 {% endfor %}
             </div>
             {% else %}
-            <p class="no-products-message">{{ _('Nenhum produto disponível no momento.') }}</p>
+            <p class="no-machines-message">{{ _('Nenhuma máquina disponível no momento.') }}</p>
             {% endif %}
         </div>
         
@@ -131,11 +116,9 @@
         </div>
     </div>
 
-    <script src="{{ url_for('static', filename='js/machine_profile.js') }}"></script>
-
     <script>
-        function selectProduct(productId) {
-            window.location.href = `/product_profile/${productId}`;
+        function selectMachine(machineId) {
+            window.location.href = `/machine_profile/${machineId}`;
         }
     </script>
 </body>

@@ -1,15 +1,15 @@
 
-.select-machine-container {
+.select-product-container {
     max-width: 1200px;
 }
 
-.machines-grid {
+.products-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 20px;
 }
 
-.machine-card {
+.product-card {
     background-color: #f9fafb;
     border: 1px solid #e1e4e8;
     border-radius: 10px;
@@ -18,17 +18,17 @@
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.machine-card:hover {
+.product-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 4px 10px rgba(0,0,0,0.15);
 }
 
-.machine-card i {
+.product-card i {
     color: #1877f2;
     margin-bottom: 15px;
 }
 
-.machine-card p {
+.product-card p {
     font-size: 18px;
     color: #333;
     margin-bottom: 20px;
@@ -50,26 +50,26 @@
 }
 
 @media (max-width: 768px) {
-    .select-machine-container h2 {
+    .select-product-container h2 {
         font-size: 24px;
     }
     
-    .machine-card p {
+    .product-card p {
         font-size: 16px;
     }
 
-    .machine-card button {
+    .product-card button {
         font-size: 14px;
         padding: 8px 16px;
     }
 }
 
 @media (max-width: 480px) {
-    .machine-card {
+    .product-card {
         padding: 15px;
     }
     
-    .select-machine-container h2 {
+    .select-product-container h2 {
         font-size: 20px;
     }
 }
