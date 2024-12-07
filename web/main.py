@@ -311,7 +311,6 @@ def manager_stock():
     Only accessible if the user is a manager.
     """
     machine_ids = Machine.get_machines()
-    print(Product.get_products())
     product_names = [name for id, name in Product.get_products()]
     quantity_categories = ['Critical', 'Low', 'Medium', 'High', 'Full']
     return render_template('stock_manager.html', machine_ids=machine_ids, product_names=product_names, quantity_categories=quantity_categories)
