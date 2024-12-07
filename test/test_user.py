@@ -15,7 +15,7 @@ class TestUser(unittest.TestCase):
         mock_fetchone.return_value = ['mock-user-id']
 
         # Create a user
-        user = User('test_name', 'test_password', 'test_email@example.com', '1234567890')
+        user = User('test_name', 'test_password', 'test_email@example.com', '1234567890', 'customer')
         
         # Call save_db
         user.save_db()
@@ -39,7 +39,7 @@ class TestUser(unittest.TestCase):
     @patch('utils.connect_db.Database.execute_query_fetchall')
     def test_authenticate_success(self, mock_fetchall, mock_fetchone):
         # Setup the mock for user data
-        mock_fetchone.return_value = ['mock-user-id', 'test_name', 'test_email@example.com', 'hashed_password', '1234567890']
+        mock_fetchone.return_value = ['mock-user-id', 'test_name', 'test_email@example.com', 'hashed_password', '1234567890', 'customer']
         
         # Setup the mock for favorite machines
         mock_fetchall.return_value = [(1,), (2,)]
@@ -57,7 +57,7 @@ class TestUser(unittest.TestCase):
     @patch('utils.connect_db.Database.execute_query_fetchone')
     def test_authenticate_fail_wrong_password(self, mock_fetchone):
         # Setup the mock
-        mock_fetchone.return_value = ['mock-user-id', 'test_name', 'test_email@example.com', 'hashed_password', '1234567890']
+        mock_fetchone.return_value = ['mock-user-id', 'test_name', 'test_email@example.com', 'hashed_password', '1234567890', 'customer']
 
         # Call the authenticate method with the wrong password
         user = User.authenticate('test_email@example.com', 'wrong_password')
