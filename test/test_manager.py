@@ -7,7 +7,7 @@ from unittest.mock import patch, MagicMock
 from backend.manager import Manager
 
 class TestManager(unittest.TestCase):
-    @patch('backend.manager.execute_query_fetchall')
+    @patch('utils.connect_db.Database.execute_query_fetchall')
     def test_view_all_issues_no_filters(self, mock_execute_query):
         """
         Test view_all_issues with no filters (should return all issues).
@@ -50,7 +50,7 @@ class TestManager(unittest.TestCase):
         ]
         self.assertEqual(result, expected_result)
 
-    @patch('backend.manager.execute_query_fetchall')
+    @patch('utils.connect_db.Database.execute_query_fetchall')
     def test_view_all_issues_with_filters(self, mock_execute_query):
         """
         Test view_all_issues with specific filters (issue type and user_id).
@@ -82,7 +82,7 @@ class TestManager(unittest.TestCase):
         ]
         self.assertEqual(result, expected_result)
 
-    @patch('backend.manager.execute_query_fetchall')
+    @patch('utils.connect_db.Database.execute_query_fetchall')
     def test_view_all_issues_no_results(self, mock_execute_query):
         """
         Test view_all_issues when no issues match the filters.
@@ -98,7 +98,7 @@ class TestManager(unittest.TestCase):
         # Assert that the result is an empty list
         self.assertEqual(result, [])
 
-    @patch('backend.manager.execute_query_fetchall')
+    @patch('utils.connect_db.Database.execute_query_fetchall')
     def test_get_stock_no_filters(self, mock_execute_query):
         """
         Test get_stock with no filters (should return all stock information).
@@ -125,7 +125,7 @@ class TestManager(unittest.TestCase):
         # Assert the result
         self.assertEqual(result, expected_result)
 
-    @patch('backend.manager.execute_query_fetchall')
+    @patch('utils.connect_db.Database.execute_query_fetchall')
     def test_get_stock_with_machine_id_filter(self, mock_execute_query):
         """
         Test get_stock with a filter for machine_id.
@@ -150,7 +150,7 @@ class TestManager(unittest.TestCase):
         # Assert the result
         self.assertEqual(result, expected_result)
 
-    @patch('backend.manager.execute_query_fetchall')
+    @patch('utils.connect_db.Database.execute_query_fetchall')
     def test_get_stock_with_category_filter(self, mock_execute_query):
         """
         Test get_stock with a filter for quantity_category.
@@ -173,7 +173,7 @@ class TestManager(unittest.TestCase):
         # Assert the result
         self.assertEqual(result, expected_result)
 
-    @patch('backend.manager.execute_query_fetchall')
+    @patch('utils.connect_db.Database.execute_query_fetchall')
     def test_get_stock_with_all_filters(self, mock_execute_query):
         """
         Test get_stock with all filters (machine_id, product_name, and quantity_category).
@@ -196,7 +196,7 @@ class TestManager(unittest.TestCase):
         # Assert the result
         self.assertEqual(result, expected_result)
 
-    @patch('backend.manager.execute_query_fetchall')
+    @patch('utils.connect_db.Database.execute_query_fetchall')
     def test_get_stock_no_results(self, mock_execute_query):
         """
         Test get_stock with filters that result in no matches.
