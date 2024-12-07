@@ -4,7 +4,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 
 import unittest
 from unittest.mock import patch, MagicMock
-from utils.connect_db import execute_query, execute_query_fetchone, execute_query_fetchall
+from utils.connect_db import Database
 
 class TestDBUtils(unittest.TestCase):
 
@@ -15,14 +15,20 @@ class TestDBUtils(unittest.TestCase):
         mock_cursor = MagicMock()
         mock_connect.return_value = mock_conn
         mock_conn.cursor.return_value = mock_cursor
+        
+        # Get the singleton instance of Database
+        db = Database()
 
         # Call execute_query
         query = "INSERT INTO test_table (col1) VALUES (%s)"
-        execute_query(query, ('test_value',))
+        db.execute_query(query, ('test_value',))
 
         # Assert that cursor.execute was called with the correct arguments
         mock_cursor.execute.assert_called_once_with(query, ('test_value',))
         mock_conn.commit.assert_called_once()
+        
+        # Close the database connection
+        db.close()
 
         # Assert connection and cursor are closed
         mock_cursor.close.assert_called_once()
@@ -38,14 +44,20 @@ class TestDBUtils(unittest.TestCase):
 
         # Mock fetchone() response
         mock_cursor.fetchone.return_value = ('test_row',)
+        
+        # Get the singleton instance of Database
+        db = Database()
 
         # Call execute_query_fetchone
         query = "SELECT * FROM test_table WHERE col1 = %s"
-        result = execute_query_fetchone(query, ('test_value',))
+        result = db.execute_query_fetchone(query, ('test_value',))
 
         # Assert that cursor.execute was called with the correct arguments
         mock_cursor.execute.assert_called_once_with(query, ('test_value',))
         self.assertEqual(result, ('test_row',))
+        
+        # Close the database connection
+        db.close()
 
         # Assert connection and cursor are closed
         mock_cursor.close.assert_called_once()
@@ -61,14 +73,20 @@ class TestDBUtils(unittest.TestCase):
 
         # Mock fetchall() response
         mock_cursor.fetchall.return_value = [('row1',), ('row2',)]
+        
+        # Get the singleton instance of Database
+        db = Database()
 
         # Call execute_query_fetchall
         query = "SELECT * FROM test_table"
-        result = execute_query_fetchall(query, ())
+        result = db.execute_query_fetchall(query, ())
 
         # Assert that cursor.execute was called with the correct arguments
         mock_cursor.execute.assert_called_once_with(query, ())
         self.assertEqual(result, [('row1',), ('row2',)])
+        
+        # Close the database connection
+        db.close()
 
         # Assert connection and cursor are closed
         mock_cursor.close.assert_called_once()
