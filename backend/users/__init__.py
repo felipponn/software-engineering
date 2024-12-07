@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from utils.connect_db import Database
 class UserFactory():
     """
-    Abstract Factory class to define the interface for creating users.
+    Factory class to define the interface for creating users.
     """
     @abstractmethod
     def create_user(self, user_name, password, email, phone, role, user_id=None, favorite_machines=[]):
