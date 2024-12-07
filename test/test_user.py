@@ -9,7 +9,7 @@ from backend.user import User
 
 class TestUser(unittest.TestCase):
 
-    @patch('backend.user.execute_query_fetchone')
+    @patch('utils.connect_db.Database.execute_query_fetchone')
     def test_save_db(self, mock_fetchone):
         # Setup the mock
         mock_fetchone.return_value = ['mock-user-id']
@@ -35,8 +35,8 @@ class TestUser(unittest.TestCase):
         mock_fetchone.assert_called_once_with(expected_query, 
             ('test_name', 'test_email@example.com', '1234567890', 'test_password'), True)
 
-    @patch('backend.user.execute_query_fetchone')
-    @patch('backend.user.execute_query_fetchall')
+    @patch('utils.connect_db.Database.execute_query_fetchone')
+    @patch('utils.connect_db.Database.execute_query_fetchall')
     def test_authenticate_success(self, mock_fetchall, mock_fetchone):
         # Setup the mock for user data
         mock_fetchone.return_value = ['mock-user-id', 'test_name', 'test_email@example.com', 'hashed_password', '1234567890']
@@ -54,7 +54,7 @@ class TestUser(unittest.TestCase):
         self.assertIn(2, user.favorite_machines)
     
 
-    @patch('backend.user.execute_query_fetchone')
+    @patch('utils.connect_db.Database.execute_query_fetchone')
     def test_authenticate_fail_wrong_password(self, mock_fetchone):
         # Setup the mock
         mock_fetchone.return_value = ['mock-user-id', 'test_name', 'test_email@example.com', 'hashed_password', '1234567890']
@@ -65,7 +65,7 @@ class TestUser(unittest.TestCase):
         # Assert no user object is returned
         self.assertIsNone(user)
 
-    @patch('backend.user.execute_query')
+    @patch('utils.connect_db.Database.execute_query')
     def test_report(self, mock_execute_query):
         # Create a user and assign a mock user_id
         user = User('test_name', 'test_password', 'test_email@example.com', '1234567890', user_id='mock-user-id')
@@ -85,7 +85,7 @@ class TestUser(unittest.TestCase):
     def setUp(self):
         self.user = User('test_name', 'test_password', 'test_email@example.com', '1234567890', user_id='mock-user-id', favorite_machines=[1])
 
-    @patch('backend.user.execute_query', return_value=None) 
+    @patch('utils.connect_db.Database.execute_query', return_value=None) 
     def test_add_favorite_local(self, mock_execute_query):
         # Test adding a new favorite machine
         machine_id = 2
@@ -95,7 +95,7 @@ class TestUser(unittest.TestCase):
         self.assertTrue(result)
         self.assertIn(machine_id, self.user.favorite_machines)
 
-    @patch('backend.user.execute_query', return_value=None) 
+    @patch('utils.connect_db.Database.execute_query', return_value=None) 
     def test_add_favorite_already_exists(self, mock_execute_query):
         # Test adding a machine that is already a favorite
         machine_id = 1
@@ -105,7 +105,7 @@ class TestUser(unittest.TestCase):
         self.assertFalse(result)
         self.assertEqual(self.user.favorite_machines.count(machine_id), 1)
 
-    @patch('backend.user.execute_query', return_value=None)
+    @patch('utils.connect_db.Database.execute_query', return_value=None)
     def test_remove_favorite_local(self, mock_execute_query):
         # Test removing a favorite machine
         machine_id = 1
@@ -115,7 +115,7 @@ class TestUser(unittest.TestCase):
         self.assertTrue(result)
         self.assertNotIn(machine_id, self.user.favorite_machines)
 
-    @patch('backend.user.execute_query', return_value=None)  
+    @patch('utils.connect_db.Database.execute_query', return_value=None)  
     def test_remove_favorite_not_in_list(self, mock_execute_query):
         # Test removing a machine that is not in the favorites list
         machine_id = 2
