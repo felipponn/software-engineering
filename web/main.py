@@ -2,6 +2,7 @@ import sys
 import os
 from functools import wraps
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify, g
+from datetime import timedelta
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
@@ -15,6 +16,7 @@ from backend.product import Product
 # Initialize the Flask application
 app = Flask(__name__, template_folder='app/templates', static_folder='app/static')
 app.secret_key = 'qualquer_coisa_vai_funcionar'
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=30)
 
 base_dir = os.path.abspath(os.path.dirname(__file__))
 translations_path = os.path.join(base_dir, 'translations')
@@ -65,10 +67,16 @@ def login_required(f):
     """
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if not g.current_user:
+        if not session.get('user_id'):
             return redirect(url_for('login', next=request.url))
         return f(*args, **kwargs)
     return decorated_function
+
+
+@app.before_request
+def make_session_permanent():
+    session.permanent = True
+    app.permanent_session_lifetime = timedelta(minutes=30)
 
 @app.before_request
 def load_current_user():
@@ -83,21 +91,20 @@ def load_current_user():
         email = session.get('email')
         password = session.get('password')
         
-        # Authentication based on the user's role
         if role == 'manager':
-            user = regular_user_factory.authenticate(email, password)
-        elif role == 'customer':
             user = manager_factory.authenticate(email, password)
+        elif role == 'customer':
+            user = regular_user_factory.authenticate(email, password)
         else:
             user = None
-        
+    
         if user:
             g.current_user = user
         else:
-            session.clear()
             g.current_user = None
     else:
         g.current_user = None
+
 
 @app.route('/')
 def index():
@@ -130,13 +137,6 @@ def login():
             return render_template('login.html', error=error)
     return render_template('login.html')
 
-@app.route('/logout')
-def logout():
-    """
-    Route for user logout.
-    """
-    session.clear()
-    return redirect(url_for('login'))
 
 @app.route('/home')
 @login_required
