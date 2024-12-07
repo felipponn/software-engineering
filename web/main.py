@@ -16,6 +16,7 @@ from backend.product import Product
 # Initialize the Flask application
 app = Flask(__name__, template_folder='app/templates', static_folder='app/static')
 app.secret_key = 'qualquer_coisa_vai_funcionar'
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=30)
 
 base_dir = os.path.abspath(os.path.dirname(__file__))
 translations_path = os.path.join(base_dir, 'translations')
@@ -66,7 +67,7 @@ def login_required(f):
     """
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if not g.current_user:
+        if not session.get('user_id'):
             return redirect(url_for('login', next=request.url))
         return f(*args, **kwargs)
     return decorated_function
@@ -100,7 +101,6 @@ def load_current_user():
         if user:
             g.current_user = user
         else:
-            session.clear()
             g.current_user = None
     else:
         g.current_user = None
@@ -137,13 +137,6 @@ def login():
             return render_template('login.html', error=error)
     return render_template('login.html')
 
-@app.route('/logout')
-def logout():
-    """
-    Route for user logout.
-    """
-    session.clear()
-    return redirect(url_for('login'))
 
 @app.route('/home')
 @login_required
