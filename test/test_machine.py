@@ -7,12 +7,12 @@ from decimal import Decimal
 import unittest
 from unittest.mock import patch, MagicMock
 from datetime import datetime
-from utils.connect_db import execute_query, execute_query_fetchone, execute_query_fetchall
+from utils.connect_db import Database
 from backend.machine import Machine
 
 class TestMachine(unittest.TestCase):
 
-    @patch('backend.machine.execute_query_fetchall')
+    @patch('utils.connect_db.Database.execute_query_fetchall')
     def test_get_machines(self, mock_execute_query_fetchall):
         # Mocking the database return value for machine IDs
         mock_execute_query_fetchall.return_value = [
@@ -33,7 +33,7 @@ class TestMachine(unittest.TestCase):
         self.assertEqual(machines[1], 2)
         self.assertEqual(machines[2], 3)
         
-    @patch('backend.machine.execute_query_fetchall')
+    @patch('utils.connect_db.Database.execute_query_fetchall')
     def test_get_machines_no_data(self, mock_execute_query_fetchall):
         # Simulate no machines in the database
         mock_execute_query_fetchall.return_value = []
@@ -45,9 +45,9 @@ class TestMachine(unittest.TestCase):
         self.assertIsInstance(machines, list)
         self.assertEqual(len(machines), 0)
 
-    @patch('backend.machine.execute_query_fetchone')
-    @patch('backend.machine.execute_query_fetchall')
-    @patch('backend.machine.execute_query_fetchall')
+    @patch('utils.connect_db.Database.execute_query_fetchone')
+    @patch('utils.connect_db.Database.execute_query_fetchall')
+    @patch('utils.connect_db.Database.execute_query_fetchall')
     def test_get_profile(self, mock_execute_query_fetchall_1, mock_execute_query_fetchall_2, mock_execute_query_fetchone):
         # Mocking the database return value for a machine profile
         mock_execute_query_fetchone.return_value = (
@@ -78,8 +78,8 @@ class TestMachine(unittest.TestCase):
         self.assertEqual(profile[0]['last_maintenance'], datetime(2024, 9, 1))
         self.assertEqual(profile[0]['installation_date'], datetime(2023, 1, 15))
 
-    @patch('backend.machine.execute_query_fetchone')
-    @patch('backend.machine.execute_query_fetchall')
+    @patch('utils.connect_db.Database.execute_query_fetchone')
+    @patch('utils.connect_db.Database.execute_query_fetchall')
     def test_get_profile(self, mock_execute_query_fetchall, mock_execute_query_fetchone):
         # Mocking the database return value for a machine profile
         mock_execute_query_fetchone.return_value = (
