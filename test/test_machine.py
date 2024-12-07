@@ -112,7 +112,7 @@ class TestMachine(unittest.TestCase):
         # Check if the profile matches
         self.assertEqual(profile, expected_profile)
         # Check if available products are as expected
-        self.assertEqual(available_products, [{'name': 'Espresso', 'price': '2.50'}, {'name': 'Cappuccino', 'price': '3.00'}])
+        self.assertEqual(available_products, [{'name': 'Espresso', 'price': '2.50', 'product_id': 1, 'quantity': 10}, {'name': 'Cappuccino', 'price': '3.00', 'product_id': 2, 'quantity': 5}])
         
         # Check if reviews_info is processed correctly
         self.assertEqual(reviews_info['mean_rating'], 4)  # Mean of 3, 4 e 5
