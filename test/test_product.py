@@ -7,12 +7,12 @@ from decimal import Decimal
 import unittest
 from unittest.mock import patch, MagicMock
 from datetime import datetime
-from utils.connect_db import execute_query, execute_query_fetchone, execute_query_fetchall
+from utils.connect_db import Database
 from backend.product import Product
 
 class TestProduct(unittest.TestCase):
 
-    @patch('backend.product.execute_query_fetchall')
+    @patch('utils.connect_db.Database.execute_query_fetchall')
     def test_get_products(self, mock_execute_query_fetchall):
         # Mocking the database return value for product IDs
         mock_execute_query_fetchall.return_value = [
@@ -33,7 +33,7 @@ class TestProduct(unittest.TestCase):
         self.assertEqual(products[1], 2)
         self.assertEqual(products[2], 3)
 
-    @patch('backend.product.execute_query_fetchall')
+    @patch('utils.connect_db.Database.execute_query_fetchall')
     def test_get_products_no_data(self, mock_execute_query_fetchall):
         # Simulate no products in the database
         mock_execute_query_fetchall.return_value = []
@@ -45,9 +45,9 @@ class TestProduct(unittest.TestCase):
         self.assertIsInstance(products, list)
         self.assertEqual(len(products), 0)
 
-    @patch('backend.product.execute_query_fetchone')
-    @patch('backend.product.execute_query_fetchall')
-    @patch('backend.product.execute_query_fetchall')
+    @patch('utils.connect_db.Database.execute_query_fetchone')
+    @patch('utils.connect_db.Database.execute_query_fetchall')
+    @patch('utils.connect_db.Database.execute_query_fetchall')
     def test_get_profile(self, mock_execute_query_fetchall_1, mock_execute_query_fetchall_2, mock_execute_query_fetchone):
         # Mocking the database return value for a product profile
         mock_execute_query_fetchone.return_value = (
@@ -76,8 +76,8 @@ class TestProduct(unittest.TestCase):
         self.assertEqual(profile[0]['description'], 'Refreshing soda')
         self.assertEqual(profile[0]['price'], Decimal('1.50'))
         
-    @patch('backend.product.execute_query_fetchone')
-    @patch('backend.product.execute_query_fetchall')
+    @patch('utils.connect_db.Database.execute_query_fetchone')
+    @patch('utils.connect_db.Database.execute_query_fetchall')
     def test_get_profile_with_reviews(self, mock_execute_query_fetchall, mock_execute_query_fetchone):
         # Mocking the database return value for a product profile
         mock_execute_query_fetchone.return_value = (
