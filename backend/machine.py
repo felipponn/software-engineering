@@ -1,4 +1,4 @@
-from utils.connect_db import execute_query, execute_query_fetchone, execute_query_fetchall
+from utils.connect_db import Database
 from datetime import datetime
 
 class Machine:
@@ -38,11 +38,12 @@ class Machine:
         - list
             The list of Machine objects.
         """
+        db = Database()
         query = """
                 SELECT machine_id
                 FROM Coffee_Machines;
                 """
-        machines_data = execute_query_fetchall(query)
+        machines_data = db.execute_query_fetchall(query)
         machines_data = [id[0] for id in machines_data]
         return machines_data
 
@@ -54,12 +55,13 @@ class Machine:
         -list
             The list of atributes of the machine.
         """
+        db = Database()
         profile_query = f"""
             SELECT *
             FROM Coffee_Machines
             WHERE machine_id = {self.machine_id};
         """
-        machine_profile = execute_query_fetchone(profile_query)
+        machine_profile = db.execute_query_fetchone(profile_query)
 
         available_products_query = f"""
             SELECT p.name, p.price, p.product_id, cmp.quantity
@@ -67,7 +69,7 @@ class Machine:
             JOIN Coffee_Machine_Products cmp ON p.product_id = cmp.product_id
             WHERE cmp.machine_id = {self.machine_id} AND cmp.quantity > 0;
         """
-        available_products = execute_query_fetchall(available_products_query)
+        available_products = db.execute_query_fetchall(available_products_query)
         available_products = [{'name': p[0], 'price': f"{p[1]:.2f}", "product_id": p[2],
                                'quantity': p[3]} for p in available_products]
 
@@ -77,7 +79,7 @@ class Machine:
             JOIN Users u ON r.user_id = u.user_id
             WHERE r.machine_id = {self.machine_id};
         """
-        machine_reviews = execute_query_fetchall(machine_reviews_query)
+        machine_reviews = db.execute_query_fetchall(machine_reviews_query)
 
         reviews_info = self.post_process_reviews(machine_reviews)
 

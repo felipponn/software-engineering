@@ -3,7 +3,7 @@ import sys
 import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from utils.connect_db import execute_query_fetchall, execute_query_fetchone
+from utils.connect_db import Database
 from datetime import datetime
 from backend.user import User
 
@@ -44,6 +44,7 @@ class Manager(User):
         After saving, the method sets the `user_id` by executing a query 
         to insert the user's details into the `Users` table and returning the generated `user_id`.
         """
+        db = Database()
         query = """
                 INSERT INTO Users (name, email, phone_number, password, role)
                 VALUES (%s, %s, %s, %s ,'manager')
@@ -51,7 +52,7 @@ class Manager(User):
                 """
         
         # Executes the query and assigns the returned user_id to the user instance
-        self.user_id = execute_query_fetchone(query, (self.user_name, self.email, self.phone, self.password), True)[0]
+        self.user_id = db.execute_query_fetchone(query, (self.user_name, self.email, self.phone, self.password), True)[0]
 
     @staticmethod
     def authenticate(email, password):
@@ -70,13 +71,14 @@ class Manager(User):
         User or None:
             Returns a User object if authentication is successful, or None if the authentication fails.
         """
+        db = Database()
         query = """
                 SELECT user_id, name, email, password, phone_number, role
                 FROM users 
                 WHERE email = %s;
             """
         # Fetches user data from the database based on email
-        user_data = execute_query_fetchone(query, (email,))
+        user_data = db.execute_query_fetchone(query, (email,))
 
         if user_data:
             user_id, user_name, email, correct_password, phone, role = user_data
@@ -91,7 +93,7 @@ class Manager(User):
                                  FROM User_Selected_Machines
                                  WHERE user_id = %s;
                                  """
-                favorite_machines = execute_query_fetchall(favorites_query, (user_id,))
+                favorite_machines = db.execute_query_fetchall(favorites_query, (user_id,))
                 favorite_machines = [row[0] for row in favorite_machines] if favorite_machines else []
 
                 user = Manager(user_name, password, email, phone, user_id=user_id, favorite_machines=favorite_machines, role=role)
@@ -107,6 +109,7 @@ class Manager(User):
         Fetches all reported issues from the database based on optional filters for issue, machine, type, and status.
         Returns a list of dictionaries representing the issues.
         """
+        db = Database()
         # Base query
         query = """
             SELECT report_id, user_id, machine_id, report_target, issue_type, description, status, created_at, resolved_at
@@ -135,7 +138,7 @@ class Manager(User):
             params.append(f'%{status}%')
 
         # Execute the query with the filters
-        issues = execute_query_fetchall(query, params)
+        issues = db.execute_query_fetchall(query, params)
 
         # Return a structured list of issues
         return [
@@ -170,6 +173,7 @@ class Manager(User):
         list:
             Returns a list of dictionaries representing the stock information.
         """
+        db = Database()
         query = """
             WITH CategorizedStock AS (
                 SELECT 
@@ -207,7 +211,7 @@ class Manager(User):
                 quantity ASC;
         """
         
-        stock_info = execute_query_fetchall(query, (machine_id, machine_id, quantity_category, quantity_category, product_name, product_name))
+        stock_info = db.execute_query_fetchall(query, (machine_id, machine_id, quantity_category, quantity_category, product_name, product_name))
 
         return [
             {

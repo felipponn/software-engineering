@@ -1,4 +1,4 @@
-from utils.connect_db import execute_query, execute_query_fetchone, execute_query_fetchall
+from utils.connect_db import Database
 from datetime import datetime
 
 class Product:
@@ -38,11 +38,12 @@ class Product:
         - dict
             The dictionary with the Product ids and names.
         """
+        db = Database()
         query = """
                 SELECT product_id, name
                 FROM Products;
                 """
-        products_data = execute_query_fetchall(query)
+        products_data = db.execute_query_fetchall(query)
         # products_data = {id[0]: id[1] for id in products_data}
         return products_data
     
@@ -54,12 +55,13 @@ class Product:
         -list
             The list of atributes of the product.
         """
+        db = Database()
         profile_query = """
             SELECT *
             FROM Products
             WHERE product_id = %s;
             """
-        product_data = execute_query_fetchone(profile_query, (str(self.product_id)))
+        product_data = db.execute_query_fetchone(profile_query, (str(self.product_id)))
 
         available_machines_query = """
             SELECT m.machine_id, m.location, mp.quantity
@@ -68,7 +70,7 @@ class Product:
             ON m.machine_id = mp.machine_id
             WHERE mp.product_id = %s AND mp.quantity > 0;
             """
-        available_machines = execute_query_fetchall(available_machines_query, (str(self.product_id)))
+        available_machines = db.execute_query_fetchall(available_machines_query, (str(self.product_id)))
         available_machines = [{'machine_id': m[0], 'location': m[1], 'quantity': m[2]} for m in available_machines]
 
         product_reviews_query = """
@@ -78,7 +80,7 @@ class Product:
             ON r.user_id = u.user_id
             WHERE r.product_id = %s;
             """
-        product_reviews = execute_query_fetchall(product_reviews_query, (str(self.product_id)))
+        product_reviews = db.execute_query_fetchall(product_reviews_query, (str(self.product_id)))
 
         reviews_info = self.post_process_reviews(product_reviews)
 

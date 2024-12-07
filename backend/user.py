@@ -1,4 +1,4 @@
-from utils.connect_db import execute_query, execute_query_fetchone, execute_query_fetchall
+from utils.connect_db import Database
 class User:
     """
     A class representing a User in the system, allowing for actions like saving to the database,
@@ -52,6 +52,7 @@ class User:
         After saving, the method sets the `user_id` by executing a query 
         to insert the user's details into the `Users` table and returning the generated `user_id`.
         """
+        db = Database()
         query = """
                 INSERT INTO Users (name, email, phone_number, password, role)
                 VALUES (%s, %s, %s, %s ,'customer')
@@ -59,7 +60,7 @@ class User:
                 """
         
         # Executes the query and assigns the returned user_id to the user instance
-        self.user_id = execute_query_fetchone(query, (self.user_name, self.email, self.phone, self.password), True)[0]
+        self.user_id = db.execute_query_fetchone(query, (self.user_name, self.email, self.phone, self.password), True)[0]
 
     @staticmethod
     def authenticate(email, password):
@@ -78,13 +79,14 @@ class User:
         User or None:
             Returns a User object if authentication is successful, or None if the authentication fails.
         """
+        db = Database()
         query = """
                 SELECT user_id, name, email, password, phone_number, role
                 FROM users 
                 WHERE email = %s;
             """
         # Fetches user data from the database based on email
-        user_data = execute_query_fetchone(query, (email,))
+        user_data = db.execute_query_fetchone(query, (email,))
 
         if user_data:
             user_id, user_name, email, correct_password, phone, role = user_data
@@ -97,7 +99,7 @@ class User:
                                  FROM User_Selected_Machines
                                  WHERE user_id = %s;
                                  """
-                favorite_machines = execute_query_fetchall(favorites_query, (user_id,))
+                favorite_machines = db.execute_query_fetchall(favorites_query, (user_id,))
                 favorite_machines = [row[0] for row in favorite_machines] if favorite_machines else []
 
                 user = User(user_name, password, email, phone, user_id=user_id, favorite_machines=favorite_machines, role=role)
@@ -122,6 +124,7 @@ class User:
         bool
             Returns True if the operation is successful, False otherwise.
         """
+        db = Database()
         if machine_id in self.favorite_machines:
             print("Machine already in favorites.")
             return False
@@ -132,7 +135,7 @@ class User:
                 ON CONFLICT DO NOTHING;
                 """
         try:
-            execute_query(query, (self.user_id, machine_id))
+            db.execute_query(query, (self.user_id, machine_id))
             self.favorite_machines.append(machine_id)
             print("Machine added to favorites successfully.")
             return True
@@ -154,6 +157,7 @@ class User:
         bool
             Returns True if the operation is successful, False otherwise.
         """
+        db = Database()
         if machine_id not in self.favorite_machines:
             print("Machine not in favorites.")
             return False
@@ -163,7 +167,7 @@ class User:
                 WHERE user_id = %s AND machine_id = %s;
                 """
         try:
-            execute_query(query, (self.user_id, machine_id))
+            db.execute_query(query, (self.user_id, machine_id))
             self.favorite_machines.remove(machine_id)
             print("Machine removed from favorites successfully.")
             return True
@@ -203,6 +207,7 @@ class User:
         message : str, optional
             Additional information or description of the issue (default is None).
         """
+        db = Database()
         query = """
                 INSERT INTO User_Reports (user_id, machine_id, report_target, issue_type, description)
                 VALUES (%s, %s, %s, %s, %s)
@@ -213,11 +218,11 @@ class User:
                 INSERT INTO User_Reports (user_id, machine_id, report_target, issue_type, description)
                 VALUES (%s, %s, %s, %s, %s)
                 """
-            execute_query(query, (self.user_id, machine_id, target, type, message))
+            db.execute_query(query, (self.user_id, machine_id, target, type, message))
         else:
             query = """
                 INSERT INTO User_Reports (user_id, report_target, issue_type, description)
                 VALUES (%s, %s, %s, %s)
                 """
-            execute_query(query, (self.user_id, target, type, message))
+            db.execute_query(query, (self.user_id, target, type, message))
     
