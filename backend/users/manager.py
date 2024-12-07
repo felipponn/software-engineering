@@ -12,8 +12,8 @@ class ManagerFactory(UserFactory):
     """
     Factory for creating managers.
     """
-    def create_user(self, user_name, password, email, phone, user_id=None, role = None):
-        return Manager(user_name, password, email, phone, user_id, role)
+    def create_user(self, user_name, password, email, phone, user_id=None, favorite_machines=[], role = None):
+        return Manager(user_name, password, email, phone, user_id, favorite_machines, role)
 
     def authenticate(self, email, password):
         """
@@ -34,9 +34,10 @@ class ManagerFactory(UserFactory):
         user_data = self._fetch_user_data(email)
         if user_data and user_data['password'] == password:
             print(f"Manager {user_data['name']} successfully logged in!")
+            favorite_machines = self._fetch_favorite_machines(user_data['user_id'])
             return self.create_user(
                 user_data['name'], password, user_data['email'], 
-                user_data['phone'], user_data['user_id'], user_data['role']
+                user_data['phone'], user_data['user_id'], favorite_machines, user_data['role']
             )
         return None
 
@@ -51,6 +52,14 @@ class ManagerFactory(UserFactory):
         if result:
             return dict(zip(['user_id', 'name', 'email', 'password', 'phone', 'role'], result))
         return None
+
+    def _fetch_favorite_machines(self, user_id):
+        db = Database()
+        query = """
+            SELECT machine_id FROM User_Selected_Machines WHERE user_id = %s;
+        """
+        rows = db.execute_query_fetchall(query, (user_id,))
+        return [row[0] for row in rows] if rows else []
 
 
 
@@ -79,12 +88,13 @@ class Manager(AbstractUser):
         Fetches all reported issues from the database based on optional filters for issue, machine, type, and description.
         Returns a list of dictionaries representing the issues.
     """
-    def __init__(self, user_name: str, password: str, email: str, phone: str, user_id=None, role = None):
+    def __init__(self, user_name: str, password: str, email: str, phone: str, user_id=None, favorite_machines=[], role = None):
         self.user_name = user_name
         self.password = password
         self.email = email
         self.phone = phone
         self.user_id = user_id
+        self.favorite_machines = favorite_machines
         self.role = role
 
     def save_db(self):
