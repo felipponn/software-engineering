@@ -86,12 +86,10 @@ def load_current_user():
     regular_user_factory = RegularUserFactory()
     manager_factory = ManagerFactory()
     if user_id:
-        print(user_id)
         role = session.get('role')
         email = session.get('email')
         password = session.get('password')
         
-        # Correção: Mapear corretamente as fábricas com base no role
         if role == 'manager':
             user = manager_factory.authenticate(email, password)
         elif role == 'customer':
