@@ -87,8 +87,8 @@ class TestMachine(unittest.TestCase):
         )
         mock_execute_query_fetchall.side_effect = [
             [
-                ('Espresso', Decimal('2.50')),
-                ('Cappuccino', Decimal('3.00'))
+                ('Espresso', Decimal('2.50'), 1, 10),
+                ('Cappuccino', Decimal('3.00'), 2, 5)
             ],
             [
                 (1, 'Alice Smith', 4, 'Great machine!', datetime.now()),
@@ -100,7 +100,6 @@ class TestMachine(unittest.TestCase):
         machine = Machine(machine_id=1)
         profile, available_products, reviews_info = machine.get_profile()
 
-        print(profile)
         # Adjust the expected profile output to match the mocked return value
         expected_profile = {
             'machine_id': 1,
