@@ -7,9 +7,9 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 
 from flask_babel import Babel, gettext as _
 
-from backend.user import User
+from backend.users.regular_user import RegularUserFactory
 from backend.machine import Machine
-from backend.manager import Manager
+from backend.users.manager import ManagerFactory, Manager
 from backend.product import Product
 
 # Initialize the Flask application
@@ -45,11 +45,14 @@ def simulate_authentication(email, password):
     """
     Function to authenticate a user based on their role.
     """
-    user = User.authenticate(email, password)
+    regular_user_factory = RegularUserFactory()
+    manager_factory = ManagerFactory()
+
+    user = regular_user_factory.authenticate(email, password)
     if user and user.role == 'customer':
         return user
 
-    manager = Manager.authenticate(email, password)
+    manager = manager_factory.authenticate(email, password)
     if manager and manager.role == 'manager':
         return manager
 
@@ -73,6 +76,8 @@ def load_current_user():
     Loads the current user based on the session data.
     """
     user_id = session.get('user_id')
+    regular_user_factory = RegularUserFactory()
+    manager_factory = ManagerFactory()
     if user_id:
         role = session.get('role')
         email = session.get('email')
@@ -80,9 +85,9 @@ def load_current_user():
         
         # Authentication based on the user's role
         if role == 'manager':
-            user = Manager.authenticate(email, password)
+            user = regular_user_factory.authenticate(email, password)
         elif role == 'customer':
-            user = User.authenticate(email, password)
+            user = manager_factory.authenticate(email, password)
         else:
             user = None
         
