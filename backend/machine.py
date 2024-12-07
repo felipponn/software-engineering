@@ -1,5 +1,35 @@
 from utils.connect_db import Database
 from datetime import datetime
+import smtplib
+from email.message import EmailMessage
+from abc import ABC, abstractmethod
+
+class Observer(ABC):
+    @abstractmethod
+    def update(self, machine, product):
+        pass
+
+class UserObserver(Observer):
+    def __init__(self, user_email):
+        self.user_email = user_email
+
+    def update(self, machine, product):
+        msg = EmailMessage()
+        msg['Subject'] = f'Produto "{product["name"]}" esgotado na máquina {machine.machine_id}'
+        msg['From'] = 'donodaempresa242@gmail.com'
+        msg['To'] = self.user_email
+        msg.set_content(f'O produto "{product["name"]}" na máquina localizada em {machine.get_profile()[0]["location"]} está esgotado.')
+
+        # Sending the email via SMTP server
+        try:
+            with smtplib.SMTP('smtp.gmail.com', 587) as smtp:
+                smtp.starttls()  
+                smtp.login('donodaempresa242@gmail.com', 'Abcd@1234')  
+                smtp.send_message(msg)
+                print(f"E-mail enviado com sucesso para {self.user_email}!")
+        except Exception as e:
+            print(f"Erro ao enviar e-mail para {self.user_email}: {e}")
+
 
 class Machine:
     """
@@ -28,6 +58,48 @@ class Machine:
             The unique identifier of the machine.
         """
         self.machine_id = machine_id
+        self.observers = []
+
+    def attach(self, observer: Observer):
+        """Attach a new observer."""
+        self.observers.append(observer)
+
+    def detach(self, observer: Observer):
+        """Remove an existing observer."""
+        self.observers.remove(observer)
+
+    def notify_observers(self, product):
+        """Notify all observers about the state change."""
+        for observer in self.observers:
+            observer.update(self, product)
+
+    @staticmethod
+    def get_selected_users(machine_id):
+        """Get users who have selected the machine as a favorite."""
+        db = Database()
+        query = """
+                SELECT u.email
+                FROM Users u
+                JOIN User_Selected_Machines usm ON u.user_id = usm.user_id
+                WHERE usm.machine_id = %s;
+                """
+        users = db.execute_query_fetchall(query, (machine_id,))
+        return [user[0] for user in users]
+
+    def load_observers(self):
+        """Load observers from the database."""
+        user_emails = self.get_selected_users(self.machine_id)
+        for email in user_emails:
+            self.attach(UserObserver(email))
+
+    def check_and_notify(self):
+        """
+        Check products and notify users if any product is out of stock.
+        """
+        _, available_products, _ = self.get_profile()
+        for product in available_products:
+            if product['quantity'] == 0:
+                self.notify_observers(product)
 
     @staticmethod
     def get_machines():
@@ -92,7 +164,6 @@ class Machine:
         }
 
         return profile, available_products, reviews_info
-    
 
     @staticmethod
     def post_process_reviews(reviews):
@@ -137,3 +208,32 @@ class Machine:
             'num_filtered_reviews': num_filtered_reviews,
             'reviews': processed_reviews 
         }
+
+    def update_product_quantity(self, product_id, new_quantity):
+        """
+        Updates the quantity of a product and notifies observers if the quantity is zero.
+
+        Args:
+            product_id (int): ID of the product.
+            new_quantity (int): New quantity of the product.
+        """
+        db = Database()
+        update_query = """
+            UPDATE Coffee_Machine_Products
+            SET quantity = %s
+            WHERE machine_id = %s AND product_id = %s;
+        """
+        db.execute_query(update_query, (new_quantity, self.machine_id, product_id))
+
+        if new_quantity == 0:
+            # Load observers and notify
+            self.load_observers()
+            # Get the product name for the message
+            product_query = """
+                SELECT name
+                FROM Products
+                WHERE product_id = %s;
+            """
+            product_name = db.execute_query_fetchone(product_query, (product_id,))[0]
+            product = {'name': product_name}
+            self.notify_observers(product)
