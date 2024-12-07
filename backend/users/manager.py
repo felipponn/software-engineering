@@ -226,3 +226,116 @@ class Manager(AbstractUser):
             } for row in stock_info
         ]
 
+    def add_favorite(self, machine_id):
+        """
+        Adds a machine to the user's favorites.
+
+        Parameters:
+        ----------
+        machine_id : int
+            The ID of the machine to be added to favorites.
+
+        Returns:
+        -------
+        bool
+            Returns True if the operation is successful, False otherwise.
+        """
+        if machine_id in self.favorite_machines:
+            print("Machine already in favorites.")
+            return False
+        db = Database()
+        query = """
+                INSERT INTO User_Selected_Machines (user_id, machine_id)
+                VALUES (%s, %s)
+                ON CONFLICT DO NOTHING;
+                """
+        try:
+            db.execute_query(query, (self.user_id, machine_id))
+            self.favorite_machines.append(machine_id)
+            print("Machine added to favorites successfully.")
+            return True
+        except Exception as e:
+            print(f"Error adding favorite: {e}")
+            return False
+        
+    def remove_favorite(self, machine_id):
+        """
+        Remove a machine from the user's favorites.
+
+        Parameters:
+        ----------
+        machine_id : int
+            The ID of the machine to be removed from favorites.
+
+        Returns:
+        --------
+        bool
+            Returns True if the operation is successful, False otherwise.
+        """
+        if machine_id not in self.favorite_machines:
+            print("Machine not in favorites.")
+            return False
+        db = Database()
+        query = """
+                DELETE FROM User_Selected_Machines
+                WHERE user_id = %s AND machine_id = %s;
+                """
+        try:
+            db.execute_query(query, (self.user_id, machine_id))
+            self.favorite_machines.remove(machine_id)
+            print("Machine removed from favorites successfully.")
+            return True
+        except Exception as e:
+            print(f"Error removing favorite: {e}")
+            return False
+    
+    def is_favorite(self, machine_id):
+        """
+        Checks if a specific machine is in the user's list of favorite machines.
+
+        Parameters:
+        ----------
+        machine_id : int
+            The ID of the machine to check.
+
+        Returns:
+        -------
+        bool
+            Returns True if the machine is a favorite, False otherwise.
+        """
+        return machine_id in self.favorite_machines
+
+
+    def report(self, target, type, machine_id=None, message=None):
+        """
+        Submits a user report (e.g., for a machine or the app).
+
+        Parameters:
+        ----------
+        target : str
+            The target of the report (e.g., "Machine", "App").
+        type : str
+            The type of issue being reported (e.g., "Broken Machine", "App Bug").
+        machine_id : str, optional
+            The ID of the machine being reported (default is None if not applicable).
+        message : str, optional
+            Additional information or description of the issue (default is None).
+        """
+        db = Database()
+        query = """
+                INSERT INTO User_Reports (user_id, machine_id, report_target, issue_type, description)
+                VALUES (%s, %s, %s, %s, %s)
+                """
+        # Inserts the user report into the User_Reports table
+        if machine_id:
+            query = """
+                INSERT INTO User_Reports (user_id, machine_id, report_target, issue_type, description)
+                VALUES (%s, %s, %s, %s, %s)
+                """
+            db.execute_query(query, (self.user_id, machine_id, target, type, message))
+        else:
+            query = """
+                INSERT INTO User_Reports (user_id, report_target, issue_type, description)
+                VALUES (%s, %s, %s, %s)
+                """
+            db.execute_query(query, (self.user_id, target, type, message))
