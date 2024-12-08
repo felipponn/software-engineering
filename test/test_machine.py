@@ -8,7 +8,38 @@ import unittest
 from unittest.mock import patch, MagicMock
 from datetime import datetime
 from utils.connect_db import Database
-from backend.machine import Machine
+from backend.machine import Machine, UserObserver
+
+class TestUserObserver(unittest.TestCase):
+    def setUp(self):
+        """Configures the environment for testing."""
+        self.user_email = "gabrielpereirajp1201@gmail.com"
+        self.machine_mock = MagicMock()
+        self.product = {"name": "Café"}
+        self.observer = UserObserver(self.user_email)
+
+    @patch("backend.machine.smtplib.SMTP")
+    def test_send_email_success(self, mock_smtp):
+        """Tests sending email successfully."""
+        mock_smtp_instance = mock_smtp.return_value.__enter__.return_value
+        email_message = self.observer.format_email(self.machine_mock, self.product)
+
+        self.observer.send_email(email_message)
+
+        mock_smtp_instance.starttls.assert_called_once()
+        mock_smtp_instance.login.assert_called_once_with(
+            os.getenv("EMAIL"), os.getenv("EMAIL_PASSWORD")
+        )
+        mock_smtp_instance.send_message.assert_called_once_with(email_message)
+
+    @patch("backend.machine.smtplib.SMTP", side_effect=Exception("Erro no envio"))
+    def test_send_email_failure(self, mock_smtp):
+        """Tests failure to send email."""
+        email_message = self.observer.format_email(self.machine_mock, self.product)
+
+        with self.assertLogs(level="ERROR") as log:
+            self.observer.send_email(email_message)
+            self.assertIn("Erro ao enviar e-mail", log.output[0])
 
 class TestMachine(unittest.TestCase):
 
@@ -133,6 +164,35 @@ class TestMachine(unittest.TestCase):
         self.assertEqual(processed_data['count_reviews'], 3)  # Total reviews
         self.assertEqual(processed_data['num_filtered_reviews'], 2)  # Reviews with comments
         self.assertEqual(len(processed_data['reviews']), 2)  # Filtered reviews count
+        
+    def setUp(self):
+        """Configures the environment for testing."""
+        self.machine_id = 1
+        self.machine = Machine(self.machine_id)
+        self.machine.get_profile = MagicMock(return_value=(
+            {"location": "Faculdade"}, [{"name": "Café", "quantity": 0}], {}
+        ))
 
+    @patch("utils.connect_db.Database")
+    @patch("backend.machine.UserObserver")
+    def test_notify_observers(self, mock_user_observer, mock_db):
+        """Tests notification of watchers when product is out of stock."""
+        observer_instance = mock_user_observer.return_value
+        self.machine.attach(observer_instance)
+
+        product = {"name": "Café"}
+        self.machine.notify_observers(product)
+
+        observer_instance.update.assert_called_once_with(self.machine, product)
+
+    @patch("utils.connect_db.Database")
+    def test_update_product_quantity_zero(self, mock_db):
+        """Tests whether zero quantity of product triggers the notification."""
+        self.machine.load_observers = MagicMock()
+
+        self.machine.update_product_quantity(1, 0)
+        self.machine.load_observers.assert_called_once()
+        
+        
 if __name__ == '__main__':
     unittest.main()
