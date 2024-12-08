@@ -331,6 +331,8 @@ def get_stock():
     machine_id = request.args.get('machine_id')
     product_name = request.args.get('product_name')
     quantity_category = request.args.get('quantity_category')
+    granularity = request.args.get('granularity', None)
+    operation = request.args.get('operation', None)
 
     if machine_id == 'all':
         machine_id = None
@@ -341,7 +343,8 @@ def get_stock():
 
     machine_id = int(machine_id) if machine_id else None
 
-    stock_info = g.current_user.get_stock(machine_id=machine_id, product_name=product_name, quantity_category=quantity_category)
+    stock_info = g.current_user.get_stock(machine_id=machine_id, product_name=product_name, quantity_category=quantity_category,
+                                          granularity=granularity, operation=operation)
 
     return jsonify(stock_info)
 
