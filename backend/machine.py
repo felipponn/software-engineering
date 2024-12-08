@@ -57,7 +57,11 @@ class UserObserver(Observer):
         msg['From'] = os.getenv("EMAIL")
         msg['To'] = self.user_email
         msg.set_content(
-            f'O produto "{product["name"]}" na máquina localizada em {machine.get_profile()[0]["location"]} está esgotado.'
+            f'O produto "{product["name"]}" na nossa loja localizada em {machine.get_profile()[0]["location"]} está temporariamente esgotado.\n\n'
+            f'Pedimos desculpas pelo inconveniente e estamos trabalhando para repor o estoque o mais rápido possível.\n\n'
+            f'Agradecemos pela sua compreensão.\n\n'
+            f'Atenciosamente,\n'
+            f'CaféLab'
         )
         return msg
 
