@@ -153,7 +153,7 @@ def report_menu():
     Route for the report menu page after login.
     """
     is_manager = g.current_user.role == 'manager'
-    return render_template('report_menu.html')
+    return render_template('report_menu.html', is_manager = is_manager)
 
 @app.route('/report', methods=['GET', 'POST'])
 @login_required

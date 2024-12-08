@@ -12,7 +12,7 @@ class ManagerFactory(UserFactory):
     """
     Factory for creating managers.
     """
-    def create_user(self, user_name, password, email, phone, user_id=None, favorite_machines=[], role = None):
+    def create_user(self, user_name, password, email, phone, user_id=None, favorite_machines=[], role = 'manager'):
         return Manager(user_name, password, email, phone, user_id, favorite_machines, role)
 
 

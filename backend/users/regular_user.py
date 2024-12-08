@@ -5,9 +5,9 @@ class RegularUserFactory(UserFactory):
     """
     Factory for creating regular users.
     """
-    def create_user(self, user_name, password, email, phone, user_id=None, favorite_machines=[], role = None):
+    def create_user(self, user_name, password, email, phone, user_id=None, favorite_machines=[], role = 'customer'):
         return RegularUser(user_name, password, email, phone, user_id, favorite_machines, role)
-    
+        
 
 class RegularUser(AbstractUser):
     """
