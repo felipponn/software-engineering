@@ -4,7 +4,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 
 import unittest
 from unittest.mock import patch, MagicMock
-from backend.stock import Stock
+from backend.stock import Stock, SumStrategy, AverageStrategy, CountStrategy
 
 class TestStock(unittest.TestCase):
 
@@ -48,8 +48,8 @@ class TestStock(unittest.TestCase):
         ]
         stock = Stock(data)
 
-        # Test aggregation with granularity "all" and operation "sum"
-        aggregated_data = stock.aggregate(granularity="all", operation="sum")
+        # Test aggregation with granularity "all" and strategy "sum"
+        aggregated_data = stock.aggregate(granularity="all", strategy=SumStrategy())
         self.assertEqual(len(aggregated_data), 4)
         self.assertEqual(aggregated_data[0]["machine_id"], 1)
         self.assertEqual(aggregated_data[1]["machine_id"], 2)
@@ -68,8 +68,8 @@ class TestStock(unittest.TestCase):
         self.assertEqual(aggregated_data[2]["quantity_category"], "High")
         self.assertEqual(aggregated_data[3]["quantity_category"], "Low")
 
-        # Test aggregation with granularity "no_machine" and operation "average"
-        aggregated_data = stock.aggregate(granularity="no_machine", operation="average")
+        # Test aggregation with granularity "no_machine" and strategy "average"
+        aggregated_data = stock.aggregate(granularity="no_machine", strategy=AverageStrategy())
         self.assertEqual(len(aggregated_data), 4)
         self.assertEqual(aggregated_data[0]["machine_id"], "Todos")
         self.assertEqual(aggregated_data[1]["machine_id"], "Todos")
@@ -88,8 +88,8 @@ class TestStock(unittest.TestCase):
         self.assertEqual(aggregated_data[2]["quantity_category"], "High")
         self.assertEqual(aggregated_data[3]["quantity_category"], "Low")
         
-        # Test aggregation with granularity "no_product" and operation "count"
-        aggregated_data = stock.aggregate(granularity="no_product", operation="count")
+        # Test aggregation with granularity "no_product" and strategy "count"
+        aggregated_data = stock.aggregate(granularity="no_product", strategy=CountStrategy())
         self.assertEqual(len(aggregated_data), 3)
         self.assertEqual(aggregated_data[0]["machine_id"], 1)
         self.assertEqual(aggregated_data[1]["machine_id"], 2)

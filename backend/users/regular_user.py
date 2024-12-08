@@ -1,5 +1,15 @@
 from utils.connect_db import Database
-class User:
+from backend.users import UserFactory, AbstractUser
+
+class RegularUserFactory(UserFactory):
+    """
+    Factory for creating regular users.
+    """
+    def create_user(self, user_name, password, email, phone, user_id=None, favorite_machines=[], role = 'customer'):
+        return RegularUser(user_name, password, email, phone, user_id, favorite_machines, role)
+        
+
+class RegularUser(AbstractUser):
     """
     A class representing a User in the system, allowing for actions like saving to the database,
     authenticating, and reporting issues.
@@ -18,7 +28,7 @@ class User:
         The unique identifier for the user, generated after saving to the database.
     """
 
-    def __init__(self, user_name, password, email, phone, user_id=None, favorite_machines=[], role=None):
+    def __init__(self, user_name, password, email, phone, user_id=None, favorite_machines=[], role = None):
         """
         Initialize a new User instance.
 
@@ -42,8 +52,8 @@ class User:
         self.email = email
         self.phone = phone
         self.user_id = user_id
-        self.role = role
         self.favorite_machines = favorite_machines
+        self.role = role
 
     def save_db(self):
         """
@@ -58,57 +68,10 @@ class User:
                 VALUES (%s, %s, %s, %s ,'customer')
                 RETURNING user_id;
                 """
+        self.role = 'customer'
         
         # Executes the query and assigns the returned user_id to the user instance
         self.user_id = db.execute_query_fetchone(query, (self.user_name, self.email, self.phone, self.password), True)[0]
-
-    @staticmethod
-    def authenticate(email, password):
-        """
-        Authenticates a user by email and password, retrieving the user details from the database if valid.
-
-        Parameters:
-        ----------
-        email : str
-            The email of the user attempting to log in.
-        password : str
-            The password provided by the user.
-
-        Returns:
-        -------
-        User or None:
-            Returns a User object if authentication is successful, or None if the authentication fails.
-        """
-        db = Database()
-        query = """
-                SELECT user_id, name, email, password, phone_number, role
-                FROM users 
-                WHERE email = %s;
-            """
-        # Fetches user data from the database based on email
-        user_data = db.execute_query_fetchone(query, (email,))
-
-        if user_data:
-            user_id, user_name, email, correct_password, phone, role = user_data
-
-            # Checks if the provided password matches the stored password
-            if correct_password == password:
-                print(f"User {user_name} successfully logged in!")
-                favorites_query = """
-                                 SELECT machine_id
-                                 FROM User_Selected_Machines
-                                 WHERE user_id = %s;
-                                 """
-                favorite_machines = db.execute_query_fetchall(favorites_query, (user_id,))
-                favorite_machines = [row[0] for row in favorite_machines] if favorite_machines else []
-
-                user = User(user_name, password, email, phone, user_id=user_id, favorite_machines=favorite_machines, role=role)
-                return user
-            
-            else:
-                print("Incorrect password!")
-        else:
-            print("User not found!")
 
     def add_favorite(self, machine_id):
         """
@@ -124,11 +87,10 @@ class User:
         bool
             Returns True if the operation is successful, False otherwise.
         """
-        db = Database()
         if machine_id in self.favorite_machines:
             print("Machine already in favorites.")
             return False
-
+        db = Database()
         query = """
                 INSERT INTO User_Selected_Machines (user_id, machine_id)
                 VALUES (%s, %s)
@@ -157,11 +119,10 @@ class User:
         bool
             Returns True if the operation is successful, False otherwise.
         """
-        db = Database()
         if machine_id not in self.favorite_machines:
             print("Machine not in favorites.")
             return False
-
+        db = Database()
         query = """
                 DELETE FROM User_Selected_Machines
                 WHERE user_id = %s AND machine_id = %s;
