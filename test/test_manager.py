@@ -4,7 +4,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 
 import unittest
 from unittest.mock import patch, MagicMock
-from backend.manager import Manager
+from backend.users.manager import ManagerFactory
 
 class TestManager(unittest.TestCase):
     @patch('utils.connect_db.Database.execute_query_fetchall')
@@ -12,7 +12,9 @@ class TestManager(unittest.TestCase):
         """
         Test view_all_issues with no filters (should return all issues).
         """
-        manager = Manager(user_name="John Doe", email="john.doe@example.com", password="password123", phone="1234567890")
+        manager_factory = ManagerFactory()
+
+        manager = manager_factory.create_user(user_name="John Doe", email="john.doe@example.com", password="password123", phone="1234567890")
         
         # Mock the data returned by execute_query
         mock_execute_query.return_value = [
@@ -56,7 +58,9 @@ class TestManager(unittest.TestCase):
         Test view_all_issues with specific filters (issue type and user_id).
         """
         
-        manager = Manager(user_name="John Doe", email="john.doe@example.com", password="password123", phone="1234567890")
+        manager_factory = ManagerFactory()
+
+        manager = manager_factory.create_user(user_name="John Doe", email="john.doe@example.com", password="password123", phone="1234567890")
         
         # Mock the data returned by execute_query
         mock_execute_query.return_value = [
@@ -87,7 +91,9 @@ class TestManager(unittest.TestCase):
         """
         Test view_all_issues when no issues match the filters.
         """
-        manager = Manager(user_name="John Doe", email="john.doe@example.com", password="password123", phone="1234567890")
+        manager_factory = ManagerFactory()
+
+        manager = manager_factory.create_user(user_name="John Doe", email="john.doe@example.com", password="password123", phone="1234567890")
         
         # Mock the data returned by execute_query (empty list, no issues found)
         mock_execute_query.return_value = []
@@ -103,7 +109,9 @@ class TestManager(unittest.TestCase):
         """
         Test get_stock with no filters (should return all stock information).
         """
-        manager = Manager(user_name="John Doe", email="john.doe@example.com", password="password123", phone="1234567890")
+        manager_factory = ManagerFactory()
+
+        manager = manager_factory.create_user(user_name="John Doe", email="john.doe@example.com", password="password123", phone="1234567890")
         
         # Mock data returned by execute_query_fetchall
         mock_execute_query.return_value = [
@@ -130,7 +138,9 @@ class TestManager(unittest.TestCase):
         """
         Test get_stock with a filter for machine_id.
         """
-        manager = Manager(user_name="John Doe", email="john.doe@example.com", password="password123", phone="1234567890")
+        manager_factory = ManagerFactory()
+
+        manager = manager_factory.create_user(user_name="John Doe", email="john.doe@example.com", password="password123", phone="1234567890")
         
         # Mock data returned by execute_query_fetchall
         mock_execute_query.return_value = [
@@ -155,7 +165,9 @@ class TestManager(unittest.TestCase):
         """
         Test get_stock with a filter for quantity_category.
         """
-        manager = Manager(user_name="John Doe", email="john.doe@example.com", password="password123", phone="1234567890")
+        manager_factory = ManagerFactory()
+
+        manager = manager_factory.create_user(user_name="John Doe", email="john.doe@example.com", password="password123", phone="1234567890")
         
         # Mock data returned by execute_query_fetchall
         mock_execute_query.return_value = [
@@ -178,7 +190,9 @@ class TestManager(unittest.TestCase):
         """
         Test get_stock with all filters (machine_id, product_name, and quantity_category).
         """
-        manager = Manager(user_name="John Doe", email="john.doe@example.com", password="password123", phone="1234567890")
+        manager_factory = ManagerFactory()
+
+        manager = manager_factory.create_user(user_name="John Doe", email="john.doe@example.com", password="password123", phone="1234567890")
         
         # Mock data returned by execute_query_fetchall
         mock_execute_query.return_value = [
@@ -201,7 +215,9 @@ class TestManager(unittest.TestCase):
         """
         Test get_stock with filters that result in no matches.
         """
-        manager = Manager(user_name="John Doe", email="john.doe@example.com", password="password123", phone="1234567890")
+        manager_factory = ManagerFactory()
+
+        manager = manager_factory.create_user(user_name="John Doe", email="john.doe@example.com", password="password123", phone="1234567890")
         
         # Mock data returned by execute_query_fetchall (empty list, no matches)
         mock_execute_query.return_value = []
