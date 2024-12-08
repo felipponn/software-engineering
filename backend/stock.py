@@ -1,3 +1,31 @@
+from abc import ABC, abstractmethod
+
+# Interface Strategy
+class AggregationStrategy(ABC):
+    @abstractmethod
+    def execute(self, grouped_data):
+        pass
+
+# Estratégias concretas
+class SumStrategy(AggregationStrategy):
+    def execute(self, grouped_data):
+        for key, value in grouped_data.items():
+            value["quantity"] = value["quantity"]  # Apenas mantém a soma
+        return grouped_data
+
+class AverageStrategy(AggregationStrategy):
+    def execute(self, grouped_data):
+        for key, value in grouped_data.items():
+            value["quantity"] = value["quantity"] / value["count"]
+        return grouped_data
+
+class CountStrategy(AggregationStrategy):
+    def execute(self, grouped_data):
+        for key, value in grouped_data.items():
+            value["quantity"] = value["count"]  # Retorna a contagem
+        return grouped_data
+
+# Contexto principal
 class Stock:
     """
     Classe para manipulação e agregação de informações de estoque.
@@ -42,16 +70,16 @@ class Stock:
 
         return filtered_data
 
-    def aggregate(self, granularity, operation):
+    def aggregate(self, granularity, strategy: AggregationStrategy):
         """
-        Agrega os dados de estoque com base na granularidade e operação especificadas.
+        Agrega os dados de estoque com base na granularidade e na estratégia especificada.
 
         Parameters:
         ----------
         granularity : str
             Nível de granularidade ("all", "no_machine", "no_product").
-        operation : str
-            Tipo de operação ("sum", "average", "count").
+        strategy : AggregationStrategy
+            Estratégia de agregação a ser utilizada.
 
         Returns:
         -------
@@ -88,14 +116,10 @@ class Stock:
             if Stock.RISK_CATEGORIES.index(new_category) < Stock.RISK_CATEGORIES.index(current_category):
                 grouped_data[key]["quantity_category"] = new_category
 
-        # Aplica a operação final
-        for key, value in grouped_data.items():
-            if operation == "average":
-                value["quantity"] = value["quantity"] / value["count"]
-            elif operation == "count":
-                value["quantity"] = value["count"]
+        # Executa a estratégia fornecida
+        grouped_data = strategy.execute(grouped_data)
 
-        # Deleta a contagem dos dados agregados
+        # Remove o campo 'count' após a operação
         for key in grouped_data:
             del grouped_data[key]["count"]
 

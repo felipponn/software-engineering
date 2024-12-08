@@ -6,7 +6,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 from utils.connect_db import Database
 from datetime import datetime
 from backend.user import User
-from backend.stock import Stock
+from backend.stock import Stock, AggregationStrategy, SumStrategy
 
 class Manager(User):
     """
@@ -156,9 +156,9 @@ class Manager(User):
             } for issue in issues
         ]
 
-    def get_stock(self, machine_id=None, product_name=None, quantity_category=None, granularity="all", operation="sum"):
+    def get_stock(self, machine_id=None, product_name=None, quantity_category=None, granularity="all", strategy=SumStrategy()):
         """
-        Fetches and aggregates stock information based on filters, granularity, and operation.
+        Fetches and aggregates stock information based on filters, granularity, and strategy.
 
         Parameters:
         ----------
@@ -170,14 +170,17 @@ class Manager(User):
             Filter by quantity_category.
         granularity : str
             Aggregation granularity ("all", "no_machine", "no_product").
-        operation : str
-            Aggregation operation ("sum", "average", "count").
+        strategy : AggregationStrategy
+            An instance of an aggregation strategy (e.g., SumStrategy, AverageStrategy, CountStrategy).
 
         Returns:
         -------
         list:
             List of dictionaries representing the aggregated stock information.
         """
+        if not strategy or not isinstance(strategy, AggregationStrategy):
+            raise ValueError("A valid AggregationStrategy instance must be provided.")
+
         db = Database()
         query = """
             WITH CategorizedStock AS (
@@ -211,7 +214,7 @@ class Manager(User):
             ORDER BY 
                 quantity ASC;
         """
-        
+
         stock_info = db.execute_query_fetchall(query)
 
         stock_data = [
@@ -232,6 +235,5 @@ class Manager(User):
             quantity_category=quantity_category
         )
 
-        # Realiza a agregação nos dados filtrados
-        stock_instance = Stock(filtered_data)
-        return stock_instance.aggregate(granularity, operation)
+        # Realiza a agregação nos dados filtrados usando a estratégia fornecida
+        return Stock(filtered_data).aggregate(granularity, strategy)

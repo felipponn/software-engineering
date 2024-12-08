@@ -12,6 +12,7 @@ from backend.user import User
 from backend.machine import Machine
 from backend.manager import Manager
 from backend.product import Product
+from backend.stock import SumStrategy, AverageStrategy, CountStrategy
 
 # Initialize the Flask application
 app = Flask(__name__, template_folder='app/templates', static_folder='app/static')
@@ -343,8 +344,17 @@ def get_stock():
 
     machine_id = int(machine_id) if machine_id else None
 
+    if operation == 'sum':
+        operation = SumStrategy()
+    elif operation == 'average':
+        operation = AverageStrategy()
+    elif operation == 'count':
+        operation = CountStrategy()
+    else:
+        operation = SumStrategy()
+
     stock_info = g.current_user.get_stock(machine_id=machine_id, product_name=product_name, quantity_category=quantity_category,
-                                          granularity=granularity, operation=operation)
+                                          granularity=granularity, strategy=operation)
 
     return jsonify(stock_info)
 
