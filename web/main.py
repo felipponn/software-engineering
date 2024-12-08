@@ -2,19 +2,21 @@ import sys
 import os
 from functools import wraps
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify, g
+from datetime import timedelta
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from flask_babel import Babel, gettext as _
 
-from backend.user import User
+from backend.users.regular_user import RegularUserFactory
 from backend.machine import Machine
-from backend.manager import Manager
+from backend.users.manager import ManagerFactory, Manager
 from backend.product import Product
 
 # Initialize the Flask application
 app = Flask(__name__, template_folder='app/templates', static_folder='app/static')
 app.secret_key = 'qualquer_coisa_vai_funcionar'
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=30)
 
 base_dir = os.path.abspath(os.path.dirname(__file__))
 translations_path = os.path.join(base_dir, 'translations')
@@ -45,11 +47,14 @@ def simulate_authentication(email, password):
     """
     Function to authenticate a user based on their role.
     """
-    user = User.authenticate(email, password)
+    regular_user_factory = RegularUserFactory()
+    manager_factory = ManagerFactory()
+
+    user = regular_user_factory.authenticate(email, password)
     if user and user.role == 'customer':
         return user
 
-    manager = Manager.authenticate(email, password)
+    manager = manager_factory.authenticate(email, password)
     if manager and manager.role == 'manager':
         return manager
 
@@ -62,10 +67,16 @@ def login_required(f):
     """
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if not g.current_user:
+        if not session.get('user_id'):
             return redirect(url_for('login', next=request.url))
         return f(*args, **kwargs)
     return decorated_function
+
+
+@app.before_request
+def make_session_permanent():
+    session.permanent = True
+    app.permanent_session_lifetime = timedelta(minutes=30)
 
 @app.before_request
 def load_current_user():
@@ -73,26 +84,27 @@ def load_current_user():
     Loads the current user based on the session data.
     """
     user_id = session.get('user_id')
+    regular_user_factory = RegularUserFactory()
+    manager_factory = ManagerFactory()
     if user_id:
         role = session.get('role')
         email = session.get('email')
         password = session.get('password')
         
-        # Authentication based on the user's role
         if role == 'manager':
-            user = Manager.authenticate(email, password)
+            user = manager_factory.authenticate(email, password)
         elif role == 'customer':
-            user = User.authenticate(email, password)
+            user = regular_user_factory.authenticate(email, password)
         else:
             user = None
-        
+    
         if user:
             g.current_user = user
         else:
-            session.clear()
             g.current_user = None
     else:
         g.current_user = None
+
 
 @app.route('/')
 def index():
@@ -125,13 +137,6 @@ def login():
             return render_template('login.html', error=error)
     return render_template('login.html')
 
-@app.route('/logout')
-def logout():
-    """
-    Route for user logout.
-    """
-    session.clear()
-    return redirect(url_for('login'))
 
 @app.route('/home')
 @login_required
@@ -148,7 +153,7 @@ def report_menu():
     Route for the report menu page after login.
     """
     is_manager = g.current_user.role == 'manager'
-    return render_template('report_menu.html')
+    return render_template('report_menu.html', is_manager = is_manager)
 
 @app.route('/report', methods=['GET', 'POST'])
 @login_required

@@ -4,7 +4,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 
 import unittest
 from unittest.mock import patch, MagicMock
-from backend.user import User
+from backend.users.regular_user import RegularUserFactory, RegularUser
 
 
 class TestUser(unittest.TestCase):
@@ -14,8 +14,10 @@ class TestUser(unittest.TestCase):
         # Setup the mock
         mock_fetchone.return_value = ['mock-user-id']
 
+        regular_user_factory = RegularUserFactory()
+
         # Create a user
-        user = User('test_name', 'test_password', 'test_email@example.com', '1234567890', 'customer')
+        user = regular_user_factory.create_user('test_name', 'test_password', 'test_email@example.com', '1234567890', 'customer')
         
         # Call save_db
         user.save_db()
@@ -44,31 +46,41 @@ class TestUser(unittest.TestCase):
         # Setup the mock for favorite machines
         mock_fetchall.return_value = [(1,), (2,)]
 
-        # Call the authenticate method
-        user = User.authenticate('test_email@example.com', 'hashed_password')
+        regular_user_factory = RegularUserFactory()
+
+        # Create a user
+        user = regular_user_factory.authenticate('test_email@example.com', 'hashed_password')
 
         # Assert a User object is returned
-        self.assertIsInstance(user, User)
+        self.assertIsInstance(user, RegularUser)
         self.assertEqual(user.email, 'test_email@example.com')
         self.assertIn(1, user.favorite_machines)
         self.assertIn(2, user.favorite_machines)
     
 
     @patch('utils.connect_db.Database.execute_query_fetchone')
-    def test_authenticate_fail_wrong_password(self, mock_fetchone):
-        # Setup the mock
+    @patch('utils.connect_db.Database.execute_query_fetchall')
+    def test_authenticate_fail_wrong_password(self, mock_fetchall, mock_fetchone):
+        # Setup the mock for user data
         mock_fetchone.return_value = ['mock-user-id', 'test_name', 'test_email@example.com', 'hashed_password', '1234567890', 'customer']
+        
+        # Setup the mock for favorite machines
+        mock_fetchall.return_value = [(1,), (2,)]
 
-        # Call the authenticate method with the wrong password
-        user = User.authenticate('test_email@example.com', 'wrong_password')
+
+        regular_user_factory = RegularUserFactory()
+
+        user = regular_user_factory.authenticate('test_email@example.com', 'wrong_password')
 
         # Assert no user object is returned
         self.assertIsNone(user)
 
     @patch('utils.connect_db.Database.execute_query')
     def test_report(self, mock_execute_query):
-        # Create a user and assign a mock user_id
-        user = User('test_name', 'test_password', 'test_email@example.com', '1234567890', user_id='mock-user-id')
+        regular_user_factory = RegularUserFactory()
+
+        # Create a user
+        user = regular_user_factory.create_user('test_name', 'test_password', 'test_email@example.com', '1234567890', user_id='mock-user-id')
 
         # Call report method
         user.report(target='Machine', type='Broken Machine', machine_id='mock-machine-id', message='Machine not working.')
@@ -83,7 +95,9 @@ class TestUser(unittest.TestCase):
         )
 
     def setUp(self):
-        self.user = User('test_name', 'test_password', 'test_email@example.com', '1234567890', user_id='mock-user-id', favorite_machines=[1])
+        regular_user_factory = RegularUserFactory()
+        # Create a user
+        self.user = regular_user_factory.create_user('test_name', 'test_password', 'test_email@example.com', '1234567890', user_id='mock-user-id', favorite_machines=[1])
 
     @patch('utils.connect_db.Database.execute_query', return_value=None) 
     def test_add_favorite_local(self, mock_execute_query):
