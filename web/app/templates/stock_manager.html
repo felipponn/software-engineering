@@ -5,8 +5,8 @@
     <title>{{ _('Estoque') }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/report_styles.css') }}"> <!-- It already has almost everything needed -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/stock_styles.css') }}"> 
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/report_styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/stock_styles.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" crossorigin="anonymous">
 </head>
 <body>
@@ -14,10 +14,12 @@
         <a href="{{ url_for('home') }}" class="back-link"> ⬅ </a>
         <h2>{{ _('Estoque') }}</h2>
 
+        <!-- Botão para alternar filtros -->
         <button id="toggleFilters" class="toggle-filters">
             <i class="fas fa-filter"></i> {{ _('Mostrar Filtros') }}
         </button>
 
+        <!-- Filtros -->
         <div class="filters hidden" id="filtersSection">
             <label for="filterMachine">{{ _('Número da Máquina') }}:</label>
             <select id="filterMachine">
@@ -46,7 +48,44 @@
             <button id="btnFilter">{{ _('Filtrar') }}</button>
             <button id="btnReset">{{ _('Resetar Filtros') }}</button>
         </div>
-        
+
+        <!-- Seção de escolha de agregação -->
+        <div class="aggregation-strategy-container">
+            <label for="granularity">{{ _('Escolha a Granularidade') }}:</label>
+            <select id="granularity">
+                <option value="all">{{ _('Toda diferenciação') }}</option>
+                <option value="no_machine">{{ _('Sem diferenciar por máquina') }}</option>
+                <option value="no_product">{{ _('Sem diferenciar por produto') }}</option>
+            </select>
+
+            <label for="operation">{{ _('Escolha a Operação') }}:</label>
+            <select id="operation">
+                <option value="sum">{{ _('Soma') }}</option>
+                <option value="average">{{ _('Média') }}</option>
+                <option value="count">{{ _('Contagem') }}</option>
+            </select>
+
+            <button id="applyStrategy">{{ _('Aplicar Estratégia') }}</button>
+        </div>
+
+        <!-- Tabela de resumo -->
+        <div class="stock-summary-container">
+            <table id="stockSummaryTable" class="stock-summary-table">
+                <thead>
+                    <tr>
+                        <th>{{ _('Máquina ID') }}</th>
+                        <th>{{ _('Produto') }}</th>
+                        <th>{{ _('Total em Estoque') }}</th>
+                        <th>{{ _('Categoria de Estoque') }}</th>
+                    </tr>
+                </thead>
+                <tbody id="stockSummaryBody">
+                    <!-- Os dados serão preenchidos pelo JavaScript -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Cards de estoque -->
         <div id="stockContainer" class="stock-container">
         </div>
     </div>
@@ -64,7 +103,8 @@
             show_filters: "{{ _('Mostrar Filtros') }}",
             hide_filters: "{{ _('Esconder Filtros') }}",
             filter: "{{ _('Filtrar') }}",
-            reset_filters: "{{ _('Resetar Filtros') }}"
+            reset_filters: "{{ _('Resetar Filtros') }}",
+            apply_strategy: "{{ _('Aplicar Estratégia') }}"
         };
     </script>
 

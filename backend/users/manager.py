@@ -6,6 +6,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 from utils.connect_db import Database
 from datetime import datetime
 from backend.users import UserFactory, AbstractUser
+from backend.stock import SumStrategy, AggregationStrategy, Stock
 
 
 class ManagerFactory(UserFactory):
@@ -121,7 +122,7 @@ class Manager(AbstractUser):
             } for issue in issues
         ]
 
-    def get_stock(self, machine_id=None, product_name=None, quantity_category=None):
+    def get_stock(self, machine_id=None, product_name=None, quantity_category=None, granularity="all", strategy=SumStrategy()):
         """
         Fetches the stock information for a specific machine or product. If no filters are provided, fetches all stock information.
         
@@ -139,6 +140,9 @@ class Manager(AbstractUser):
         list:
             Returns a list of dictionaries representing the stock information.
         """
+        if not strategy or not isinstance(strategy, AggregationStrategy):
+            raise ValueError("A valid AggregationStrategy instance must be provided.")
+        
         db = Database()
         query = """
             WITH CategorizedStock AS (
@@ -169,17 +173,13 @@ class Manager(AbstractUser):
                 quantity_category
             FROM 
                 CategorizedStock
-            WHERE 
-                (machine_id = %s OR %s IS NULL)
-                AND (quantity_category = %s OR %s IS NULL)
-                AND (product_name = %s OR %s IS NULL)
             ORDER BY 
                 quantity ASC;
         """
-        
-        stock_info = db.execute_query_fetchall(query, (machine_id, machine_id, quantity_category, quantity_category, product_name, product_name))
 
-        return [
+        stock_info = db.execute_query_fetchall(query)
+
+        stock_data = [
             {
                 'machine_id': row[0],
                 'location': row[1],
@@ -188,6 +188,17 @@ class Manager(AbstractUser):
                 'quantity_category': row[4]
             } for row in stock_info
         ]
+
+        # Instancia a classe Stock e aplica os filtros
+        stock_instance = Stock(stock_data)
+        filtered_data = stock_instance.filter_data(
+            machine_id=machine_id,
+            product_name=product_name,
+            quantity_category=quantity_category
+        )
+
+        # Realiza a agregação nos dados filtrados usando a estratégia fornecida
+        return Stock(filtered_data).aggregate(granularity, strategy)
 
     def add_favorite(self, machine_id):
         """

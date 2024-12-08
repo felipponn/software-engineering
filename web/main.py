@@ -12,6 +12,7 @@ from backend.users.regular_user import RegularUserFactory
 from backend.machine import Machine
 from backend.users.manager import ManagerFactory, Manager
 from backend.product import Product
+from backend.stock import SumStrategy, AverageStrategy, CountStrategy
 
 # Initialize the Flask application
 app = Flask(__name__, template_folder='app/templates', static_folder='app/static')
@@ -77,6 +78,11 @@ def login_required(f):
 def make_session_permanent():
     session.permanent = True
     app.permanent_session_lifetime = timedelta(minutes=30)
+
+@app.before_request
+def make_session_permanent():
+    session.permanent = True
+    app.permanent_session_lifetime = timedelta(minutes=30)  # Define o tempo de expiração
 
 @app.before_request
 def load_current_user():
@@ -330,6 +336,8 @@ def get_stock():
     machine_id = request.args.get('machine_id')
     product_name = request.args.get('product_name')
     quantity_category = request.args.get('quantity_category')
+    granularity = request.args.get('granularity', None)
+    operation = request.args.get('operation', None)
 
     if machine_id == 'all':
         machine_id = None
@@ -338,7 +346,19 @@ def get_stock():
     if quantity_category == 'all':
         quantity_category = None
 
-    stock_info = g.current_user.get_stock(machine_id=machine_id, product_name=product_name, quantity_category=quantity_category)
+    machine_id = int(machine_id) if machine_id else None
+
+    if operation == 'sum':
+        operation = SumStrategy()
+    elif operation == 'average':
+        operation = AverageStrategy()
+    elif operation == 'count':
+        operation = CountStrategy()
+    else:
+        operation = SumStrategy()
+
+    stock_info = g.current_user.get_stock(machine_id=machine_id, product_name=product_name, quantity_category=quantity_category,
+                                          granularity=granularity, strategy=operation)
 
     return jsonify(stock_info)
 

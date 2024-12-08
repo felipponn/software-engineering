@@ -1,3 +1,83 @@
+/* Estilo da tabela de resumo */
+.stock-summary-container {
+    margin-top: 20px;
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    overflow-x: auto;
+}
+
+.stock-summary-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 16px;
+    color: #333;
+}
+
+.stock-summary-table th, .stock-summary-table td {
+    border: 1px solid #ccd0d5;
+    padding: 8px 12px;
+    text-align: left;
+}
+
+.stock-summary-table th {
+    background-color: #1877f2;
+    color: white;
+    font-weight: bold;
+}
+
+.stock-summary-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.stock-summary-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Estilos da seção de escolha de estratégias */
+.aggregation-strategy-container {
+    margin-top: 20px;
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.aggregation-strategy-container label {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+
+.aggregation-strategy-container select {
+    padding: 8px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccd0d5;
+    background-color: #f5f6f7;
+    color: #333;
+}
+
+.aggregation-strategy-container button {
+    padding: 10px 15px;
+    font-size: 16px;
+    background-color: #1877f2;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.aggregation-strategy-container button:hover {
+    background-color: #166fe5;
+}
+
+/* Estilo dos cards de estoque */
 .stock-container {
     margin-top: 20px;
     display: flex;
@@ -11,7 +91,7 @@
     border-radius: 8px;
     padding: 20px;
     position: relative;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .stock-item h3 {
@@ -30,27 +110,51 @@
     font-weight: bold;
 }
 
+/* Categorias de estoque */
 .stock-item.critical {
-    border-left: 6px solid #FF0000; 
-    background-color: #ffe6e6; 
+    border-left: 6px solid #FF0000;
+    background-color: #ffe6e6;
 }
 
 .stock-item.low {
-    border-left: 6px solid #FFA500; 
-    background-color: #fff5e6; 
+    border-left: 6px solid #FFA500;
+    background-color: #fff5e6;
 }
 
 .stock-item.medium {
-    border-left: 6px solid #FFFF00; 
-    background-color: #ffffe6; 
+    border-left: 6px solid #FFFF00;
+    background-color: #ffffe6;
 }
 
 .stock-item.high {
-    border-left: 6px solid #008000; 
-    background-color: #e6ffe6; 
+    border-left: 6px solid #008000;
+    background-color: #e6ffe6;
 }
 
 .stock-item.full {
-    border-left: 6px solid #0000FF; 
-    background-color: #e6e6ff; 
+    border-left: 6px solid #0000FF;
+    background-color: #e6e6ff;
+}
+
+/* Estilos responsivos */
+@media (max-width: 600px) {
+    .stock-summary-container, .aggregation-strategy-container {
+        padding: 10px;
+    }
+
+    .stock-summary-table {
+        font-size: 14px;
+    }
+
+    .stock-summary-table th, .stock-summary-table td {
+        padding: 6px 8px;
+    }
+
+    .aggregation-strategy-container select {
+        font-size: 14px;
+    }
+
+    .aggregation-strategy-container button {
+        font-size: 14px;
+    }
 }
