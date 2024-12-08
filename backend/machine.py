@@ -5,6 +5,9 @@ from email.message import EmailMessage
 from abc import ABC, abstractmethod
 from dotenv import load_dotenv
 import os
+import logging
+
+logger = logging.getLogger(__name__)
 
 load_dotenv()
 
@@ -81,7 +84,7 @@ class UserObserver(Observer):
                 smtp.send_message(msg)
                 print(f"E-mail enviado com sucesso para {self.user_email}!")
         except Exception as e:
-            print(f"Erro ao enviar e-mail para {self.user_email}: {e}")
+            logger.error(f"Erro ao enviar e-mail para {self.user_email}: {e}")
 
     def update(self, machine, product):
         """
