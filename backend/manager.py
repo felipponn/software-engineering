@@ -6,6 +6,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 from utils.connect_db import Database
 from datetime import datetime
 from backend.user import User
+from backend.stock import Stock
 
 class Manager(User):
     """
@@ -155,23 +156,27 @@ class Manager(User):
             } for issue in issues
         ]
 
-    def get_stock(self, machine_id=None, product_name=None, quantity_category=None):
+    def get_stock(self, machine_id=None, product_name=None, quantity_category=None, granularity="all", operation="sum"):
         """
-        Fetches the stock information for a specific machine or product. If no filters are provided, fetches all stock information.
-        
+        Fetches and aggregates stock information based on filters, granularity, and operation.
+
         Parameters:
         ----------
         machine_id : str or None
-            The machine_id to filter the stock information.
+            Filter by machine_id.
         product_name : str or None
-            The product_name to filter the stock information.
+            Filter by product_name.
         quantity_category : str or None
-            The quantity_category to filter the stock information.
+            Filter by quantity_category.
+        granularity : str
+            Aggregation granularity ("all", "no_machine", "no_product").
+        operation : str
+            Aggregation operation ("sum", "average", "count").
 
         Returns:
         -------
         list:
-            Returns a list of dictionaries representing the stock information.
+            List of dictionaries representing the aggregated stock information.
         """
         db = Database()
         query = """
@@ -203,17 +208,13 @@ class Manager(User):
                 quantity_category
             FROM 
                 CategorizedStock
-            WHERE 
-                (machine_id = %s OR %s IS NULL)
-                AND (quantity_category = %s OR %s IS NULL)
-                AND (product_name = %s OR %s IS NULL)
             ORDER BY 
                 quantity ASC;
         """
         
-        stock_info = db.execute_query_fetchall(query, (machine_id, machine_id, quantity_category, quantity_category, product_name, product_name))
+        stock_info = db.execute_query_fetchall(query)
 
-        return [
+        stock_data = [
             {
                 'machine_id': row[0],
                 'location': row[1],
@@ -223,3 +224,14 @@ class Manager(User):
             } for row in stock_info
         ]
 
+        # Instancia a classe Stock e aplica os filtros
+        stock_instance = Stock(stock_data)
+        filtered_data = stock_instance.filter_data(
+            machine_id=machine_id,
+            product_name=product_name,
+            quantity_category=quantity_category
+        )
+
+        # Realiza a agregação nos dados filtrados
+        stock_instance = Stock(filtered_data)
+        return stock_instance.aggregate(granularity, operation)
