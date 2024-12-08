@@ -2,6 +2,7 @@ import sys
 import os
 from functools import wraps
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify, g
+from datetime import timedelta
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
@@ -66,6 +67,11 @@ def login_required(f):
             return redirect(url_for('login', next=request.url))
         return f(*args, **kwargs)
     return decorated_function
+
+@app.before_request
+def make_session_permanent():
+    session.permanent = True
+    app.permanent_session_lifetime = timedelta(minutes=30)  # Define o tempo de expiração
 
 @app.before_request
 def load_current_user():
@@ -332,6 +338,8 @@ def get_stock():
         product_name = None
     if quantity_category == 'all':
         quantity_category = None
+
+    machine_id = int(machine_id) if machine_id else None
 
     stock_info = g.current_user.get_stock(machine_id=machine_id, product_name=product_name, quantity_category=quantity_category)
 
